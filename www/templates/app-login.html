@@ -1,0 +1,23 @@
+<ion-header-bar class="item-input-inset bar-stable">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark"></a>
+</ion-header-bar>
+
+<ion-view>
+  <ion-content>
+    <div class="login">
+      <ul class="form-group bor-b">
+        <li class="s-phone"><input type="tel" class="phone" ng-model="user.phone" placeholder="手机号码"></li>
+        <li class="s-psw"><input type="password" class="pwd" ng-model="user.pwd" placeholder="密码"></li>
+      </ul>
+    </div>
+
+    <div class="sb-div">
+      <button type="button" class="btn btn-success" ng-click="login(user);">登录</button>
+    </div>
+
+    <div class="sb-txt clearfix">
+      <a href="#" class="sb-left">忘记密码</a>
+      <a href="javascript:;" ui-sref="register" class="sb-right">手机号码快速注册</a>
+    </div>
+  </ion-content>
+</ion-view>
