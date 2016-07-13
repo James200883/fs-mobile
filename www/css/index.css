@@ -65,7 +65,7 @@
 .cateTab .sortPrice i.up:before,.cateTab .sortPrice i.down:after {border-color: #ff0000;}
 .cateContent {position:absolute; top:91px; left:0; bottom:51px; width:100%;}
 .allProduct {position:relative; height: 100%; background-color: #f5f5f5;}
-.allProduct .allMenu {width:80px; height: 100%; overflow-y: scroll; -webkit-overflow-scrolling: touch;}
+.allProduct .allMenu {width:80px; overflow-y: scroll; -webkit-overflow-scrolling: touch;}
 .allProduct.hideMenu {display: none;}
 .allMenu .allMenuList li {padding:12px 0; text-align: center; color:#5e5e5e;}
 .allMenu .allMenuList li.current {background-color: #fff; color:#000;}
@@ -158,17 +158,17 @@
 
 
 .detailFoot {height:50px;}
-.detail-btm {position:fixed; left:0; bottom:0; width:100%; background-color: #fff; -webkit-box-sizing:border-box; box-sizing:border-box;}
+.detail-btm {position:fixed; left:0; bottom:2px; width:100%; background-color: #fff; -webkit-box-sizing:border-box; box-sizing:border-box;height: 60px;}
 .detail-btm .goBuyCar {position:relative; display:block; margin:5px 15px; width:40px; height:40px; background-color: #dcdddd; border-radius: 50%;}
 .detail-btm .goBuyCar:before {position:absolute; content:""; width:30px; height:30px; left:50%; top:50%; margin:-15px 0 0 -15px; background-position: -67px -291px;}
 .detail-btm .goBuyCar.cur {background-color: #85bb61;}
 .detail-btm .goBuyCar.cur:after {position:absolute; content:attr(data-num); left:50%; top:0; margin-left:10px; width:20px; text-align: center; border-radius: 100px; line-height: 16px; font-size: 10px; color:#fff; background-color: #ff7e35;}
 .dr-btm {position:relative; display: -webkit-box;}
-.dr-btm a { display:block; -webkit-box-flex:1; box-flex:1; line-height: 50px; font-size: 16px; text-align: center;  background-color: #ff9933; color:#fff;}
+.dr-btm a { display:block; -webkit-box-flex:1; box-flex:1; line-height: 50px; font-size: 16px; text-align: center;  background-color: #ff9933; color:#fff; height: 54px;}
 .dr-btm a:last-child {background-color: #ED3D3D;}
 
 /***********  购物车  ***********/
-.cartHead {position:relative; background-color: #66aa39; padding:0 40px;}
+.cartHead {position:relative; background-color: #66aa39; padding:0 40px; margin-top:-10px;}
 .cartHead h4 {text-align: center; color:#fff; padding:10px 0; font-size: 16px;}
 .cartHead .editCart {position:absolute; right:0; top:0; width:40px; line-height: 40px; text-align: center; color:#fff; }
 .pct-cart-head {padding:10px; color:#282828;}
@@ -181,14 +181,15 @@
 .product-cart-list li {display:-webkit-box; position:relative; padding:10px 10px 10px 40px;  margin-bottom: 5px; background-color:#f5f5f5;}
 .product-cart-list li:last-child {margin-bottom: 0;}
 .product-cart-list .checked {position: absolute; top:40%; left:10px; margin-top:-10px; width:20px; height: 20px;}
-.product-cart-list .pct-img,.product-cart-list .pct-img img {display: block; width:80px; height: 80px;}
+.product-cart-list .pct-img,.product-cart-list .pct-img img {display: block; width:80px; height: 101px;}
 .product-cart-list .pct-desc {display: block; -webkit-box-flex:1; box-flex:1; margin-left:10px; overflow:hidden; font-size: 12px;}
 .product-cart-list .pct-desc p {color:#9e9e9e; }
 .num-sel-lage {margin-top:3px; border:1px solid #dcdcdc; background-color: #f5f5f5;}
 .num-sel-lage .inC,.num-sel-lage .deC,.num-sel-lage .buy-num {float:left;}
 .num-sel-lage .inC,.num-sel-lage .deC {color: #969696; font-size: 22px; line-height: 26px; padding:0 8px;}
-.num-sel-lage .buy-num {background-color: #fff; padding:4px 0; border:none; width: 35px; text-align: center;}
+.num-sel-lage .buy-num {background-color: #fff; padding:4px 0; border:none; width: 35px; text-align: center; height: 24px;}
 .pct-btm .pct-price {text-align: right; color:#ff4400; font-size: 16px; padding-top: 6px;}
+.pct-btm {margin: -10px 0px -0px -5px}
 .like {margin: 10px 0;}
 .like h6 {position:relative; text-align: center;}
 .like h6:before {position:absolute; content:""; width:90%; height:1px; left:5%; top:50%; background-color: #dcdcdc;}
@@ -199,12 +200,12 @@
 .likeList li:nth-child(2n) {padding-left:5px;}
 .likeList li a {display: block; border:1px solid #dcdcdc}
 .likeList li img {width: 100%; display: block;}
-.likeList .like-title {height: 40px; padding:5px 10px; font-size: 12px;}
+.likeList .like-title {height: 43px; padding:5px 10px; font-size: 12px;}
 .likeList .like-price span {display: inline-block; color:#969696;  margin-left: 10px;}
 .likeList .like-price .lk-new {color:#ff4400;}
 .likeList .lk-new em {font-size: 16px; font-weight: 700;}
 .likeList .lk-old {text-decoration: line-through;}
-.likeList .lk-buyNum {background-color: #f5f5f5; color:#969696; margin-top: 5px; padding:5px 10px }
+.likeList .lk-buyNum {background-color: #f5f5f5; color:#969696; margin-top: 5px; padding:5px 10px; height: 45px;}
 .checkAll {line-height: 50px; margin:0 20px 0 10px;}
 .cartInfo {margin:5px 10px 0 0; text-align: right;}
 .cartInfo.isDel {visibility: hidden; opacity: 0;}
@@ -281,22 +282,27 @@
 /**************  用户登录 注册  ****************/
 .login {margin-top: 15px;}
 .form-group {background-color: #fff; }
-.form-group li {padding:10px 10px 10px 35px; display:-webkit-box;}
+.form-group li {padding:10px 10px 10px 35px; display:-webkit-box;height: 60px}
+.form-group li .formLi {display: -webkit-box;-webkit-box-orient:horizontal; width: 100%; height: 32px;}
 .form-group li:before {left:35px;}
 .form-group li:last-child:before {left:0;}
 .form-group li:after {position:absolute; content:""; width:16px; height:17px; left:10px; top:50%; margin-top:-8px;}
 .form-group li.s-phone:after {background-position: -61px -156px;}
 .form-group li.s-psw:after {background-position: -61px -186px;}
 .form-group li.s-code:after {background-position: -83px -158px;}
-.form-group li input {display: block; -webkit-box-flex:1; box-flex:1; border:none; width:100%; padding:5px 5px 5px 0; color:#969696; -webkit-box-sizing:border-box; box-sizing:border-box;}
+.form-group li input {display: block; -webkit-box-flex:1; box-flex:1; border:none; width:100%; height: 34px; padding:5px 5px 5px 0; color:#969696; -webkit-box-sizing:border-box; box-sizing:border-box;}
 .form-group li .getCode {display: block; background-color: #66aa39; color:#fff; border-radius: 3px; padding:0 15px; line-height: 30px; font-size: 12px;}
 .form-group li .getCode.active {background-color: #dcdcdc;}
+.form-group li .getCode.c-disabled {background-color: #dcdcdc;}
 .sb-div {margin-top:20px; padding:0 15px;}
-.btn {padding:12px; width: 100%; border:0; background-color: #66aa39; color:#fff; text-align: center; border-radius: 3px;}
+.btn {padding:12px; width: 100%; border:0; background-color: #66aa39; color:#fff; text-align: center; border-radius: 3px; height: 39px;}
+.btn-disable {background-color: #dcdcdc}
 .sb-txt {margin-top:10px; padding:0 15px;}
 .sb-txt a {color:#5e5e5e;}
 .sb-txt .sb-left {float:left;}
 .sb-txt .sb-right {float: right; }
+.sb-align {display: -webkit-box;-webkit-box-orient: vertical}
+.has-error {height: 20px;font-size: xx-small; color: #ff0000;}
 
 
 /*****************   个人中心   *****************/
@@ -321,7 +327,7 @@
 .userList .task:before {position:absolute; content:attr(data-num); right:-20px; top:-3px; line-height: 16px; padding:0 5px; border-radius: 10px; background-color: #ff7171; color:#fff; font-size: 12px;}
 .userInfomation {margin-top:15px; background-color: #fff;}
 .infomation-list {display:-webkit-box;}
-.infomation-list li {position:relative; -webkit-box-flex:1; box-flex:1; padding:10px 5px; text-align: center;}
+.infomation-list li {position:relative; -webkit-box-flex:1; box-flex:1; padding:10px 5px; text-align: center; height: 60px;}
 .infomation-list li:before {position:absolute; content:""; right:0; top:10%; height:80%; width:1px; background-color: #ddd;}
 .infomation-list li:last-child:before {width:0;}
 .infomation-list li span {font-weight: 700; font-size: 16px;}

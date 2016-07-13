@@ -26,7 +26,7 @@ body.bgWhite {background-color: #fff;}
 /****ellipsis****/
 .ellipsis {display: block; text-overflow: ellipsis;  overflow: hidden;  white-space: nowrap;}
 .ellipsis2,.ellipsis3,.ellipsis4 {overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical; word-break:break-all;}
-.ellipsis2 {max-height: 40px; -webkit-line-clamp:2;}
+.ellipsis2 {max-height: 43px; -webkit-line-clamp:2;}
 .ellipsis3 {height: 60px; -webkit-line-clamp:3;}
 .ellipsis4 {height: 80px; -webkit-line-clamp:4;}
 

@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -14,11 +14,19 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
-
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
+    }
+  });
+})
+.run(function ($ionicPlatform, $rootScope, $ionicHistory, $state) {
+  var needLoginView = ["app.account"]; //需要登录页面的state
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
+    if (needLoginView.indexOf(toState.name) >= 0 && !$rootScope.isLogin) {
+      $state.go("login");
+      event.preventDefault();
     }
   });
 })
@@ -32,65 +40,76 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   $stateProvider
 
   // setup an abstract state for the tabs directive
-    .state('tab', {
-    url: '/tab',
+  .state('app', {
+    url: '/app',
     abstract: true,
     templateUrl: 'templates/tabs.html'
   })
 
   // Each tab has its own nav history stack:
 
-  .state('tab.dash', {
+  .state('app.dash', {
     url: '/dash',
     views: {
-      'tab-dash': {
+      'app-dash': {
         templateUrl: 'templates/tab-dash.html',
         controller: 'DashCtrl'
       }
     }
   })
 
-  .state('tab.category', {
-      url: '/categoty',
+  .state('app.category', {
+      url: '/category',
       views: {
-        'tab-categoty': {
+        'app-category': {
           templateUrl: 'templates/tab-category.html',
           controller: 'CategoryCtrl'
         }
       }
     })
 
-  .state('tab.account', {
-     url: '/account',
-     views: {
-       'tab-account': {
-         templateUrl: 'templates/tab-account.html',
-         controller: 'AccountCtrl'
-       }
-     }
-  })
-
-  .state('tab.cart', {
-     url: '/cart',
-     views: {
-       'tab-cart' : {
-         templateUrl: 'templates/tab-cart.html',
-         controller: 'CartCtrl'
-       }
-     }
-  })
-
-  .state('tab.bbs', {
-    url: '/bbs',
-    views: {
-      'tab-bbs': {
-        templateUrl: 'templates/tab-bbs.html',
-        controller: 'BBSCtrl'
+    .state('app.account', {
+      url: '/account',
+      views: {
+        'app-account': {
+          templateUrl: 'templates/tab-account.html',
+          controller: 'AccountCtrl'
+        }
       }
-    }
-  });
+    })
+
+    .state('app.cart', {
+      url: '/cart',
+      views: {
+        'app-cart' : {
+          templateUrl: 'templates/tab-cart.html',
+          controller: 'CartCtrl'
+        }
+      }
+    })
+
+    .state('app.bbs', {
+      url: '/bbs',
+      views: {
+        'app-bbs': {
+          templateUrl: 'templates/tab-bbs.html',
+          controller: 'BBSCtrl'
+        }
+      }
+    })
+    .state('login', {
+      url: '/login',
+      templateUrl: 'templates/app-login.html',
+      controller:'LoginCtrl'
+    })
+    
+    .state('register', {
+      url: '/register',
+      templateUrl: 'templates/app-register.html',
+      controller: 'RegisterCtrl'
+    });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/app/dash');
 
 });
