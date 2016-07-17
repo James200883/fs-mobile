@@ -1,0 +1,17 @@
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+</ion-header-bar>
+
+<ion-view>
+  <ion-content>
+    <div class="coupon padding">
+      <div class="stamp stamp03" ng-repeat="cou in coupons">
+        <div class="par"><p>有机鲜生优惠券</p><sub class="sign">￥</sub><span ng-bind="cou.amount">100</span><sub>元券</sub><p><!-- 订单满100.00元 --></p></div>
+        <div class="copy">有效时间<p><label ng-bind="cou.coupon.startDateStr"></label><br>至<br><label ng-bind="cou.coupon.endDateStr"></label></p></div>
+        <i></i>
+      </div>
+
+      <div class="noCoupon" ng-if="coupons.length == 0"><span>您还没有优惠券哦~~</span></div>
+    </div>
+  </ion-content>
+</ion-view>
