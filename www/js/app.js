@@ -21,10 +21,10 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
     }
   });
 })
-.run(function ($ionicPlatform, $rootScope, $ionicHistory, $state) {
-  var needLoginView = ["app.account"]; //需要登录页面的state
+.run(function ($ionicPlatform, $rootScope, $ionicHistory, $state, AuthenticationService) {
+  var needLoginView = ['app.account', 'myCoupon']; //需要登录页面的state
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
-    if (needLoginView.indexOf(toState.name) >= 0 && !$rootScope.isLogin) {
+    if (needLoginView.indexOf(toState.name) >= 0 && !AuthenticationService.isLogin()) {
       $state.go("login");
       event.preventDefault();
     }
@@ -102,11 +102,16 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
       templateUrl: 'templates/app-login.html',
       controller:'LoginCtrl'
     })
-    
+
     .state('register', {
       url: '/register',
       templateUrl: 'templates/app-register.html',
       controller: 'RegisterCtrl'
+    })
+    .state('myCoupon', {
+      url: '/myCoupon',
+      templateUrl: 'templates/app-coupon.html',
+      controller: 'CouponCtrl'
     });
 
   // if none of the above states are matched, use this as the fallback

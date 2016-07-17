@@ -8,8 +8,28 @@ var myModule = angular.module('starter.controllers', [])
 
   })
 
-  .controller('AccountCtrl', function($scope) {
+  .controller('AccountCtrl', function($scope, CommonService, UserService, AuthenticationService) {
+    CommonService.post('/member/userIndex', {'userId': UserService.getUserId()}).success(function (res) {
+      if (res.result.imageUrl) {
+        $scope.headImg = res.result.imageUrl;
+      } else {
+        $scope.headImg = 'img/head.png';
+      }
+      $scope.realName = res.result.realname;
+      $scope.userAmount = res.result.amount;
+      $scope.userCouponCount = res.result.couponCount;
+      $scope.userPoint = res.result.userPoint;
+    }).error(function (res) {
+      CommonService.toast('服务器异常,请稍后再试');
+    });
 
+    $scope.userLogOut = function () {
+      CommonService.showConfirm('确定要离开我吗?>﹏<').then(function (res) {
+        if (res) {
+          UserService.logout();
+        }
+      });
+    }
   })
 
   .controller('BBSCtrl', function($scope) {
@@ -20,14 +40,36 @@ var myModule = angular.module('starter.controllers', [])
 
   })
 
-  .controller('LoginCtrl', function ($scope, $ionicLoading, $http, $location, $timeout, $cordovaToast) {
+  .controller('LoginCtrl', function ($scope, $location, $window, UserService, CommonService) {
+    $scope.userParams = {};
+    $scope.loginUser = function (user) {
+      $scope.userParams = user;
+      if (typeof (user) == 'undefined') {
+        CommonService.toast('手机号或密码不填,小心召唤出怪物喔>o<');
+        return false;
+      }
+      $scope.userParams.client_id = 'clientName';
+      $scope.userParams.client_secret = 'clientPassword';
+      $scope.userParams.grant_type = 'password';
+      $scope.userParams.scope = 'read write';
 
+      CommonService.showLoadding();
+      UserService.login($scope.userParams).success(function (res) {
+        UserService.setObject('user_token', res);
+        $location.path('dash');
+        CommonService.hideLoading();
+      }).error(function (res) {
+        CommonService.toast('服务器异常,请稍后重试');
+        CommonService.hideLoading();
+      });
+    }
   })
 
   .controller('RegisterCtrl', function ($scope, $location, $interval, CommonService) { //注册Controller
     $scope.btnText = '获取验证码';
     $scope.register = {};
     $scope.userRegister = function (regForm, register) {
+      CommonService.showLoadding();
       $scope.register = register;
       if (regForm.$valid) { //表单验证通过
         CommonService.post('/register/registerUser', $scope.register).success(function (results) {
@@ -47,8 +89,10 @@ var myModule = angular.module('starter.controllers', [])
           if (results.code == '204') {
             CommonService.toast('然而验证码并不正确');
           }
+          CommonService.hideLoading();
         }).error(function (results) {
           CommonService.toast('服务器异常,请稍后再试');
+          CommonService.hideLoading();
         });
       }
     };
@@ -85,6 +129,13 @@ var myModule = angular.module('starter.controllers', [])
         CommonService.toast('服务器异常,请稍后再试');
       });
     };
+  })
+  .controller('CouponCtrl', function ($scope, $ionicHistory, CommonService, UserService) { //我的优惠券
+    CommonService.post('/userCoupon/getUserCoupon', {'userId': UserService.getUserId()}).success(function (res) {
+      $scope.coupons = res.data;
+    }).error(function (res) {
+      CommonService.toast('服务器异常,请稍后再试');
+    });
   });
 
 myModule.directive('ngFocus', function () {
@@ -122,3 +173,16 @@ myModule.directive('codeBtn', function () {
     }
   }
 });
+
+myModule.directive('ngBack', function ($ionicHistory) {
+  var FOCUS_CLASS = "ng-back";
+  return {
+    restrict: 'A',
+    link: function (scope, element, attrs, ctrl) {
+      element.bind('click', function (event) {
+        $ionicHistory.goBack();
+      })
+    }
+  }
+});
+

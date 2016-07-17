@@ -308,7 +308,7 @@
 /*****************   个人中心   *****************/
 .userHeader {position:relative; background-color: #66aa39; text-align: center; padding:30px 20px 20px; overflow: hidden;}
 .userHeader .userPic,.userPic img {display: inline-block; width:55px; height:55px; border-radius: 50%;}
-.userHeader .userName { font-size: 16px; margin-top: 5px; line-height: 24px; color:#282828;}
+.userHeader .userName { font-size: 14px; margin-top: 5px; line-height: 24px; color:#282828;}
 .userHeader .setUp {position:absolute; width:30px; height:30px; right:10px; top:10px; text-indent: -9999rem;}
 .userHeader .setUp:before {position:absolute; content:""; width:20px; height:20px; left:50%; top:50%; margin:-10px 0 0 -10px; background-position: -79px -185px;}
 .userList {background-color: #fff; margin-bottom: 15px;}
@@ -534,3 +534,22 @@ html.win_lock,html.win_lock body{ height: 100%; overflow: hidden;}
 .dp-about-content p:last-child {margin-bottom: 0;}
 .dp-about-content p img {width: 100%;}
 
+/*****************优惠券*****************/
+.coupon {width: 410px; margin: 0 auto;}
+.stamp * {padding: 0; margin: 0; list-style: none; font-family: "Microsoft YaHei", 'Source Code Pro', Menlo, Consolas, Monaco, monospace;}
+.stamp {width: 387px; height: 120px; padding: 0 10px; margin-bottom: 20px; position: relative; overflow: hidden;}
+.stamp:before {content: ''; position: absolute; top: 0; bottom: 0; left: 10px; right: 10px; z-index: -1;}
+.stamp i {position: absolute; left: 20%; top: 45px; height: 190px; width: 390px; background-color: rgba(255, 255, 255, .15); transform: rotate(-30deg);}
+.stamp .par {float: left; padding: 16px 15px; width: 220px; border-right: 2px dashed rgba(255, 255, 255, .3); text-align: left;}
+.stamp .par p {color: #fff; font-size: 16px; line-height: 21px;}
+.stamp .par span {font-size: 50px; color: #fff; margin-right: 5px; line-height: 65px;}
+.stamp .par .sign {font-size: 34px;}
+.stamp .par sub {position: relative; top: -5px; color: rgba(255, 255, 255, .8);}
+.stamp .copy {display: inline-block; padding: 21px 14px; width: 110px; vertical-align: text-bottom; font-size: 30px; color: rgb(255, 255, 255); text-align: center; line-height: initial;}
+.stamp .copy p {font-size: 16px; margin-top: 15px;}
+.stamp03 {background: radial-gradient(transparent 0, transparent 5px, #7EAB1E 5px); background-size: 15px 15px; background-position: 9px 3px;}
+.stamp03:before {background-color: #7EAB1E;}
+.stamp03 .copy {padding: 10px 6px 10px 12px; font-size: 20px;}
+.stamp03 .copy p {font-size: 14px; margin-top: 5px; margin-bottom: 8px;}
+.stamp03 .copy a {background-color: #fff; color: #333; font-size: 14px; text-decoration: none; padding: 5px 10px; border-radius: 3px; display: block;}
+.noCoupon {display: block; padding: 20px; color: #a0a0a0; text-align: center;}

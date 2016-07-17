@@ -1,16 +1,18 @@
 <ion-view>
   <ion-content>
     <div class="userHeader">
-      <a class="userPic"><img src="img/head.png"></a>
-      <p class="userName ellipsis">点击登录</p>
+      <div ui-sref="login">
+        <a class="userPic"><img ng-src="{{headImg}}"></a>
+        <p class="userName ellipsis" ng-bind="realName"></p>
+      </div>
       <a href="javascript:;" class="setUp">设置</a>
     </div>
 
     <div class="userInfomation border-tb">
       <ul class="infomation-list">
-        <li><span id="user_amount">0.00</span><p>余额</p></li>
-        <li><span id="user_coupon">0</span><p>优惠券</p></li>
-        <li><span id="user_point">0.00</span><p>积分</p></li>
+        <li><span id="user_amount" ng-bind="userAmount"></span><p>余额</p></li>
+        <li><span id="user_coupon" ng-bind="userCouponCount"></span><p>优惠券</p></li>
+        <li><span id="user_point" ng-bind="userPoint">0.00</span><p>积分</p></li>
       </ul>
     </div>
 
@@ -24,7 +26,7 @@
         <li><a href="myShare.html"><span>分享我的二维码</span></a></li>
         <li><a href="myRecommend.html"><span>推荐我的会员</span></a></li>
         <li><a href="myMember.html"><span>我推荐的会员</span></a></li>
-        <li><a href="javascript:void(0);" id="myCoupon"><span>我的优惠券</span></a></li>
+        <li><a href="javascript:void(0);" ui-sref="myCoupon"><span>我的优惠券</span></a></li>
       </ul>
 
       <ul class="userList list3 bor-b">
@@ -32,6 +34,10 @@
         <li><a href="myAppointment.html"><span>预约农场采摘</span></a></li>
         <li><a href="myWish.html"><span>我的点赞</span></a></li>
       </ul>
+    </div>
+
+    <div class="bar bar-footer bar-light padding" ng-click="userLogOut()">
+      <div class="title">退出登录</div>
     </div>
   </ion-content>
 </ion-view>
