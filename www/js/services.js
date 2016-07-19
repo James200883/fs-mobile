@@ -111,4 +111,4 @@ angular.module('starter.services', [])
     }
   })
 
-  .constant('prefixUrl', 'http://192.168.0.103:8080/fs-server');
+  .constant('prefixUrl', 'http://192.168.1.39:8080/fs-server');

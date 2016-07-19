@@ -1,18 +1,18 @@
-<ion-view>
+<ion-view class="padding">
   <ion-content>
     <div class="userHeader">
-      <div ui-sref="login">
+      <div>
         <a class="userPic"><img ng-src="{{headImg}}"></a>
         <p class="userName ellipsis" ng-bind="realName"></p>
       </div>
-      <a href="javascript:;" class="setUp">设置</a>
+      <a href="javascript:;" ui-sref="userInfo" class="setUp">设置</a>
     </div>
 
     <div class="userInfomation border-tb">
       <ul class="infomation-list">
         <li><span id="user_amount" ng-bind="userAmount"></span><p>余额</p></li>
         <li><span id="user_coupon" ng-bind="userCouponCount"></span><p>优惠券</p></li>
-        <li><span id="user_point" ng-bind="userPoint">0.00</span><p>积分</p></li>
+        <li><span id="user_point" ng-bind="userPoint"></span><p>积分</p></li>
       </ul>
     </div>
 

@@ -1,0 +1,45 @@
+<ion-header-bar class="item-input-inset bar-light" align-title="center">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title" ng-if="headId == 1">昵称</p>
+  <p class="title" ng-if="headId == 2">邮箱</p>
+</ion-header-bar>
+
+<ion-view class="has-header">
+  <ion-content>
+    <form name="nickNameForm" novalidate ng-submit="saveUser(nickNameForm)" ng-if="headId == 1">
+      <div class="padding-top">
+        <h6 class="title padding">给自己取个拉风的昵称吧</h6>
+        <label class="item item-input">
+          <input type="text" name="realName" ng-model="userVal" ng-minlength="2" ng-maxlength="15" required autofocus/>
+        </label>
+        <h5 class="title padding">只允许汉字,字母,数字, 2到15个字符</h5>
+        <div class="has-error padding-left" ng-show="nickNameForm.realName.$dirty && nickNameForm.realName.$invalid">
+          <small ng-show="nickNameForm.realName.$error.minlength">最少两个字符,不能再少了</small>
+          <small ng-show="nickNameForm.realName.$error.maxlength">最多十五个字符,不能再多了</small>
+        </div>
+      </div>
+
+      <div class="sb-div">
+        <button type="submit" class="btn btn-reg" ng-class="{'btn-disable': nickNameForm.$invalid}" ng-disabled="nickNameForm.$invalid">保存</button>
+      </div>
+    </form>
+
+    <form name="emailForm" novalidate ng-submit="saveUser(emailForm)" ng-if="headId == 2">
+      <div class="padding-top">
+        <h6 class="title padding">填个安全有效的邮箱</h6>
+        <label class="item item-input">
+          <input type="email" name="emailName" ng-model="userVal" ng-maxlength="30" required autofocus/>
+        </label>
+        <div class="has-error padding-left" ng-show="emailForm.emailName.$dirty && emailForm.emailName.$invalid">
+          <small ng-show="emailForm.emailName.$error.email">邮箱格式不正确</small>
+          <small ng-show="emailForm.emailName.$error.maxlength">太长了,受不了,短一点吧</small>
+        </div>
+      </div>
+
+      <div class="sb-div">
+        <button type="submit" class="btn btn-reg" ng-class="{'btn-disable': emailForm.$invalid}" ng-disabled="emailForm.$invalid">保存</button>
+      </div>
+    </form>
+
+  </ion-content>
+</ion-view>

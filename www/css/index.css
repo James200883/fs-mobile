@@ -302,7 +302,7 @@
 .sb-txt .sb-left {float:left;}
 .sb-txt .sb-right {float: right; }
 .sb-align {display: -webkit-box;-webkit-box-orient: vertical}
-.has-error {height: 20px;font-size: xx-small; color: #ff0000;}
+.has-error {height: 20px;font-size: small; color: #ff0000;}
 
 
 /*****************   个人中心   *****************/
@@ -333,6 +333,8 @@
 .infomation-list li span {font-weight: 700; font-size: 16px;}
 .infomation-list li p { font-size: 12px; color:#5e5e5e;}
 .userCenter {margin-top:15px;}
+.userHead {width: 60px;height: 60px; border-radius:50%; float: right; margin-right: 10px; display: inline-block}
+.userInfoSpan {float: right}
 
 /***************    BBS    *****************/
 .bbs-setUp {display: block;}

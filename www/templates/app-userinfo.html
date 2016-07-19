@@ -1,0 +1,45 @@
+<ion-header-bar class="item-input-inset bar-light" align-title="center">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">个人资料</p>
+</ion-header-bar>
+
+<ion-view class="has-header">
+  <ion-content>
+    <div class="userCenter">
+      <ul class="userList list1 bor-b padding">
+        <li style="height: 75px;" ng-click="selectImg()">
+          <a href="javascript:;">
+            <label style="line-height: 58px;">头像</label>
+            <img ng-src="{{headImage}}" class="userHead">
+          </a>
+        </li>
+      </ul>
+      <ul class="userList list3 bor-b padding">
+        <li>
+          <a href="javascript:;" ui-sref="editUserInfo({headId:'1', value: nickName})">
+            <label>昵称</label>
+            <span class="userInfoSpan padding-right" ng-bind="nickName"></span>
+          </a>
+        </li>
+        <li ng-click="setSex()">
+          <a href="javascript:;">
+            <label>性别</label>
+            <span class="userInfoSpan padding-right" ng-bind="userSex"></span>
+          </a>
+        </li>
+        <li>
+          <a href="javascript:;">
+            <span>手机号码</span>
+            <span class="userInfoSpan padding-right" ng-bind="userPhone"></span>
+          </a>
+        </li>
+        <li>
+          <a href="javascript:;" ui-sref="editUserInfo({headId:'2', value: userEmail})">
+            <span>邮箱</span>
+            <span class="userInfoSpan padding-right" ng-bind="userEmail"></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </ion-content>
+</ion-view>

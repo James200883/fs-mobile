@@ -97,6 +97,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
         }
       }
     })
+
     .state('login', {
       url: '/login',
       templateUrl: 'templates/app-login.html',
@@ -108,10 +109,30 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
       templateUrl: 'templates/app-register.html',
       controller: 'RegisterCtrl'
     })
+
     .state('myCoupon', {
       url: '/myCoupon',
       templateUrl: 'templates/app-coupon.html',
       controller: 'CouponCtrl'
+    })
+
+    .state('forgetPwd', {
+      url: '/forgetPwd',
+      templateUrl: 'templates/app-forgetPwd.html',
+      controller: 'ForgetPwdCtrl'
+    })
+
+    .state('userInfo', {
+      url: '/userInfo',
+      templateUrl: 'templates/app-userinfo.html',
+      controller: 'UserInfoCtrl',
+      cache: false
+    })
+
+    .state('editUserInfo', {
+      url: '/editUserInfo/:headId/:value',
+      templateUrl: 'templates/app-editUserInfo.html',
+      controller: 'EditUserInfoCtrl'
     });
 
   // if none of the above states are matched, use this as the fallback

@@ -1,5 +1,6 @@
 <ion-header-bar class="item-input-inset bar-light">
   <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">注册</p>
 </ion-header-bar>
 
 <ion-view>
@@ -8,7 +9,7 @@
       <form name="regForm" novalidate ng-submit="userRegister(regForm, register)">
         <ul class="form-group bor-b">
           <li class="s-phone sb-align">
-            <input type="tel" class="phone" name="mobile" placeholder="请输入手机号" style="display: inline-block" ng-model="register.mobile" ng-pattern="/^(((13[0-9]{1})|(15[0-35-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/" required ng-focus code-btn />
+            <input type="tel" class="phone" name="mobile" placeholder="请输入手机号" style="display: inline-block" ng-model="register.mobile" ng-pattern="/^(((13[0-9]{1})|(15[0-35-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/" required ng-focus code-btn="regForm" />
             <div class="has-error" ng-show="regForm.mobile.$dirty && regForm.mobile.$invalid && !regForm.mobile.$focused">
               <small ng-show="regForm.mobile.$error.required">手机号码填一下啊喂</small>
               <small ng-show="regForm.mobile.$error.pattern">你的手机号是火星的吗</small>
@@ -27,7 +28,7 @@
 
           <li class="s-psw sb-align">
             <input type="password" class="pwd" name="password" placeholder="密码(6-16位)" ng-model="register.password" ng-minlength="6" ng-maxlength="16" required ng-focus/>
-            <div class="has-error" style="padding-top: 10px;" ng-show="regForm.pwd.$dirty && regForm.pwd.$invalid && !regForm.pwd.$focused">
+            <div class="has-error" style="padding-top: 10px;" ng-show="regForm.password.$dirty && regForm.password.$invalid && !regForm.password.$focused">
               <small ng-show="regForm.password.$error.required">乖,密码填一下</small>
               <small ng-show="regForm.password.$error.minlength">这么短怎么行,最少6位</small>
               <small ng-show="regForm.password.$error.maxlength">太长了,最多16位</small>

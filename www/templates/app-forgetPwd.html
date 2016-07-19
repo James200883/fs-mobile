@@ -1,0 +1,49 @@
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">忘记密码</p>
+</ion-header-bar>
+
+<ion-view class="has-header">
+  <ion-content>
+    <div class="login">
+      <form name="forgetPwdForm" novalidate ng-submit="resetPwd(forgetPwdForm, forgetPwd);">
+        <ul class="form-group bor-b">
+          <li class="s-phone sb-align">
+            <input type="tel" class="phone" name="mobile" placeholder="请输入手机号" style="display: inline-block" ng-model="forgetPwd.mobile" ng-pattern="/^(((13[0-9]{1})|(15[0-35-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/" required ng-focus code-btn="forgetPwdForm" />
+            <div class="has-error" ng-show="forgetPwdForm.mobile.$dirty && forgetPwdForm.mobile.$invalid && !forgetPwdForm.mobile.$focused">
+              <small ng-show="forgetPwdForm.mobile.$error.required">手机号码填一下啊喂</small>
+              <small ng-show="forgetPwdForm.mobile.$error.pattern">你的手机号是火星的吗</small>
+            </div>
+          </li>
+
+          <li class="s-code sb-align">
+            <div class="formLi">
+              <input type="number" class="code" name="msgCode" placeholder="请输入短信验证码" ng-model="forgetPwd.msgCode" required ng-focus />
+              <button type="button" ng-click="getCode(forgetPwd.mobile)" ng-bind="btnText" ng-class="btnClass" ng-disabled="btnStatus">获取验证码</button>
+            </div>
+            <div class="has-error" ng-show="forgetPwdForm.msgCode.$dirty && forgetPwdForm.msgCode.$invalid && !forgetPwdForm.msgCode.$focused">
+              <small ng-show="forgetPwdForm.msgCode.$error.required">然而验证码并不正确</small>
+            </div>
+          </li>
+
+          <li class="s-psw sb-align">
+            <input type="password" class="pwd" name="password" placeholder="密码(6-16位)" ng-model="forgetPwd.password" ng-minlength="6" ng-maxlength="16" required ng-focus/>
+            <div class="has-error" style="padding-top: 10px;" ng-show="forgetPwdForm.password.$dirty && forgetPwdForm.password.$invalid && !forgetPwdForm.password.$focused">
+              <small ng-show="forgetPwdForm.password.$error.required">乖,密码填一下</small>
+              <small ng-show="forgetPwdForm.password.$error.minlength">这么短怎么行,最少6位</small>
+              <small ng-show="forgetPwdForm.password.$error.maxlength">太长了,最多16位</small>
+            </div>
+          </li>
+        </ul>
+
+        <div class="sb-div">
+          <button type="submit" class="btn btn-reg" ng-class="{'btn-disable': forgetPwdForm.$invalid}" ng-disabled="forgetPwdForm.$invalid">确认</button>
+        </div>
+      </form>
+
+      <div class="sb-txt clearfix">
+        <a href="javascript:;" ui-sref="login" class="sb-left">返回登录</a>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
