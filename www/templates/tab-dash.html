@@ -28,15 +28,15 @@
 
       <div id="main">
            <div class="index-nav clearfixEx" ng-repeat="category in categoryData" >
-             
+             <a  ng-click="showCategory(category.data.id)">
                 <div class="index-nav-txt">
                     <h6>{{category.data.name}}</h6>
                 </div>
-                 <a  ng-click="showCategory(category.data.id)"> <img ng-src="{{category.pageAds.impageUrl}}"  width="100%"/> 
+                  <img ng-src="{{category.pageAds.impageUrl}}"  width="100%"/> 
              </a>
            </div>
    
-    		<div class="boxItem likeItem">
+       <div class="boxItem likeItem">
             <div class="like">
                 <h6><span>推荐商品</span></h6>
             </div>

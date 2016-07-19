@@ -1,120 +1,35 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui"/>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-touch-fullscreen" content="yes" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="wap-font-scale" content="no">
-    <title>我的礼包</title>
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/index.css">
-<body class="bgWhite">
+<ion-header-bar class="item-input-inset bar-stable">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark"></a>
+</ion-header-bar>
 
-<div id="main">
-    <div class="boxItem"> 
+<ion-view>
+  <ion-content>
+  
+   <div class="boxItem row"> 
         <h6><span>会员充值有礼</span></h6>
     </div>
-     <div class="index-nav clearfix" id="czItem">
-        
+  
+     <div class="index-nav clearfixFx" id="czItem" ng-repeat="dataItem in activityes">
+         <a ng-click="goCz()" ng-if="dataItem.type == 0"> 
+                       <div class="index-nav-txt"> 
+		                   <h6>{{dataItem.name}}</h6> 
+		                   <p>充{{dataItem.amount}}送{{dataItem.favorAmount}}</p> 
+		              	 </div> 
+		               <img ng-src="{{dataItem.imageUrl}}" /> 
+		  </a>
      </div>
      
-     <div class="boxItem"> 
+     <div class="boxItem row"> 
         <h6><span>其它礼包</span></h6>
     </div>
-     <div class="index-nav clearfix" id="otherItem">
-        
+     <div class="index-nav clearfixFx" id="otherItem" ng-repeat="dataItem1 in activityes">
+        <a href="#"  ng-if=" dataItem1.type != 0 "> 
+                       <div class="index-nav-txt"> 
+		                   <h6>{{dataItem1.name}}</h6> 
+		                   <p>{{dataItem1.favorAmount}}</p> 
+		              	 </div> 
+		               <img ng-src="{{dataItem.imageUrl}}" /> 
+		           	</a>
      </div>
-    
-</div>
-
-<div id="footer">
-    <nav class="navList border-t">
-        <ul class="row">
-           <li><a href="index.html">首页</a></li>
-           <li class="hover"><a href="cateList.html">分类</a></li>
-           <li><a href="userCenter.html">我的鲜生</a></li>
-           <li class="buying"><a href="buyCart.html">购物车</a></li>
-           <li><a href="bbs.html">有机生活</a></li>
-        </ul>
-    </nav>
-</div>
-
-<script src="lib/jquery.js"></script>
-<script src="lib/loadImg.js"></script>
-<script src="lib/handlebars-v4.0.5.js"></script>
-<script src="js/common.js"></script>
-<script src="js/Utils.js"></script>
-<script src="lib/shoppingCart.js"></script>
-<script type="text/javascript">
-
-
-    function BindEvent(){
-        //加入购物车
-        var $buying = $(".buying");
-        $(".resultList").off("click").on("click", ".pct-buy", function(){
-            var _this = $(this);
-            var pid = _this.data("pid");
-            cart.addId(pid);
-            console.log(utils.getParam("ShoppingCart"));
-            APP.setImgAnimate(_this.closest("li").find(".cate-img"));
-            var _a = $buying.find("a");
-            var num = parseInt(_a.attr("data-num"));
-            _a.attr("data-num", ++num);
-        });
-
-    }
-
-    $(document).ready(function(){
-
-        var url = '/fs-server/activity/WXfindActivityAllBySort';
-  
-       
-        Utils.get(url).done(function(res){
-           var dataList = res.data;
-           
-           var dataItem = null;
-           var dataCzHtml = "";
-           var dataOtherHtml = "";
-           
-           if(null == res.data)
-        	   return;
-           
-           for (var i = 0,max=dataList.length; i<max; i++) {
-        	   dataItem = dataList[i];
-        	   
-       		   if(dataItem.type == 0)
-       		   {
-       			dataCzHtml += ' <a href="chong-zhi.html"> \
-                       <div class="index-nav-txt"> \
-		                   <h6>'+dataItem.name+'</h6> \
-		                   <p>充'+dataItem.amount+'送'+dataItem.favorAmount+'</p> \
-		              	 </div> \
-		               <img src="'+dataItem.imageUrl+'" /> \
-		           	</a>';
-       		   }else {
-       			   
-       			dataOtherHtml += ' <a href="#"> \
-                    <div class="index-nav-txt"> \
-		                   <h6>'+dataItem.name+'</h6> \
-		                   <p>'+dataItem.summary+'</p> \
-		              	 </div> \
-		               <img src="'+dataItem.imageUrl+'" /> \
-		           	</a>';
-       		   }
-        	   
-           }
-           
-           $("#czItem").html(dataCzHtml);
-           $("#otherItem").html(dataOtherHtml);
-        	
-        }).fail(function(){
-            Utils.toast("获取产品信息失败");
-        })
-    });
-
-
-</script>
-</body>
-</html>
+  </ion-content>
+ </ion-view>

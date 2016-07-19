@@ -120,6 +120,13 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.co
 	  templateUrl: 'templates/addAddress.html',
 	  controller: 'AddAddrCtrl'
     })
+    
+    
+    .state('activity', {
+      url: '/activity',
+	  templateUrl: 'templates/activity-list.html',
+	  controller: 'ActivityCtrl'
+    })
 
     .state('app.bbs', {
       url: '/bbs',

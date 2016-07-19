@@ -580,6 +580,26 @@ var myModule = angular.module('starter.controllers', [])
 	  
   })
   
+  .controller('ActivityCtrl', function($scope,$http,$stateParams, CommonService) {
+	      //获取活动
+		  angular.element(document).ready(function () {
+			  $scope.initData();
+		  });
+
+		  $scope.initData = function(){
+			//获取活动
+		       CommonService.get('/activity/WXfindActivityAllBySort').success(function (results) {
+		    	   $scope.activityes = 	results.data;
+		    	   
+				}).error(function (results) {
+			          CommonService.toast('获取活动异常，请稍后再试');
+		       });
+		  }
+		  
+		 
+		  
+  })
+  
   .controller('AccountCtrl', function($scope, CommonService, UserService, AuthenticationService) {
     CommonService.post('/member/userIndex', {'userId': UserService.getUserId()}).success(function (res) {
       if (res.result.imageUrl) {
