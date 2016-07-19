@@ -1,5 +1,33 @@
+/****/
+html, body{ margin:0; height:100%; }
+body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td {
+	margin:0;
+	padding:0;
+	/*font-family:"Helvetica Neue","Microsoft YaHei","微软雅黑",SimHei,"宋体",simsun,sans-serif;*/
+	 font-family: Microsoft YaHei,Helvetica Neue,Helvetica,Roboto,STHeiTi,Arial,sans-serif;
+	line-height:20px;
+
+}
+body {font-size:14px; background:#f5f5f5; color:#484848;}
+body{-webkit-text-size-adjust: 100%;
+/*-webkit-tap-highlight-color: rgba(0,0,0,0);*/
+-webkit-font-smoothing: antialiased;
+-webkit-touch-callout:none;
+/*-webkit-user-select: none;*/
+word-break:break-all;}
+ul,li{list-style:none;}
+input,textarea{vertical-align:middle; font-size:100%;}
+textarea{overflow: auto;vertical-align: middle}
+h1,h2,h3,h4,h5,h6{font-size:100%; font-weight:normal;}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section,iframe{display: block}
 em,i{font-style:normal; font-size:100%;}
 img{max-width: 100%; vertical-align: middle;  border: 0 none; -ms-interpolation-mode: bicubic;}
+button,
+input,
+select,
+textarea{margin: 0; font-size: 100%; vertical-align: middle; border-radius:0; -webkit-appearance: none; -webkit-tap-highlight-color:transparent; outline:0 none;}
+.center {text-align:center;}
+input[type=button]{outline:none}
 a {color:#000;}
 a,a:visited,a:link { text-decoration:none;  }
 a:active{ color:#0846a3; -webkit-tap-highlight-color:rgba(0,0,0,.2); text-decoration:none;}
@@ -8,14 +36,14 @@ body.grayBg {background-color: #f5f5f5; height: auto; min-height:0;}
 body.bgWhite {background-color: #fff;}
 .txtCenter {text-align: center; padding:10px 0;}
 .vertial {
-  display:-webkit-box;
-  -webkit-box-orient: vertical; box-orient: vertical;
-  -webkit-box-pack: center; box-pack: center;
-  -webkit-box-align: center; box-align: center;
+	display:-webkit-box; display:box;
+	-webkit-box-orient: vertical; box-orient: vertical;
+	-webkit-box-pack: center; box-pack: center;
+	-webkit-box-align: center; box-align: center;
 }
 
 /*******     icon    *******/
-.searchBox:before, .location .city:before, .menuList li a:before,.navList li a:before,.pList li .pct-buy:before,.d-tool .collect:before,.d-address span:before,.detail-btm .goBuyCar:before,.allCheck.active:after,.product-cart-list .checked.active:after,.like h6 span:before,.checkAll.active:after,.addAddress a:before,.addressList .checkAdr.active:before,.addressList .adr-right a:after,.form-group li:after,.userHeader .setUp:before,.userList li a:before,.bbs-setUp a:before,.bbs-menu-list li a:before,.n-tool span:before,.bbs-collect:before,.cmtFrom .icon-msg:before,.dp-detail-head .dp-collect:before {background: url(../img/icon.png?v=2) no-repeat; -webkit-background-size:100px auto; background-size:100px auto;}
+.searchBox:before, .location .city:before, .menuList li a:before,.navList li a:before,.pList li .pct-buy:before,.d-tool .collect:before,.d-address span:before,.detail-btm .goBuyCar:before,.allCheck.active:after,.product-cart-list .checked.active:after,.like h6 span:before,.checkAll.active:after,.addAddress a:before,.addressList .checkAdr.active:before,.addressList .adr-right a:after,.form-group li:after,.userHeader .setUp:before,.userList li a:before,.bbs-setUp a:before,.bbs-menu-list li a:before,.n-tool span:before,.bbs-collect:before,.cmtFrom .icon-msg:before,.dp-detail-head .dp-collect:before,.likeList li .like-buy:before {background: url(../img/icon.png?v=2) no-repeat; -webkit-background-size:100px auto; background-size:100px auto;}
 
 
 /******************************** grids**************************************************************************/
@@ -26,14 +54,19 @@ body.bgWhite {background-color: #fff;}
 /****ellipsis****/
 .ellipsis {display: block; text-overflow: ellipsis;  overflow: hidden;  white-space: nowrap;}
 .ellipsis2,.ellipsis3,.ellipsis4 {overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical; word-break:break-all;}
-.ellipsis2 {max-height: 43px; -webkit-line-clamp:2;}
+.ellipsis2 {max-height: 40px; -webkit-line-clamp:2;}
 .ellipsis3 {height: 60px; -webkit-line-clamp:3;}
 .ellipsis4 {height: 80px; -webkit-line-clamp:4;}
 
 div {display: block; -webkit-tap-highlight-color: transparent;}
 .clearfix:after,.carList:after {  content:'\0020';  display:block;  height:0;  clear:both;}
 .clearfix {  zoom:1;}
+html,body {min-height:100%;}
+body {min-width: 320px; max-width: 640px; margin:0 auto;}
 #main {padding:0 5px;}
+
+/****每个独立层样式***/
+
 
 /**swiper***/
 #J_banner-slider {position: relative; min-height: 100px; background-color: #f2f2f2;  overflow: hidden;}
@@ -51,6 +84,8 @@ div {display: block; -webkit-tap-highlight-color: transparent;}
 .loadDataMore a.noLoadimg:before {width: 0; height: 0; display: none;}
 
 
+
+
 /*****加载转圈圈的样式 与 弹出提示层的样式*****/
 .loadingMask,.showTipMask,.confirmMask {position: fixed; left:0; top:0; width: 100%; height:100%; background-color: rgba(255,255,255,.02); z-index: 99998;}
 .loadingImg{height:40px;width:40px;position:absolute;margin:-20px 0 0 -20px;left:50%;top:50%;z-index:99999;-webkit-animation:rotation .6s infinite linear;animation:rotation .6s infinite linear;border-left:4px solid rgba(47,60,87,.15);border-right:4px solid rgba(47,60,87,.15);border-bottom:4px solid rgba(47,60,87,.15);border-top:4px solid rgba(47,60,87,.75);border-radius:100%; }
@@ -59,12 +94,12 @@ div {display: block; -webkit-tap-highlight-color: transparent;}
 .inLoading span {position: absolute; content: ""; width: 40px; height: 40px; left:50%; top:0; margin-left:-20px; -webkit-animation:rotation .6s infinite linear;animation:rotation .6s infinite linear;border-left:4px solid rgba(47,60,87,.15);border-right:4px solid rgba(47,60,87,.15);border-bottom:4px solid rgba(47,60,87,.15);border-top:4px solid rgba(47,60,87,.75);border-radius:100%; }
 
 @-webkit-keyframes rotation{
-  from{-webkit-transform:rotate(0deg); transform:rotate(0deg)}
-  to{-webkit-transform:rotate(359deg); transform:rotate(359deg)}
+	from{-webkit-transform:rotate(0deg); transform:rotate(0deg)}
+	to{-webkit-transform:rotate(359deg); transform:rotate(359deg)}
 }
 @keyframes rotation{
-  from{-webkit-transform:rotate(0deg);transform:rotate(0deg)}
-  to{-webkit-transform:rotate(359deg);transform:rotate(359deg)}
+	from{-webkit-transform:rotate(0deg);transform:rotate(0deg)}
+	to{-webkit-transform:rotate(359deg);transform:rotate(359deg)}
 }
 /* === Modals === */
 .modal-overlay,
@@ -80,7 +115,7 @@ div {display: block; -webkit-tap-highlight-color: transparent;}
   visibility: hidden;
   opacity: 0;
   -webkit-transition-duration: 400ms;
-  transition-duration: 400ms;
+          transition-duration: 400ms;
 }
 .modal-overlay.modal-overlay-visible,
 .preloader-overlay.modal-overlay-visible,
@@ -100,30 +135,30 @@ div {display: block; -webkit-tap-highlight-color: transparent;}
   margin-left : -140px;
   border-radius:20px;
   -webkit-transform: scale(1.2);
-  transform: scale(1.2);
+          transform: scale(1.2);
   -webkit-transition-property: -webkit-transform, opacity;
-  transition-property: transform, opacity;
+          transition-property: transform, opacity;
   color: #3d4145;
   opacity: 0;
 }
 .comfirmModal {
-  -webkit-transform: scale(1.2);
-  transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
 }
 .modal.modal-in {
-  opacity: 1;
-  -webkit-transition-duration: 500ms;
-  transition-duration: 500ms;
-  -webkit-transform: scale(1);
-  transform: scale(1);
+    opacity: 1;
+    -webkit-transition-duration: 500ms;
+            transition-duration: 500ms;
+    -webkit-transform: scale(1);
+            transform: scale(1);
 }
 .modal.modal-out {
-  opacity: 0;
-  z-index: 10999;
-  -webkit-transition-duration: 500ms;
-  transition-duration: 500ms;
-  -webkit-transform: scale(0.815);
-  transform: scale(0.815);
+    opacity: 0;
+    z-index: 10999;
+    -webkit-transition-duration: 500ms;
+            transition-duration: 500ms;
+    -webkit-transform: scale(0.815);
+            transform: scale(0.815);
 }
 
 
@@ -155,9 +190,9 @@ div {display: block; -webkit-tap-highlight-color: transparent;}
   display: block;
   z-index: 15;
   -webkit-transform-origin : 50% 100%;
-  transform-origin : 50% 100%;
+          transform-origin : 50% 100%;
   -webkit-transform: scaleY(.5);
-  transform: scaleY(.5);
+          transform: scaleY(.5);
 }
 
 .modal-title {
@@ -210,7 +245,7 @@ div {display: block; -webkit-tap-highlight-color: transparent;}
   z-index: 15;
   border-left:1px solid #b5b5b5;
   -webkit-transform-origin : 100% 0;
-  transform-origin : 100% 0;
+          transform-origin : 100% 0;
 }
 
 
@@ -255,7 +290,7 @@ html:not(.watch-active-state) .modal-button:active, .modal-button.active-state {
   display: block;
   z-index: 15;
   -webkit-transform-origin: 50% 100%;
-  transform-origin: 50% 100%;
+          transform-origin: 50% 100%;
 }
 .modal-buttons-vertical .modal-button:last-child {
   border-radius: 0 0 5px 5px;
@@ -305,13 +340,13 @@ html:not(.watch-active-state) .modal-button:active, .modal-button.active-state {
 @-webkit-keyframes preloader-spin {
   100% {
     -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
+            transform: rotate(360deg);
   }
 }
 @keyframes preloader-spin {
   100% {
     -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
+            transform: rotate(360deg);
   }
 }
 
@@ -324,12 +359,12 @@ html:not(.watch-active-state) .modal-button:active, .modal-button.active-state {
 /*******  loading动画加载  **********/
 .loader {margin:0 auto; height:20px;width:20px; overflow: hidden; text-indent:-999em; border:2px solid #ff6600;border-left-color:transparent;border-right-color:transparent;border-radius:50%;animation:spin 2s infinite;-webkit-animation:spin 2s infinite}
 @-webkit-keyframes spin{0%{-webkit-transform:rotate(0deg)}
-  50%{-webkit-transform:rotate(360deg)}
-  100%{-webkit-transform:rotate(0deg)}
+    50%{-webkit-transform:rotate(360deg)}
+    100%{-webkit-transform:rotate(0deg)}
 }
 @keyframes spin{0%{transform:rotate(0deg)}
-  50%{transform:rotate(360deg)}
-  100%{transform:rotate(0deg)}
+    50%{transform:rotate(360deg)}
+    100%{transform:rotate(0deg)}
 }
 
 
@@ -354,28 +389,28 @@ html:not(.watch-active-state) .modal-button:active, .modal-button.active-state {
 .border-tb:after {bottom:0;}
 /*****细线兼容*****/
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-  /****  X  ***/
-  .modal-button:after, .border-l:before,.border-r:before,.infomation-list li:before {
-    -webkit-transform: scaleX(0.5);
-    transform: scaleX(0.5);
-  }
+    /****  X  ***/
+    .modal-button:after, .border-l:before,.border-r:before,.infomation-list li:before {
+        -webkit-transform: scaleX(0.5);
+                transform: scaleX(0.5);
+    }
 
-  /****  Y  ***/
+    /****  Y  ***/
   .modal-inner:after, .modal-buttons-vertical .modal-button:after, .bor-b li:before, .border-t:before,.border-b:before,.title:before,.border-tb:before,.border-tb:after  {
     -webkit-transform: scaleY(0.5);
-    transform: scaleY(0.5);
+            transform: scaleY(0.5);
   }
 }
 @media only screen and (-webkit-min-device-pixel-ratio: 3) {
-  /****  X  ***/
-  .modal-button:after, .border-l:before,.border-r:before,.infomation-list li:before {
-    -webkit-transform: scaleX(0.33);
-    transform: scaleX(0.33);
-  }
+    /****  X  ***/
+    .modal-button:after, .border-l:before,.border-r:before,.infomation-list li:before {
+        -webkit-transform: scaleX(0.33);
+                transform: scaleX(0.33);
+    }
 
-  /****  Y  ***/
+    /****  Y  ***/
   .modal-inner:after, .modal-buttons-vertical .modal-button:after, .bor-b li:before, .border-t:before,.border-b:before,.title:before,.border-tb:before,.border-tb:after  {
     -webkit-transform: scaleY(0.33);
-    transform: scaleY(0.33);
+            transform: scaleY(0.33);
   }
 }
