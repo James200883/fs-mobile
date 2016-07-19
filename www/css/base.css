@@ -61,6 +61,10 @@ body.bgWhite {background-color: #fff;}
 div {display: block; -webkit-tap-highlight-color: transparent;}
 .clearfix:after,.carList:after {  content:'\0020';  display:block;  height:0;  clear:both;}
 .clearfix {  zoom:1;}
+.gallery {
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
 html,body {min-height:100%;}
 body {min-width: 320px; max-width: 640px; margin:0 auto;}
 #main {padding:0 5px;}
