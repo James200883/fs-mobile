@@ -1,0 +1,28 @@
+<ion-header-bar class="item-input-inset bar-stable">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark"></a>
+</ion-header-bar>
+<ion-view>
+  <ion-content>
+    <div class="userAdmin border-tb">
+        <p><span id="lblUser"></span></p>
+    </div>
+
+    <div class="recharge">
+        <h6><span>充值产品ֵ</span></h6>
+        <ul class="rechargeList clearfixEx" id="favorable" ng-repeat="item in activitys" >
+            <ion-radio ng-model="czId" ng-change="pushNotificationChange(item.id, item.amount)" ng-value="item.id">
+            <li>
+                <div class="rch" ">
+                    <p>￥{{item.amount}}</p>
+                    <span>优惠￥{{item.favorAmount}}</span>
+                </div>
+            </li>
+            </ion-radio>
+        </ul>
+    </div>
+    <div class="row">
+       <button class="button button-block button-positive button-assertive" ng-click="chongzhi()">充值-{{czAmount}}	</button>
+    </div>
+    </ion-content>
+</ion-view>
+

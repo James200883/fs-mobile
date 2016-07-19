@@ -1,106 +1,61 @@
 <ion-view>
-  <ion-content>
+  <ion-content ng-controller="CartCtrl" ng-init="initCartData()">
     <div class="cart">
       <div class="cartHead">
-        <h4><span>购物车(2)</span></h4>
-        <a href="javascript:viod(0);" class="editCart">编辑</a>
+        <h4><span>购物车</span></h4>
       </div>
 
       <div class="product-cart">
         <div class="pct-cart-head row">
-          <span class="allCheck col">有机鲜生旗舰店</span>
-          <a href="javascript:;" class="getCoupon">领优惠券</a>
+           <div class = "col col-33 c">
+             <ion-checkbox ng-model="pushNotification.checked" ng-change="pushNotificationChange()" style="height:30px;border-style:none;"><span style="vertiral-align:center;">全选</span></ion-checkbox>
+          </div>
+          <div class="col col-67">
+           <p>已选择 ( {{ total_qty }} ) =
+                <strong>￥ {{total_amount}}</strong>
+            </p>
+            </div>
         </div>
 
-        <ul class="product-cart-list">
+        <ul class="product-cart-list" ng-repeat="item in cart"   >
           <li>
-            <span class="checked"></span>
-            <span class="pct-img"><img src="img/test1.jpg"></span>
-
-            <div class="pct-desc">
-              <h6 class="ellipsis2"><a href="#">Zespri佳沛新西兰阳光金奇异果10个Zespri佳沛新西兰阳光金奇异果10个Zespri佳沛新西兰阳光金奇异果10个</a></h6>
-              <p>81-105g/个</p>
-              <div class="pct-btm row">
-                <div class="num-sel-lage clearfix">
-                  <span class="inC">-</span>
-                  <input type="tel" class="buy-num" value="1">
-                  <span class="deC">+</span>
-                </div>
-                <span class="pct-price col">¥39.8</span>
+          
+             <div class="col col-33">
+               <div class="row">
+              <div class="col-33"><ion-checkbox ng-model="item.cart_item_check" ng-change="itemNotificationChange(item.cart_item_id)" style="width:10px;height:20px;border-style:none;"></ion-checkbox></div>
+              <div class="col-67"><span class="pct-img"><img ng-src="{{item.cart_item_image}}"></span></div>
               </div>
-            </div>
-          </li>
-
-          <li>
-            <span class="checked"></span>
-            <span class="pct-img"><img src="images/test1.png" /></span>
-
-            <div class="pct-desc">
-              <h6 class="ellipsis2"><a href="#">Zespri佳沛新西兰阳奇异果10个</a></h6>
-              <p>81-105g/个</p>
-              <div class="pct-btm row">
-                <div class="num-sel-lage clearfix">
-                  <span class="inC">-</span>
-                  <input type="tel" class="buy-num" value="1">
-                  <span class="deC">+</span>
-                </div>
-                <span class="pct-price col">¥39.8</span>
+             </div>
+           
+              <div class="col col-33">  
+                   <h6 class="ellipsis2"><a href="#/product/{{item.cart_item_id}}">{{item.cart_item_name}}</a></h6>
+                  <span class="pct-price">¥{{item.cart_item_price}}</span>
+               	  <span class="pct-price" ng-if="item.tagType">预购</span>
               </div>
-            </div>
+
+              <div class="pct-btm col-33">
+                <div class="num-sel-lage clearfix">
+                  <a class="inC" ng-click="">-</a>
+                  <input type="tel" class="buy-num" ng-model="item.cart_item_qty">
+                  <a class="deC" ng-click="">+</a>
+                 
+                </div>
+                <button ng-click="removeFromCart(item.cart_item_id)" class="button button-assertive button-block button-small icon ion-android-delete" ></button>
+              </div>
           </li>
         </ul>
-      </div>
-
-      <div class="like">
-        <h6><span>猜你喜欢</span></h6>
-        <div class="likeProduct">
-          <ul class="likeList clearfix">
-            <li>
-              <a href="#">
-                <div class="likeImg"><img src="img/c_load.jpg" data-original="images/c1.png" class="lazy" /></div>
-                <div class="like-title ellipsis2">泰国进口山竹4斤 新鲜时令水果60-80g/个</div>
-                <p class="like-price"><span class="lk-new">￥<em>59.00</em></span><span class="lk-old">￥59.00</span></p>
-                <p class="lk-buyNum"><span>123人已购买</span></p>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="likeImg"><img src="img/c_load.jpg" data-original="images/c1.png" class="lazy" /></div>
-                <div class="like-title ellipsis2">泰国进口山竹4斤 新鲜时令水果60-80g/个</div>
-                <p class="like-price"><span class="lk-new">￥<em>59.00</em></span><span class="lk-old">￥59.00</span></p>
-                <p class="lk-buyNum"><span>123人已购买</span></p>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="likeImg"><img src="img/c_load.jpg" data-original="images/c1.png" class="lazy" /></div>
-                <div class="like-title ellipsis2">泰国进口山竹4斤 新鲜时令水果60-80g/个</div>
-                <p class="like-price"><span class="lk-new">￥<em>59.00</em></span><span class="lk-old">￥59.00</span></p>
-                <p class="lk-buyNum"><span>123人已购买</span></p>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="likeImg"><img src="img/c_load.jpg" data-original="images/c1.png" class="lazy" /></div>
-                <div class="like-title ellipsis2">泰国进口山竹4斤 新鲜时令水果60-80g/个</div>
-                <p class="like-price"><span class="lk-new">￥<em>59.00</em></span><span class="lk-old">￥59.00</span></p>
-                <p class="lk-buyNum"><span>123人已购买</span></p>
-              </a>
-            </li>
-          </ul>
-        </div>
       </div>
     </div>
 
     <div class="detailFoot">
       <div class="detail-btm border-t row">
-        <span class="checkAll">全选</span>
+         <ion-checkbox ng-model="pushNotification.checked" ng-change="pushNotificationChange()" style="height:30px;border-style:none;">全选</ion-checkbox>
         <div class="dr-btm col">
           <div class="cartInfo">
-            <p class="c-p1">总计: <span class="countPrice">¥0.0</span></p>
-            <p class="c-p2">(满88包邮，已优惠¥20)</p>
+            <p class="c-p1">总计: <span class="countPrice">{{total_amount}}</span></p>
+            <p class="c-p2">总数：{{total_qty}}</p>
           </div>
-          <a class="goBuging" href="#1">去结算</a>
+          <a class="goBuging" ng-click="checkout()">去结算</a>
         </div>
       </div>
     </div>

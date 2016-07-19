@@ -1,0 +1,84 @@
+<ion-header-bar class="item-input-inset bar-stable">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark"></a>
+</ion-header-bar>
+
+
+	
+<ion-view>
+  <ion-content ng-controller="ProductCtrl" ng-init="loadPageData()">
+
+	<!--Automatically loops back from the begining -->
+	<ion-slide-box auto-play ="true" does-continue="true" show-pager="true"  >
+	
+		<!-- width: 100% height 50% to fill the slidder image according to the layout -->
+	   <ion-slide class="swiper-slide swiper-slide-active" style="width:100%; height: 50%; "  ng-repeat="slide in data.picData" >
+	      <div>
+	         <img  ng-src="{{slide.impageUrl}}" >
+	      </div>
+	   </ion-slide >
+	   
+	</ion-slide-box>
+	
+	 <div class="details">
+          <div class="detail-head" id="prodDetail">
+          
+          <h2>{{data.product.name}}</h2>
+            <p class="pct-txt">{{data.product.weight}}</p>
+            <p class="pct-price">
+                <span class="new-p">￥<em>{{data.product.distPrice}}</em></span>
+                <span class="old-p">￥{{data.product.price}}</span>
+            </p>
+            <div class="d-tool">
+                <span class="collect cur">收藏</span>
+            </div>
+            <div class="d-info row">
+                <span class="d-info-l">{{htmlActivity}}</span>
+                <span class="d-info-m col">已售数量{{data.product.countSale}}</span>
+                <span class="d-info-r">98%好评</span>
+            </div>
+
+            <div class="counts">
+                <a ng-click="decCur()"><span class="b-reduce"></span></a>
+                <input type="tel" class="b-txt" value="{{productCount}}">
+                <a ng-click="incCur()"><span class="b-add" ></span></a>
+            </div>
+          
+          </div>
+
+        <div class="m-pro-tab">
+            <nav class="nav-tabs">
+                <ul class="row">
+                    <li class="col cur"><span>详情</span></li>
+                    <li class="col"><span>评论</span></li>
+                </ul>
+            </nav>
+            <div class="m-tab-content">
+
+                <div class="tab-pane active">
+                    <div class="detail-content"   data-ng-bind-html="data.productInfo.information">
+                      
+                    </div>
+                </div>
+
+                <div class="tab-pane">
+                    <div class="comment">
+                    	
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="detailFoot">
+        <div class="detail-btm border-t row">
+            <span class="goBuyCar">{{productCount}}</span>
+            <div class="dr-btm col">
+                <a class="addCar" ng-click="inc()">加入购物车</a>
+                <a class="goBuging" href="#/app/cart">查看购物车</a>
+            </div>
+        </div>
+    </div>
+    
+      </ion-content>
+</ion-view>

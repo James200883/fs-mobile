@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -59,7 +59,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
   })
 
   .state('app.category', {
-      url: '/category',
+      url: '/category/:cagegoryId',
       views: {
         'app-category': {
           templateUrl: 'templates/tab-category.html',
@@ -87,6 +87,39 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
         }
       }
     })
+    
+    
+    .state('order', {
+      url: '/order/:orderId',
+	  templateUrl: 'templates/order.html',
+	  controller: 'OrderCtrl'
+    })
+    
+    
+    .state('rechargeorder', {
+      url: '/rechargeorder/:orderId',
+	  templateUrl: 'templates/recharge-order.html',
+	  controller: 'RechargeOrderCtrl'
+    })
+    
+    
+    .state('chongzhi', {
+      url: '/chongzhi',
+	  templateUrl: 'templates/chong-zhi.html',
+	  controller: 'ChongzhiCtrl'
+    })
+    
+    .state('address', {
+      url: '/address/:orderId',
+	  templateUrl: 'templates/address.html',
+	  controller: 'AddressCtrl'
+    })
+    
+    .state('addaddr', {
+      url: '/addaddr/:id',
+	  templateUrl: 'templates/addAddress.html',
+	  controller: 'AddAddrCtrl'
+    })
 
     .state('app.bbs', {
       url: '/bbs',
@@ -97,7 +130,13 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
         }
       }
     })
-
+    
+    .state('product', {
+      url: '/product/:productId',
+      templateUrl: 'templates/product-detail.html',
+      controller: 'ProductCtrl'
+    })
+    
     .state('login', {
       url: '/login',
       templateUrl: 'templates/app-login.html',
@@ -109,30 +148,10 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
       templateUrl: 'templates/app-register.html',
       controller: 'RegisterCtrl'
     })
-
     .state('myCoupon', {
       url: '/myCoupon',
       templateUrl: 'templates/app-coupon.html',
       controller: 'CouponCtrl'
-    })
-
-    .state('forgetPwd', {
-      url: '/forgetPwd',
-      templateUrl: 'templates/app-forgetPwd.html',
-      controller: 'ForgetPwdCtrl'
-    })
-
-    .state('userInfo', {
-      url: '/userInfo',
-      templateUrl: 'templates/app-userinfo.html',
-      controller: 'UserInfoCtrl',
-      cache: false
-    })
-
-    .state('editUserInfo', {
-      url: '/editUserInfo/:headId/:value',
-      templateUrl: 'templates/app-editUserInfo.html',
-      controller: 'EditUserInfoCtrl'
     });
 
   // if none of the above states are matched, use this as the fallback

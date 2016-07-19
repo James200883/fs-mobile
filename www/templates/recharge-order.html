@@ -1,0 +1,22 @@
+<ion-header-bar class="item-input-inset bar-stable">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark"></a>
+</ion-header-bar>
+<ion-view>
+  <ion-content>
+    <div class="component border-tb">
+        <h4 class="box-title"><span class="b-left">充值订单</span><span class="b-right" id="displayOrderId">订单编号:{{orders.orderNo}}</span></h4>
+        <div class="dian border-t" id="orderList">
+			<div class="rch" style="margin-left: auto;margin-right: auto;padding-top:40px;padding-bottom:40px;color:red"> 
+                  <p>充值金额:{{orders.amount}}</p> 
+            </div>
+            <div class="rch" style="margin-left: auto;margin-right: auto;padding-top:40px;padding-bottom:40px;color:red"> 
+                  <p>支付金额:{{orders.payAmount}}</p> 
+            </div>
+        </div>
+    </div>
+    <div class="row">
+         <button class="button button-block button-positive button-assertive" ng-click="pay()">微信支付</button>
+    </div>
+
+ </ion-content>
+</ion-view>
