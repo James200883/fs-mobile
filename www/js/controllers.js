@@ -31,14 +31,14 @@ var myModule = angular.module('starter.controllers', [])
 		   
 		//show category
 		$scope.showCategory = function (id) {	  
-			 console.log("sid" + id);
-			 window.location.href = "#/app/category/"+id;
+			 console.log('sid' + id);
+			 window.location.href = '#/app/category/'+id;
 		 };
 						   
 		//show product page
 		$scope.showProduct = function (id) {
 
-			 window.location.href = "#/product/"+id;
+			 window.location.href = '#/product/'+id;
 		 };
 
 		 //add to cart function
@@ -54,14 +54,14 @@ var myModule = angular.module('starter.controllers', [])
 		
 	  $scope.noMoreItemsAvailable = false; // lazy load list
 	  
-	  $scope.curCategoryId = "";
-	  $scope.sortBy = "";
+	  $scope.curCategoryId = '';
+	  $scope.sortBy = '';
 	  $scope.sortType = 0;
 	  $scope.nextPage = 1;
 	  
-	  console.log($stateParams.categoryId);
-	  console.log($state.sortBy);
-	  console.log($state.sortType);
+	  //console.log($stateParams.categoryId);
+	  //console.log($state.sortBy);
+	  //console.log($state.sortType);
 	  
 	  if($stateParams.categoryId){
 		  $scope.curCategoryId = $stateParams.categoryId;
@@ -134,7 +134,7 @@ var myModule = angular.module('starter.controllers', [])
 		$scope.showProduct=function (id) {	 
 			 sessionStorage.setItem('page_id', id);
 			
-			 window.location.href = "#/product/"+id;
+			 window.location.href = '#/product/'+id;
 		 };
 		 
 		 //add to cart function
@@ -278,15 +278,15 @@ var myModule = angular.module('starter.controllers', [])
 				if(orderType > 0) { 
 					
 				
-					var orders = {accessCode:"",
-						    userId:"1",
-						    orderId:"",
-						    contactUserName:"",
-						    contractTel:"",
-						    dispatchAddr:"",
+					var orders = {accessCode:'',
+						    userId:'1',
+						    orderId:'',
+						    contactUserName:'',
+						    contractTel:'',
+						    dispatchAddr:'',
 						    orderType:orderType,//1正常配送，2预售订单 3充值订单
-						    payType:"",
-						    dispatchType:"",
+						    payType:'',
+						    dispatchType:'',
 						    totalNumber:$scope.total_qty,
 						    amount:$scope.total_amount};
 					
@@ -302,7 +302,7 @@ var myModule = angular.module('starter.controllers', [])
 				    	   //已生产订单，清空当前数据
 				    	   //$scope.cart.dropCheck();
 				    	   
-				    	   window.location.href = "#/order/"+orderId;
+				    	   window.location.href = '#/order/'+orderId;
 						}).error(function (results) {
 					          CommonService.toast('生成订单异常，请稍后再试');
 				       });
@@ -371,7 +371,7 @@ var myModule = angular.module('starter.controllers', [])
 	  
      $scope.goAddress = function(){
     	 alert($scope.orderId);
-    	 window.location.href="#/address/"+$scope.orderId;
+    	 window.location.href='#/address/'+$scope.orderId;
 	  }
 	  
 	  $scope.pay = function(){
@@ -415,10 +415,10 @@ var myModule = angular.module('starter.controllers', [])
 	  $scope.chongzhi = function(){
 		  if($scope.czId != 0){
 			  var czParams = {'id':$scope.czId,'userId':5};
-	          var url = "/userAccount/recharge";
+	          var url = '/userAccount/recharge';
 	          CommonService.postBody(url,czParams).success(function (results) {
 		    	   var orderId = results.orderId;
-	               window.location.href="#/rechargeorder/"+orderId;
+	               window.location.href='#/rechargeorder/'+orderId;
 	               
 	          }).error(function (results) {
 				    CommonService.toast('生成订单异常，请稍后再试');
@@ -487,7 +487,7 @@ var myModule = angular.module('starter.controllers', [])
       $scope.goDel = function(id){
     	  CommonService.post('/userAddr/del', {'idStr':id}).success(function (results) {
     		 
-    		  //$state.go($state.current, {'orderId':$scope.orderId}, {location: "replace", reload: true});
+    		  //$state.go($state.current, {'orderId':$scope.orderId}, {location: 'replace', reload: true});
     		  window.location.reload(true);
     		  
 			}).error(function (results) {
@@ -571,7 +571,7 @@ var myModule = angular.module('starter.controllers', [])
     		  
     		  var orderId = sessionStorage.getItem('user_select_order');
     		  //跳转刷新
-    		  $state.go('address',{'orderId':orderId},{location: "replace", reload: true});
+    		  $state.go('address',{'orderId':orderId},{location: 'replace', reload: true});
     		  
 			}).error(function (results) {
 		          CommonService.toast('获取数据异常，请稍后再试');
@@ -728,7 +728,7 @@ var myModule = angular.module('starter.controllers', [])
   });
 
 myModule.directive('ngFocus', function () {
-var FOCUS_CLASS = "ng-focused";
+var FOCUS_CLASS = 'ng-focused';
 return {
   restrict: 'A',
   require: 'ngModel',
@@ -764,7 +764,7 @@ return {
 });
 
 myModule.directive('ngBack', function ($ionicHistory) {
-var FOCUS_CLASS = "ng-back";
+var FOCUS_CLASS = 'ng-back';
 return {
   restrict: 'A',
   link: function (scope, element, attrs, ctrl) {
