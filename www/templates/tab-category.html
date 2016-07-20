@@ -10,36 +10,53 @@
 
 <ion-view>
   <ion-content>
+   
     <div class="cateList">
-      <nav class="cateTab">
-        <ul class="row">
-          <li class="col cur" data-type="all"><span>综合</span></li>
-          <li class="col" data-type="sale"><span>销量</span></li>
-          <li class="col" data-type="new"><span>上新</span></li>
-          <li class="sortPrice col" data-type="price"><span>价格<i></i></span></li>
-        </ul>
-      </nav>
-
-      <div class="cateContent">
-        <div class="allProduct">
-          <div class="allMenu">
-            <ul class="allMenuList bor-b">
-              <li class="current" data-type="1"><span>全部水果</span></li>
-              <li data-type="2"><span>全部水果</span></li>
-              <li data-type="3"><span>全部水果</span></li>
-              <li data-type="4"><span>全部水果</span></li>
-              <li data-type="5"><span>全部水果</span></li>
-              <li data-type="6"><span>全部水果</span></li>
+       <nav class="cateTab">
+            <ul class="row">
+                <li class="col cur" data-type="all"><span>综合</span></li>
+                <li class="col" data-type="sale"><span>销量</span></li>
+                <li class="col" data-type="new"><span>上新</span></li>
+                <li class="sortPrice col" data-type="price"><span>价格<i></i></span></li>
             </ul>
-          </div>
-
-          <div class="all-product-right">
-            <ul class="all-pct-list pList clearfix"></ul>
-          </div>
+        </nav>
+        <div class="cateContent">
+            <div class="allProduct">
+                <div class="allMenu">
+                    <ul class="allMenuListEx bor-b"  ng-repeat="category in categoryData">
+                        <li class="current"><span><a ng-click="loadDataByCate(category.id)">{{category.name}}</a></span></li>
+                    </ul>
+                </div>
+                <div class="all-product-right">
+                    <ul class="all-pct-list pList clearfixEx" ng-repeat="product in productData">
+                     <li>
+                         <a ng-click="showProduct(product.id)">
+                           <div class="p-img"><img  ng-src="{{product.imageUrl}}"/></div>
+                             <h6 class="ellipsis2">{{product.name}}</h6>
+                             <p class="p-weight">{{product.weight}}</p>
+                             <p class="p-price"><span class="lk-new">￥<em>{{product.distPrice}}</em></span><span class="lk-old">￥{{product.price}}</span></p>
+                         </a>
+                         <a class="pct-buy" ng-click="addToCart(product.id, product.imageUrl,product.name,product.distPrice)">购物车</a>
+                     </li>
+                     
+                    
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
-
-      <ul class="productsList pList clearfix"></ul>
+       
     </div>
+    
+      
+      <!--  
+		<ion-infinite-scroll 
+		ng-if="!noMoreItemsAvailable" 
+		on-infinite="loadMore()" 
+		distance="10%">
+			<ion-infinite-scroll-content
+			loadingSpinner="bubbles">
+		</ion-infinite-scroll>
+		-->
+
   </ion-content>
 </ion-view>

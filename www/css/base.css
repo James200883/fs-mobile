@@ -1,20 +1,20 @@
 /****/
 html, body{ margin:0; height:100%; }
 body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td {
-	margin:0;
-	padding:0;
-	/*font-family:"Helvetica Neue","Microsoft YaHei","微软雅黑",SimHei,"宋体",simsun,sans-serif;*/
-	 font-family: Microsoft YaHei,Helvetica Neue,Helvetica,Roboto,STHeiTi,Arial,sans-serif;
-	line-height:20px;
+  margin:0;
+  padding:0;
+  /*font-family:"Helvetica Neue","Microsoft YaHei","微软雅黑",SimHei,"宋体",simsun,sans-serif;*/
+  font-family: Microsoft YaHei,Helvetica Neue,Helvetica,Roboto,STHeiTi,Arial,sans-serif;
+  line-height:20px;
 
 }
 body {font-size:14px; background:#f5f5f5; color:#484848;}
 body{-webkit-text-size-adjust: 100%;
-/*-webkit-tap-highlight-color: rgba(0,0,0,0);*/
--webkit-font-smoothing: antialiased;
--webkit-touch-callout:none;
-/*-webkit-user-select: none;*/
-word-break:break-all;}
+  /*-webkit-tap-highlight-color: rgba(0,0,0,0);*/
+  -webkit-font-smoothing: antialiased;
+  -webkit-touch-callout:none;
+  /*-webkit-user-select: none;*/
+  word-break:break-all;}
 ul,li{list-style:none;}
 input,textarea{vertical-align:middle; font-size:100%;}
 textarea{overflow: auto;vertical-align: middle}
@@ -36,10 +36,10 @@ body.grayBg {background-color: #f5f5f5; height: auto; min-height:0;}
 body.bgWhite {background-color: #fff;}
 .txtCenter {text-align: center; padding:10px 0;}
 .vertial {
-	display:-webkit-box; display:box;
-	-webkit-box-orient: vertical; box-orient: vertical;
-	-webkit-box-pack: center; box-pack: center;
-	-webkit-box-align: center; box-align: center;
+  display:-webkit-box; display:box;
+  -webkit-box-orient: vertical; box-orient: vertical;
+  -webkit-box-pack: center; box-pack: center;
+  -webkit-box-align: center; box-align: center;
 }
 
 /*******     icon    *******/
@@ -94,12 +94,12 @@ body {min-width: 320px; max-width: 640px; margin:0 auto;}
 .inLoading span {position: absolute; content: ""; width: 40px; height: 40px; left:50%; top:0; margin-left:-20px; -webkit-animation:rotation .6s infinite linear;animation:rotation .6s infinite linear;border-left:4px solid rgba(47,60,87,.15);border-right:4px solid rgba(47,60,87,.15);border-bottom:4px solid rgba(47,60,87,.15);border-top:4px solid rgba(47,60,87,.75);border-radius:100%; }
 
 @-webkit-keyframes rotation{
-	from{-webkit-transform:rotate(0deg); transform:rotate(0deg)}
-	to{-webkit-transform:rotate(359deg); transform:rotate(359deg)}
+  from{-webkit-transform:rotate(0deg); transform:rotate(0deg)}
+  to{-webkit-transform:rotate(359deg); transform:rotate(359deg)}
 }
 @keyframes rotation{
-	from{-webkit-transform:rotate(0deg);transform:rotate(0deg)}
-	to{-webkit-transform:rotate(359deg);transform:rotate(359deg)}
+  from{-webkit-transform:rotate(0deg);transform:rotate(0deg)}
+  to{-webkit-transform:rotate(359deg);transform:rotate(359deg)}
 }
 /* === Modals === */
 .modal-overlay,
@@ -115,7 +115,7 @@ body {min-width: 320px; max-width: 640px; margin:0 auto;}
   visibility: hidden;
   opacity: 0;
   -webkit-transition-duration: 400ms;
-          transition-duration: 400ms;
+  transition-duration: 400ms;
 }
 .modal-overlay.modal-overlay-visible,
 .preloader-overlay.modal-overlay-visible,
@@ -135,30 +135,30 @@ body {min-width: 320px; max-width: 640px; margin:0 auto;}
   margin-left : -140px;
   border-radius:20px;
   -webkit-transform: scale(1.2);
-          transform: scale(1.2);
+  transform: scale(1.2);
   -webkit-transition-property: -webkit-transform, opacity;
-          transition-property: transform, opacity;
+  transition-property: transform, opacity;
   color: #3d4145;
   opacity: 0;
 }
 .comfirmModal {
-    -webkit-transform: scale(1.2);
-            transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
 }
 .modal.modal-in {
-    opacity: 1;
-    -webkit-transition-duration: 500ms;
-            transition-duration: 500ms;
-    -webkit-transform: scale(1);
-            transform: scale(1);
+  opacity: 1;
+  -webkit-transition-duration: 500ms;
+  transition-duration: 500ms;
+  -webkit-transform: scale(1);
+  transform: scale(1);
 }
 .modal.modal-out {
-    opacity: 0;
-    z-index: 10999;
-    -webkit-transition-duration: 500ms;
-            transition-duration: 500ms;
-    -webkit-transform: scale(0.815);
-            transform: scale(0.815);
+  opacity: 0;
+  z-index: 10999;
+  -webkit-transition-duration: 500ms;
+  transition-duration: 500ms;
+  -webkit-transform: scale(0.815);
+  transform: scale(0.815);
 }
 
 
@@ -190,9 +190,9 @@ body {min-width: 320px; max-width: 640px; margin:0 auto;}
   display: block;
   z-index: 15;
   -webkit-transform-origin : 50% 100%;
-          transform-origin : 50% 100%;
+  transform-origin : 50% 100%;
   -webkit-transform: scaleY(.5);
-          transform: scaleY(.5);
+  transform: scaleY(.5);
 }
 
 .modal-title {
@@ -245,7 +245,7 @@ body {min-width: 320px; max-width: 640px; margin:0 auto;}
   z-index: 15;
   border-left:1px solid #b5b5b5;
   -webkit-transform-origin : 100% 0;
-          transform-origin : 100% 0;
+  transform-origin : 100% 0;
 }
 
 
@@ -290,7 +290,7 @@ html:not(.watch-active-state) .modal-button:active, .modal-button.active-state {
   display: block;
   z-index: 15;
   -webkit-transform-origin: 50% 100%;
-          transform-origin: 50% 100%;
+  transform-origin: 50% 100%;
 }
 .modal-buttons-vertical .modal-button:last-child {
   border-radius: 0 0 5px 5px;
@@ -340,13 +340,13 @@ html:not(.watch-active-state) .modal-button:active, .modal-button.active-state {
 @-webkit-keyframes preloader-spin {
   100% {
     -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 @keyframes preloader-spin {
   100% {
     -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
@@ -359,12 +359,12 @@ html:not(.watch-active-state) .modal-button:active, .modal-button.active-state {
 /*******  loading动画加载  **********/
 .loader {margin:0 auto; height:20px;width:20px; overflow: hidden; text-indent:-999em; border:2px solid #ff6600;border-left-color:transparent;border-right-color:transparent;border-radius:50%;animation:spin 2s infinite;-webkit-animation:spin 2s infinite}
 @-webkit-keyframes spin{0%{-webkit-transform:rotate(0deg)}
-    50%{-webkit-transform:rotate(360deg)}
-    100%{-webkit-transform:rotate(0deg)}
+  50%{-webkit-transform:rotate(360deg)}
+  100%{-webkit-transform:rotate(0deg)}
 }
 @keyframes spin{0%{transform:rotate(0deg)}
-    50%{transform:rotate(360deg)}
-    100%{transform:rotate(0deg)}
+  50%{transform:rotate(360deg)}
+  100%{transform:rotate(0deg)}
 }
 
 
@@ -389,28 +389,28 @@ html:not(.watch-active-state) .modal-button:active, .modal-button.active-state {
 .border-tb:after {bottom:0;}
 /*****细线兼容*****/
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-    /****  X  ***/
-    .modal-button:after, .border-l:before,.border-r:before,.infomation-list li:before {
-        -webkit-transform: scaleX(0.5);
-                transform: scaleX(0.5);
-    }
+  /****  X  ***/
+  .modal-button:after, .border-l:before,.border-r:before,.infomation-list li:before {
+    -webkit-transform: scaleX(0.5);
+    transform: scaleX(0.5);
+  }
 
-    /****  Y  ***/
+  /****  Y  ***/
   .modal-inner:after, .modal-buttons-vertical .modal-button:after, .bor-b li:before, .border-t:before,.border-b:before,.title:before,.border-tb:before,.border-tb:after  {
     -webkit-transform: scaleY(0.5);
-            transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
 }
 @media only screen and (-webkit-min-device-pixel-ratio: 3) {
-    /****  X  ***/
-    .modal-button:after, .border-l:before,.border-r:before,.infomation-list li:before {
-        -webkit-transform: scaleX(0.33);
-                transform: scaleX(0.33);
-    }
+  /****  X  ***/
+  .modal-button:after, .border-l:before,.border-r:before,.infomation-list li:before {
+    -webkit-transform: scaleX(0.33);
+    transform: scaleX(0.33);
+  }
 
-    /****  Y  ***/
+  /****  Y  ***/
   .modal-inner:after, .modal-buttons-vertical .modal-button:after, .bor-b li:before, .border-t:before,.border-b:before,.title:before,.border-tb:before,.border-tb:after  {
     -webkit-transform: scaleY(0.33);
-            transform: scaleY(0.33);
+    transform: scaleY(0.33);
   }
 }

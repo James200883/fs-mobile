@@ -1,0 +1,40 @@
+<ion-header-bar class="item-input-inset bar-stable">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark"></a>
+</ion-header-bar>
+
+<ion-view>
+  <ion-content>
+    <div class="component border-tb">
+        <p class="getAddress addAddress"><a ng-click="goEdit('00')">新增收货地址ַ</a></p>
+    </div>
+
+    <div class="boxItem border-tb">
+        <div class="addressArea">
+            <ul class="addressList bor-b" id="addressList" ng-repeat="item in userAddress">
+                    <li >
+                        <div class="row adr-left">
+                            <div class="col col-20"><ion-radio ng-model="choice" ng-change="pushNotificationChange(item.id, item.contactUserName,item.contractTel,item.address )" ng-value="item.id">选择</ion-radio></div>
+                           
+                            <div class="col col-60 ">
+                                <h6><span class="contactUserName">{{item.contactUserName}}</span><span class="contractTel">{{item.contractTel}}</span></h6>
+                                <p class="ellipsis">{{item.address}}</p>
+                            </div>
+                        </div>
+                        <div class="adr-right border-l">
+                            <a  class="adr-edit" ng-click="goEdit(item.id)">编辑</a>
+                            <a class="adr-del" ng-click="goDel(item.id)">删除</a>
+                        </div>
+                    </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="btnBtm" id="btnToOrder" ng-if="isToOrder()">
+        <div class="saveArea">
+            <a class="saveBtn" ng-click="goOrder()" id="btnToOrderHtml">返回</a>
+        </div>
+    </div>
+
+  </ion-content>
+</ion-view>
+	
