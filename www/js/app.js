@@ -133,6 +133,26 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
       url: '/editUserInfo/:headId/:value',
       templateUrl: 'templates/app-editUserInfo.html',
       controller: 'EditUserInfoCtrl'
+    })
+    .state('shop', {
+      url: '/shop',
+      templateUrl: 'templates/app-shop.html',
+      controller: 'ShopCtrl'
+    })
+    .state('shopDetail', {
+      url: '/shopDetail/:shopId',
+      templateUrl: 'templates/app-shop-detail.html',
+      controller: 'ShopCtrlDetailCtrl'
+    })
+    .state('health', {
+      url: '/health',
+      templateUrl: 'templates/app-health.html',
+      controller: 'HealthCtrl'
+    })
+    .state('bbsDetail', {
+      url: '/bbsDetail/:bbsId',
+      templateUrl: 'templates/app-bbs-detail.html',
+      controller: 'BBSDetailCtrl'
     });
 
   // if none of the above states are matched, use this as the fallback

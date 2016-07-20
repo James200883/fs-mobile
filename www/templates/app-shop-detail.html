@@ -1,0 +1,47 @@
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">店铺详情</p>
+</ion-header-bar>
+
+<ion-view>
+  <ion-content>
+    <div class="userHeader dp-detail-head">
+      <div class="dp-detail-desc">
+        <p class="dp-headImg"><img src="img/u.jpg"></p>
+        <p class="dp-name" ng-bind="shopName"></p>
+        <p class="dp-pingfen">评分:<span ng-bind="shopScore"></span></p>
+      </div>
+      <div class="dp-tool"><a href="javascript:;" class="dp-collect cur" ng-click="favouriteShop()">收藏</a></div>
+    </div>
+
+    <div class="dp-detail-nav">
+      <ul class="row border-b">
+        <li class="active col"><span>详情</span></li>
+      </ul>
+    </div>
+
+    <div class="dp-detail-content">
+      <div class="dp-adr border-t">
+        <ul class="dp-d-list bor-b">
+          <li>
+            <span class="dp-left">地址：</span>
+            <div class="dp-right ellipsis" ng-bind="shopAddress"></div>
+          </li>
+          <li>
+            <span class="dp-left">电话：</span>
+            <div class="dp-right ellipsis" ng-bind="shopPhone"></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="songTime border-tb">
+        配送时间: <span ng-bind="postDate"></span>
+      </div>
+
+      <div class="dp-d-about border-tb">
+        <h6><span>公司简介：</span></h6>
+        <div class="dp-about-content" ng-bind="shopInfo"></div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,30 @@
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">店铺</p>
+</ion-header-bar>
+
+<ion-view>
+  <ion-content>
+    <ion-list>
+      <ul class="dianpu-list">
+        <li class="border-tb" ng-repeat="shop in shops" ui-sref="shopDetail({shopId: shop.id})">
+          <a href="javascript:;">
+            <span class="dpImg">
+              <img ng-src="{{shop.imageUrl}}" class="lazy" ng-if="shop.imageUrl != null"/>
+              <img src="img/a_load.jpg" class="lazy" ng-if="shop.imageUrl == null"/>
+            </span>
+            <div class="dp-desc">
+              <h6><span class="dp-title ellipsis" ng-bind="shop.shopName"></span><span class="dp-distance"></span></h6>
+              <div class="dp-m">
+                <div star rating-value="shop.shopScore" max="max" readonly="{{readonly}}" style="text-align: left"></div>
+              </div>
+              <p class="dp-b">电话: <span ng-bind="shop.contactTel"></span> <span ng-bind="shop.address"></span></p>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </ion-list>
+
+    <ion-infinite-scroll ng-if="moreDataCanBeLoaded()" on-infinite="loadMore()" distance="10%" icon="ion-loading-c"></ion-infinite-scroll>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,66 @@
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">文章详情</p>
+</ion-header-bar>
+
+<ion-view>
+  <ion-content>
+    <div class="bbs-detail border-b">
+      <span class="sb-title" ng-bind="sbTitle"></span>
+      <div class="bbs-detail-info row">
+        <span class="b-img"><img src="img/head.png" /></span>
+        <div class="bbs-info-desc col">
+          <span class="sb-align-horizontal">编辑: <p class="b-name padding-left" ng-bind="sbAuthor"></p></span>
+          <p class="b-time">10分钟前</p>
+        </div>
+      </div>
+      <div class="bbs-detail-content padding-top" ng-bind="sbContent"></div>
+    </div>
+
+    <div class="bbs-comment">
+      <ul class="bbs-comment-list bor-b">
+        <li>
+          <span class="b-cmtImg"><img src="img/head.png" /></span>
+          <div class="b-cmtDesc">
+            <h6>
+              <span class="b-cmt-name ellipsis">yangbys</span>
+              <div class="b-right n-tool">
+                <span class="n-ding active">88</span>
+              </div>
+            </h6>
+            <p class="b-time"><time>20-16-08</time></p>
+            <p class="b-cmt-txt">发货快，第二天下午就收到，奇异果个大，收到的时候每个都有点硬。</p>
+          </div>
+        </li>
+        <li>
+          <span class="b-cmtImg"><img src="img/head.png" /></span>
+          <div class="b-cmtDesc">
+            <h6>
+              <span class="b-cmt-name ellipsis">yangbys</span>
+              <div class="b-right n-tool">
+                <span class="n-ding">11</span>
+              </div>
+            </h6>
+            <p class="b-time"><time>20-16-08</time></p>
+            <p class="b-cmt-txt">发货快，第二天下午就收到，奇异果个大，收到的时候每个都有点硬。</p>
+          </div>
+        </li>
+        <li>
+          <span class="b-cmtImg"><img src="img/head.png" /></span>
+          <div class="b-cmtDesc">
+            <h6>
+              <span class="b-cmt-name ellipsis">yangbys</span>
+              <div class="b-right n-tool">
+                <span class="n-ding">13</span>
+              </div>
+            </h6>
+            <p class="b-time"><time>20-16-08</time></p>
+            <p class="b-cmt-txt">发货快，第二天下午就收到，奇异果个大，收到的时候每个都有点硬。</p>
+          </div>
+        </li>
+      </ul>
+      <div class="loadMoreComment"><a href="javascript:;">查看全部评价</a></div>
+    </div>
+
+  </ion-content>
+</ion-view>

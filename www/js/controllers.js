@@ -32,8 +32,12 @@ var myModule = angular.module('starter.controllers', [])
     }
   })
 
-  .controller('BBSCtrl', function($scope) {
-
+  .controller('BBSCtrl', function($scope, CommonService) {
+    CommonService.get('/blog/findBlogNew', {}).success(function (res) {
+      $scope.blogs = res;
+    }).error(function (res) {
+      CommonService.toast('服务器异常,请稍后再试');
+    });
   })
 
   .controller('CartCtrl', function ($scope) {
@@ -56,11 +60,11 @@ var myModule = angular.module('starter.controllers', [])
       CommonService.showLoadding();
       UserService.login($scope.userParams).success(function (res) {
         UserService.setObject('user_token', res);
-        $state.go('dash');
+        $state.go('app.dash');
         CommonService.hideLoading();
       }).error(function (res) {
-        CommonService.toast('服务器异常,请稍后重试');
         CommonService.hideLoading();
+        CommonService.toast('服务器异常,请稍后重试');
       });
     }
   })
@@ -91,8 +95,8 @@ var myModule = angular.module('starter.controllers', [])
           }
           CommonService.hideLoading();
         }).error(function (results) {
-          CommonService.toast('服务器异常,请稍后再试');
           CommonService.hideLoading();
+          CommonService.toast('服务器异常,请稍后再试');
         });
       }
     };
@@ -163,8 +167,8 @@ var myModule = angular.module('starter.controllers', [])
           }
           CommonService.hideLoading();
         }).error(function (results) {
-          CommonService.toast('服务器异常,请稍后再试');
           CommonService.hideLoading();
+          CommonService.toast('服务器异常,请稍后再试');
         });
       }
     };
@@ -203,7 +207,7 @@ var myModule = angular.module('starter.controllers', [])
     };
   })
 
-  .controller('UserInfoCtrl', function ($scope, $ionicActionSheet, $stateParams, CommonService, UserService) {
+  .controller('UserInfoCtrl', function ($scope, $ionicActionSheet, $cordovaCamera, $stateParams, CommonService, UserService) {
     CommonService.post('/member/userIndex', {'userId': UserService.getUserId()}).success(function (results) {
       if (results.result.imageUrl) {
         $scope.headImage = results.result.imageUrl;
@@ -230,11 +234,15 @@ var myModule = angular.module('starter.controllers', [])
       var hideSheet = $ionicActionSheet.show({
         buttons:[{text: '拍照'}, {text: '从相册选择'}],
         cancelText: '取消',
-        cancel: function () {
-          console.log('12323');
-        },
         buttonClicked: function (index) {
-          console.log(index);
+          var options = {
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType: Camera.PictureSourceType.CAMERA,
+          };
+
+          $cordovaCamera.getPicture(options).then(function (imageURI) {
+            console.log(imageURI);
+          })
         }
       });
     };
@@ -290,10 +298,169 @@ var myModule = angular.module('starter.controllers', [])
           }
           CommonService.hideLoading();
         }).error(function (res) {
-          CommonService.toast('服务器异常,请稍后再试');
           CommonService.hideLoading();
+          CommonService.toast('服务器异常,请稍后再试');
         });
       }
+    }
+  })
+  .controller('ShopCtrl', function ($scope, $timeout, $ionicListDelegate, CommonService) {
+    $scope.shops = [];
+    $scope.hasmore = false;
+    $scope.max = 5;
+    $scope.ratingVal = 0;
+    $scope.readonly = true;
+    var param = {page: 1, pageSize: 10}, timer = null;
+
+    CommonService.showLoadding();
+    CommonService.get('/store/getStoreByPage', param).success(function (res) {
+      $scope.shops = res.data;
+      CommonService.hideLoading();
+      $scope.hasmore = true;
+    }).error(function (res) {
+      CommonService.hideLoading();
+      CommonService.toast('服务器异常,请稍后再试');
+      return;
+    });
+
+    $scope.loadMore = function () {
+      param.page = param.page + 1;
+      timer = $timeout(function () {
+        if (!$scope.hasmore) {
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+          return;
+        }
+
+        CommonService.get('/store/getStoreByPage', param).success(function (res) {
+          $scope.hasmore = res.next_page > 0;
+          $scope.shops = $scope.shops.concat(res.data);
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+        }).error(function (res) {
+          CommonService.toast('服务器异常,请稍后再试');
+        });
+      }, 1000);
+    };
+
+    $scope.moreDataCanBeLoaded = function () {
+      return $scope.hasmore;
+    };
+
+    $scope.onHover = function(val){
+      $scope.hoverVal = val;
+    };
+
+    $scope.onLeave = function(){
+      $scope.hoverVal = null;
+    };
+
+    $scope.onChange = function(val){
+      $scope.ratingVal = val;
+    };
+
+    $scope.$on('stateChangeSuccess', function () {
+      $scope.loadMore();
+    });
+
+    $scope.$on('$destroy', function () {
+      if (timer != null) {
+        $timeout.cancel(timer);
+      }
+    });
+    $ionicListDelegate.showReorder(true);
+  })
+
+  .controller('ShopCtrlDetailCtrl', function ($scope, $stateParams, CommonService) { //店铺详情
+    var shopId = $stateParams.shopId;
+    if (shopId) {
+      CommonService.showLoadding();
+      CommonService.post('/store/getShopById', {'shopId': shopId}).success(function (res) {
+        $scope.shopName = res.data[0].shopName;
+        $scope.shopScore = res.data[0].shopScore;
+        $scope.shopAddress = res.data[0].address;
+        $scope.shopPhone = res.data[0].contactTel;
+        $scope.postDate = res.data[0].startTimeStr + ' - ' + res.data[0].endTimeStr;
+        $scope.shopInfo = '';
+        if (res.data[0].blogInfo) {
+          $scope.shopInfo = res.data[0].blogInfo.information;
+        }
+        CommonService.hideLoading();
+      }).error(function (res) {
+        CommonService.hideLoading();
+        CommonService.toast('服务器异常,请稍后再试');
+      });
+    } else {
+      CommonService.toast('服务器异常,请稍后再试');
+    }
+
+    $scope.favouriteShop = function () {
+      CommonService.toast('已收藏');
+    }
+  })
+  .controller('HealthCtrl', function ($scope, $ionicListDelegate, $timeout, CommonService) {
+    $scope.hasmore = false;
+    var param = {page: 1, pageSize: 10, blogCategoryId: 2}, timer = null;
+
+    CommonService.showLoadding();
+    CommonService.get('/blog/blogList', param).success(function (res) {
+      $scope.healths = res.data;
+      CommonService.hideLoading();
+      $scope.hasmore = true;
+    }).error(function (res) {
+      CommonService.hideLoading();
+      CommonService.toast('服务器异常,请稍后再试');
+      return;
+    });
+
+    $scope.loadMore = function () {
+      param.page = param.page + 1;
+      timer = $timeout(function () {
+        if (!$scope.hasmore) {
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+          return;
+        }
+
+        CommonService.get('/blog/blogList', param).success(function (res) {
+          $scope.hasmore = res.next_page > 0;
+          $scope.healths = $scope.healths.concat(res.data);
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+        }).error(function (res) {
+          CommonService.toast('服务器异常,请稍后再试');
+        });
+      }, 1000);
+    };
+
+    $scope.moreDataCanBeLoaded = function () {
+      return $scope.hasmore;
+    };
+
+    $scope.$on('stateChangeSuccess', function () {
+      $scope.loadMore();
+    });
+
+    $scope.$on('$destroy', function () {
+      if (timer != null) {
+        $timeout.cancel(timer);
+      }
+    });
+    $ionicListDelegate.showReorder(true);
+  })
+
+  .controller('BBSDetailCtrl', function ($scope, $stateParams, CommonService) {
+    var bbsId = $stateParams.bbsId;
+    if (bbsId) {
+      CommonService.showLoadding();
+      CommonService.get('/blog/blogDetailInfo', {'id': bbsId}).success(function (res) {
+        $scope.sbTitle = res.title;
+        $scope.sbAuthor = res.author;
+        $scope.sbContent = '';
+        if (res.blogInfo) {
+          $scope.sbContent = res.blogInfo.information;
+        }
+        CommonService.hideLoading();
+      }).error(function (res) {
+        CommonService.hideLoading();
+        CommonService.toast('服务器异常,请稍后再试');
+      });
     }
   });
 
@@ -350,6 +517,57 @@ myModule.directive('ngBack', function ($ionicHistory) {
     link: function (scope, element, attrs, ctrl) {
       element.bind('click', function (event) {
         $ionicHistory.goBack();
+      })
+    }
+  }
+});
+
+myModule.directive('star', function () {
+  return {
+    template: '<ul class="rating" ng-mouseleave="leave()"><li ng-repeat="star in stars" ng-class="star" ng-click="score($index + 1)" ng-mouseover="over($index + 1)">\u2605</li></ul>',
+    scope: {
+      ratingValue: '=',
+      max: '=',
+      readonly: '@',
+      onHover: '=',
+      onLeave: '='
+    },
+    controller: function ($scope) {
+      $scope.ratingValue = $scope.ratingValue || 0;
+      $scope.max = $scope.max || 5;
+      $scope.score = function (val) {
+        if ($scope.readonly && $scope.readonly === 'true') {
+          return;
+        }
+        $scope.ratingValue = val;
+      };
+
+      $scope.over = function(val){
+        $scope.onHover(val);
+      };
+
+      $scope.leave = function(){
+        $scope.onLeave();
+      }
+    },
+    link: function (scope, elem, attrs) {
+      var updateStars = function () {
+        scope.stars = [];
+        for (var i = 0; i < scope.max; i++) {
+          scope.stars.push({filled: i < scope.ratingValue});
+        }
+      };
+      updateStars();
+
+      scope.$watch('ratingValue', function (oldVal, newVal) {
+        if (newVal) {
+          updateStars();
+        }
+      });
+      scope.$watch('max', function (oldVal, newVal) {
+        if (newVal) {
+          updateStars();
+        }
       })
     }
   }

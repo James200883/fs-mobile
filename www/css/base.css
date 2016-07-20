@@ -19,7 +19,7 @@ ul,li{list-style:none;}
 input,textarea{vertical-align:middle; font-size:100%;}
 textarea{overflow: auto;vertical-align: middle}
 h1,h2,h3,h4,h5,h6{font-size:100%; font-weight:normal;}
-article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section,iframe{display: block}
+article,aside,details,figcaption,figure,footer,header,menu,nav,section,iframe{display: block}
 em,i{font-style:normal; font-size:100%;}
 img{max-width: 100%; vertical-align: middle;  border: 0 none; -ms-interpolation-mode: bicubic;}
 button,

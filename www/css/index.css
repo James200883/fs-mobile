@@ -783,6 +783,7 @@ html.win_lock,html.win_lock body{ height: 100%; overflow: hidden;}
 .sb-txt .sb-left {float:left;}
 .sb-txt .sb-right {float: right; }
 .sb-align {display: -webkit-box;-webkit-box-orient: vertical}
+.sb-align-horizontal {display: -webkit-box;-webkit-box-orient: horizontal}
 .has-error {height: 20px;font-size: xx-small; color: #ff0000;}
 
 
@@ -860,6 +861,7 @@ html.win_lock,html.win_lock body{ height: 100%; overflow: hidden;}
 .ysList .ysDesc {padding:10px; color:#969696;}
 .ysDesc h6 {font-size: 16px; color:#000; margin-bottom: 5px;}
 .ysDesc .ys-txt {color:#5e5e5e; margin:5px 0;}
+.sb-title {font-size: 20px; color: #000; font-weight: bold}
 
 .bbs-detail-head {position:relative;}
 .bbs-detail-head img {width: 100%; display: block;}
@@ -1610,3 +1612,10 @@ html.win_lock,html.win_lock body{ height: 100%; overflow: hidden;}
 .stamp03 .copy p {font-size: 14px; margin-top: 5px; margin-bottom: 8px;}
 .stamp03 .copy a {background-color: #fff; color: #333; font-size: 14px; text-decoration: none; padding: 5px 10px; border-radius: 3px; display: block;}
 .noCoupon {display: block; padding: 20px; color: #a0a0a0; text-align: center;}
+
+/*****************星级评分*****************/
+.rating {color: #a9a9a9; margin: 0; padding: 0;}
+.rating li {list-style-type: none; display: inline-block; padding: 1px; text-align: center; font-weight: bold; cursor: pointer;}
+.rating .filled { color: #ffee33;}
+ul.rating {display: inline-block;}
+

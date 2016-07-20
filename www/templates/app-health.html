@@ -1,0 +1,26 @@
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">社区生活</p>
+</ion-header-bar>
+
+<ion-view>
+  <ion-content>
+    <ion-list>
+      <ul class="ysList bor-b">
+        <li ng-repeat="health in healths">
+          <a href="javascript:;">
+            <div class="ysImg" ui-sref="bbsDetail({bbsId: health.id})"><img ng-src="{{health.imageUrl}}" class="lazy" style="height: 200px;width: 100%"/></div>
+            <div class="ysDesc">
+              <h6><span ng-bind="health.title"></span></h6>
+              <span class="sb-align-horizontal">编辑: <p class="ys-name padding-left" ng-bind="health.author"></p></span>
+              <p class="ys-txt ellipsis2" ng-bind="health.summary"></p>
+              <p class="n-tool"><span class="n-msg" ng-bind="health.countWish"></span><span class="n-ding" ng-bind="health.countLike"></span></p>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </ion-list>
+
+    <ion-infinite-scroll ng-if="moreDataCanBeLoaded()" on-infinite="loadMore()" distance="10%" icon="ion-loading-c"></ion-infinite-scroll>
+  </ion-content>
+</ion-view>

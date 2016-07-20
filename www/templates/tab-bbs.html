@@ -1,7 +1,7 @@
 <ion-header-bar class="item-input-inset bar-balanced">
   <label class="item-input-wrapper">
     <i class="icon ion-ios-search placeholder-icon"></i>
-    <input type="search" placeholder="请输入关键字">
+    <input type="search" placeholder="请输入关键字"/>
   </label>
 </ion-header-bar>
 
@@ -9,12 +9,12 @@
   <ion-content>
     <div class="bbsMenu border-tb">
       <ul class="bbs-menu-list clearfix">
-        <li><a href="#"><span>社区店铺</span></a></li>
-        <li><a href="#"><span>空中田园</span></a></li>
-        <li><a href="#"><span>预约</span></a></li>
-        <li><a href="#"><span>养生</span></a></li>
-        <li><a href="#"><span>有机蔬菜</span></a></li>
-        <li><a href="#"><span>有机肉类</span></a></li>
+        <li><a href="javascript:void(0);" ui-sref="shop"><span>社区店铺</span></a></li>
+        <li><a href="javascript:void(0);"><span>空中田园</span></a></li>
+        <li><a href="javascript:void(0);"><span>预约</span></a></li>
+        <li><a href="javascript:void(0);" ui-sref="health"><span>养生</span></a></li>
+        <li><a href="javascript:void(0);"><span>有机蔬菜</span></a></li>
+        <li><a href="javascript:void(0);"><span>有机肉类</span></a></li>
       </ul>
     </div>
 
@@ -22,68 +22,19 @@
       <h4><span>最新发布</span></h4>
       <div class="newList-content border-t">
         <ul class="newList bor-b">
-          <li>
-            <a href="#">
-              <span class="nImg"><img src="img/c_load.jpg" data-original="images/c1.png" class="lazy"></span>
+          <li ng-repeat="blog in blogs">
+            <a href="javascript:;">
+              <span class="nImg" ui-sref="bbsDetail({bbsId: blog.id})">
+                <img ng-src="{{blog.imageUrl}}" class="lazy"/>
+              </span>
               <div class="nDesc">
-                <h6 class="ellipsis"><span>有机鲜生&【周末去哪儿】</span></h6>
-                <p class="n-txt ellipsis2">百分百成熟的果子，只有到园子里吃喽成熟的果子，只有到园子里吃喽成熟的果子，只有到园子里吃喽</p>
+                <h6 class="ellipsis"><span ng-bind="blog.title"></span></h6>
+                <p class="n-txt ellipsis2" ng-bind="blog.summary"></p>
                 <div class="n-btm row">
-                  <time class="col">2016年02月14日</time>
+                  <time class="col" ng-bind="blog.publishDateString"></time>
                   <div class="n-right n-tool">
-                    <span class="n-msg">155</span>
-                    <span class="n-ding">43</span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </li>
-
-          <li>
-            <a href="#">
-              <span class="nImg"><img src="img/c_load.jpg" data-original="images/c1.png" class="lazy"></span>
-              <div class="nDesc">
-                <h6 class="ellipsis"><span>有机鲜生&【周末去哪儿】</span></h6>
-                <p class="n-txt ellipsis2">百分百成熟的果子，只有到园子里吃喽成熟的果子，只有到园子里吃喽成熟的果子，只有到园子里吃喽</p>
-                <div class="n-btm row">
-                  <time class="col">2016年02月14日</time>
-                  <div class="n-right n-tool">
-                    <span class="n-msg">155</span>
-                    <span class="n-ding">43</span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </li>
-
-          <li>
-            <a href="#">
-              <span class="nImg"><img src="img/c_load.jpg" data-original="images/c1.png" class="lazy"></span>
-              <div class="nDesc">
-                <h6 class="ellipsis"><span>有机鲜生&【周末去哪儿】</span></h6>
-                <p class="n-txt ellipsis2">百分百成熟的果子，只有到园子里吃喽成熟的果子，只有到园子里吃喽成熟的果子，只有到园子里吃喽</p>
-                <div class="n-btm row">
-                  <time class="col">2016年02月14日</time>
-                  <div class="n-right n-tool">
-                    <span class="n-msg">155</span>
-                    <span class="n-ding">43</span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </li>
-
-          <li>
-            <a href="#">
-              <span class="nImg"><img src="img/c_load.jpg" data-original="images/c1.png" class="lazy"></span>
-              <div class="nDesc">
-                <h6 class="ellipsis"><span>有机鲜生&【周末去哪儿】</span></h6>
-                <p class="n-txt ellipsis2">百分百成熟的果子，只有到园子里吃喽成熟的果子，只有到园子里吃喽成熟的果子，只有到园子里吃喽</p>
-                <div class="n-btm row">
-                  <time class="col">2016年02月14日</time>
-                  <div class="n-right n-tool">
-                    <span class="n-msg">155</span>
-                    <span class="n-ding">43</span>
+                    <span class="n-msg" ng-bind="blog.countWish"></span>
+                    <span class="n-ding" ng-bind="blog.countLike"></span>
                   </div>
                 </div>
               </div>
