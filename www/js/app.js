@@ -22,7 +22,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.co
   });
 })
 .run(function ($ionicPlatform, $rootScope, $ionicHistory, $state, AuthenticationService) {
-  var needLoginView = ['app.account', 'myCoupon']; //需要登录页面的state
+  var needLoginView = ['app.account', 'myCoupon', 'userInfo', 'editUserInfo']; //需要登录页面的state
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
     if (needLoginView.indexOf(toState.name) >= 0 && !AuthenticationService.isLogin()) {
       $state.go("login");
@@ -87,41 +87,41 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.co
         }
       }
     })
-    
-    
+
+
     .state('order', {
       url: '/order/:orderId',
 	  templateUrl: 'templates/order.html',
 	  controller: 'OrderCtrl'
     })
-    
-    
+
+
     .state('rechargeorder', {
       url: '/rechargeorder/:orderId',
 	  templateUrl: 'templates/recharge-order.html',
 	  controller: 'RechargeOrderCtrl'
     })
-    
-    
+
+
     .state('chongzhi', {
       url: '/chongzhi',
 	  templateUrl: 'templates/chong-zhi.html',
 	  controller: 'ChongzhiCtrl'
     })
-    
+
     .state('address', {
       url: '/address/:orderId',
 	  templateUrl: 'templates/address.html',
 	  controller: 'AddressCtrl'
     })
-    
+
     .state('addaddr', {
       url: '/addaddr/:id',
 	  templateUrl: 'templates/addAddress.html',
 	  controller: 'AddAddrCtrl'
     })
-    
-    
+
+
     .state('activity', {
       url: '/activity',
 	  templateUrl: 'templates/activity-list.html',
@@ -137,13 +137,13 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.co
         }
       }
     })
-    
+
     .state('product', {
       url: '/product/:productId',
       templateUrl: 'templates/product-detail.html',
       controller: 'ProductCtrl'
     })
-    
+
     .state('login', {
       url: '/login',
       templateUrl: 'templates/app-login.html',

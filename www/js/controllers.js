@@ -1,7 +1,7 @@
 var myModule = angular.module('starter.controllers', [])
 
-  .controller('DashCtrl', function($scope,$http,$state, sharedCartService,CommonService) {
-
+  .controller('DashCtrl', function($scope, sharedCartService, CommonService) {
+    CommonService.getCurrentPosition();
 		//put cart after menu
 		var cart = sharedCartService.cart;
 		$scope.slide_items = {};
@@ -10,34 +10,27 @@ var myModule = angular.module('starter.controllers', [])
 
 		//开始加载数据
 		$scope.loadPageData = function (){
-
 			CommonService.get('/pageAds/findHomePageAds').success(function (results) {
 				$scope.slide_items = results.bannerData;
 				$scope.productData = results.pageProduct;
 				$scope.categoryData = results.pageCategory;
 			}).error(function (results) {
-		          CommonService.toast('服务器异常,请稍后再试');
-	        });
-
+        CommonService.toast('服务器异常,请稍后再试');
+      });
 		};
-
 
 		//show other page
 		$scope.showPage = function (pageUrl) {
-
 			 window.location.href =pageUrl;
-
 		 };
 
 		//show category
 		$scope.showCategory = function (id) {
-			 console.log('sid' + id);
 			 window.location.href = '#/app/category/'+id;
 		 };
 
 		//show product page
 		$scope.showProduct = function (id) {
-
 			 window.location.href = '#/product/'+id;
 		 };
 
