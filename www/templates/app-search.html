@@ -1,0 +1,28 @@
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">搜索产品</p>
+</ion-header-bar>
+
+
+<ion-view>
+  <ion-content>
+      <div>
+        <input type="search" placeholder="Search" ng-model="query" ng-change="search(query)">
+      </div>
+      
+      <div class="searchResult">
+        <ul class="resultList pList clearfix"  ng-repeat="product in data">
+             <li>
+                <a ng-click="showProduct(product.id)">
+                    <div class="p-img"><img  src="{{product.imageUrl}}" class="cate-img lazy"></div>
+                    <h6 class="ellipsis2">{{product.name}}</h6>
+                    <p class="p-weight">{{product.weight}}</p>
+                    <p class="p-price">￥{{product.distPrice}}</p>
+                </a>
+                <a class="pct-buy" ng-click="addToCart(product.id, product.imageUrl,product.name,product.distPrice)">购物车</a>
+            </li>
+        </ul>
+      </div>
+  
+  </ion-content>
+</ion-view>

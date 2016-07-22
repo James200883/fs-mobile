@@ -8,6 +8,17 @@
 .menuList li:nth-child(3) a:before {background-position: 0 -102px;}
 .menuList li:nth-child(4) a:before {background-position: 0 -154px;}
 
+
+.index-nav {}
+.index-nav a {position: relative; float:left; display: block; width:50%; padding:2px; -webkit-box-sizing:border-box; box-sizing:border-box;}
+.index-nav a:nth-child(2n) {}
+.index-nav a .index-nav-txt {position: absolute; width: 100%; height: 100%; color:#fff; -webkit-text-shadow:0 1px 0 rgba(0,0,0,.2); text-shadow:0 1px 0 rgba(0,0,0,.2);
+display:-webkit-box; display:box;
+-webkit-box-orient: vertical; box-orient: vertical;
+-webkit-box-pack: center; box-pack: center;
+-webkit-box-align: center; box-align: center;}
+.index-nav a .index-nav-txt h6 {font-size: 16px; }
+
 .boxItem h6 {padding:15px 0 10px;}
 .boxItem h6 span {position:relative; padding-left:10px; color:#000; font-size: 16px;}
 .boxItem h6 span:before {position:absolute; content:""; width:4px; height:12px; left:0; top:50%; margin-top:-6px; background-color: #86cc37;}
@@ -66,8 +77,8 @@
 .allProduct {position:relative; height: 100%; background-color: #f5f5f5;}
 .allProduct .allMenu {width:80px; overflow-y: scroll; -webkit-overflow-scrolling: touch;}
 .allProduct.hideMenu {display: none;}
-.allMenu .allMenuList li {padding:12px 0; text-align: center; color:#5e5e5e;}
-.allMenu .allMenuList li.current {background-color: #fff; color:#000;}
+.allMenu .allMenuListEx li {padding:12px 0; text-align: center; color:#5e5e5e;}
+.allMenu .allMenuListEx li.current {background-color: #fff; color:#000;}
 .all-product-right {background-color: #fff; position:absolute; top:0; left:80px; right:0; bottom: 0; overflow-y: scroll; -webkit-overflow-scrolling: touch; }
 .all-product-right .pList {margin-left:10px;}
 .pList li {position:relative; float:left; width:50%; padding:10px; border-width:0 1px 1px 0; border-style: solid; border-color:#dcdcdc; -webkit-box-sizing:border-box; box-sizing:border-box;}
@@ -188,22 +199,30 @@
 .num-sel-lage .buy-num {background-color: #fff; padding:4px 0; border:none; width: 35px; text-align: center; height: 24px;}
 .pct-btm .pct-price {text-align: right; color:#ff4400; font-size: 16px; padding-top: 6px;}
 .pct-btm {margin: -10px 0px -0px -5px}
-.like {margin: 10px 0;}
+.like {position:relative;margin: 10px 0;}
 .like h6 {position:relative; text-align: center;}
 .like h6:before {position:absolute; content:""; width:90%; height:1px; left:5%; top:50%; background-color: #dcdcdc;}
 .like h6 span {position: relative; z-index: 2; display: inline-block; padding:5px 15px 5px 30px; background-color: #fff; font-size: 12px; color:#969696;}
 .like h6 span:before {position:absolute; width:12px; height:10px; content:""; left:15px; top:50%; margin-top:-6px; background-position: -63px -47px;}
-.likeList li {float:left; width: 50%; -webkit-box-sizing:border-box; box-sizing:border-box; margin-top:10px;}
+.likeList li {position:relative; float:left; width: 50%; -webkit-box-sizing:border-box; box-sizing:border-box; margin-top:10px;}
 .likeList li:nth-child(2n+1) {padding-right:5px;}
 .likeList li:nth-child(2n) {padding-left:5px;}
-.likeList li a {display: block; border:1px solid #dcdcdc}
+.likeList li a {position:relative; display: block; border:1px solid #dcdcdc; background-color: #fff;}
 .likeList li img {width: 100%; display: block;}
-.likeList .like-title {height: 43px; padding:5px 10px; font-size: 12px;}
+.likeList .like-title {height: 40px; padding:5px 10px; font-size: 12px;}
 .likeList .like-price span {display: inline-block; color:#969696;  margin-left: 10px;}
 .likeList .like-price .lk-new {color:#ff4400;}
 .likeList .lk-new em {font-size: 16px; font-weight: 700;}
 .likeList .lk-old {text-decoration: line-through;}
-.likeList .lk-buyNum {background-color: #f5f5f5; color:#969696; margin-top: 5px; padding:5px 10px; height: 45px;}
+.likeList .lk-buyNum {background-color: #f5f5f5; color:#969696; margin-top: 5px; padding:5px 10px }
+.likeList li .like-buy {position:absolute; right:10px; bottom:10px; width:30px; height:30px; text-indent: -999rem; z-index: 10; -webkit-tap-highlight-color: rgba(0,0,0,0);}
+.likeList li .like-buy:before {position:absolute; content:""; left:50%; top:50%; width:28px; height:26px; margin:-13px 0 0 -14px; background-position: -35px -293px;}
+.likeItem li .lk-buyNum {background-color: transparent;}
+.likeItem .likeList li .like-buy {bottom: 2px;}
+.likeItem .like h6 {padding:0;}
+.likeItem .like h6 span {background-color: #f5f5f5;}
+.likeItem .like h6 span:before {background-color: transparent;}
+
 .checkAll {line-height: 50px; margin:0 20px 0 10px;}
 .cartInfo {margin:5px 10px 0 0; text-align: right;}
 .cartInfo.isDel {visibility: hidden; opacity: 0;}

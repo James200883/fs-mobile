@@ -198,6 +198,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.co
       url: '/bbsDetail/:bbsId',
       templateUrl: 'templates/app-bbs-detail.html',
       controller: 'BBSDetailCtrl'
+    })
+    
+    .state('searchResult', {
+      url: '/searchResult/:query',
+      templateUrl: 'templates/app-search.html',
+      controller: 'SearchResultCtrl'
     });
 
   // if none of the above states are matched, use this as the fallback

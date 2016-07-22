@@ -51,6 +51,8 @@ var myModule = angular.module('starter.controllers', [])
 	  $scope.sortBy = '';
 	  $scope.sortType = 0;
 	  $scope.nextPage = 1;
+	  
+	  $scope.query = ""; //查询字段
 
 	  //console.log($stateParams.categoryId);
 	  //console.log($state.sortBy);
@@ -72,6 +74,10 @@ var myModule = angular.module('starter.controllers', [])
 			$scope.loadMore();  //Added Infine Scroll
 	  });
 
+	  //跳转到查询
+	  $scope.search = function(query){
+		  window.location.href = '#/searchResult/'+query;
+	  }
 
 
 	//loads the menu----onload event
@@ -1043,6 +1049,38 @@ var myModule = angular.module('starter.controllers', [])
         CommonService.toast('服务器异常,请稍后再试');
       });
     }
+  })
+  
+   .controller('SearchResultCtrl', function ($scope, $stateParams,sharedCartService, CommonService) {
+	   $scope.query = $stateParams.query;
+	   var cart = sharedCartService.cart;
+	   
+	   angular.element(document).ready(function () {
+			  $scope.initData();
+		  });
+	   
+	   $scope.initData = function(){
+		   if (null != $scope.query ) {
+		      CommonService.showLoadding();
+		      CommonService.get('/product/findAllProductByName', {'name': $scope.query}).success(function (res) {
+		         $scope.data = res.data;
+		       
+		      }).error(function (res) {
+		        CommonService.hideLoading();
+		        CommonService.toast('服务器异常,请稍后再试');
+		      });
+		   }
+         }
+    
+	    $scope.search = function(query){
+	    	
+	    	$scope.initData();
+	    }
+	    
+	    //add to cart function
+		 $scope.addToCart=function(id,image,name,price){
+			cart.add(id,image,name,price,1);
+		 }
   });
 
 myModule.directive('ngFocus', function () {
