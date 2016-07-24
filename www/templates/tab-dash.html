@@ -26,7 +26,7 @@
         </nav>
     </div>
 
-      <div id="main">
+     <div id="main">
            <div class="index-nav clearfixFx" ng-repeat="category in categoryData" >
              <a  ng-click="showCategory(category.data.id)">
                 <div class="index-nav-txt">
@@ -35,14 +35,14 @@
                   <img ng-src="{{category.pageAds.impageUrl}}"  width="100%"/> 
              </a>
            </div>
-   
-       <div class="boxItem likeItem">
-            <div class="like">
+
+       <div class="boxItem likeItem ">
+            <div class="like clearfxEx">
                 <h6><span>推荐商品</span></h6>
             </div>
         </div>
         <div class="likeProduct">
-                    <ul class="likeList clearfixEx" ng-repeat="product in productData">
+                    <ul class="likeList" ng-repeat="product in productData">
                     
                      <li>
                             <a ng-click="showProduct(product.id)">
