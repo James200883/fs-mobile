@@ -51,7 +51,7 @@ var myModule = angular.module('starter.controllers', [])
 	  $scope.sortBy = '';
 	  $scope.sortType = 0;
 	  $scope.nextPage = 1;
-	  
+
 	  $scope.query = ""; //查询字段
 
 	  //console.log($stateParams.categoryId);
@@ -944,7 +944,7 @@ var myModule = angular.module('starter.controllers', [])
       $scope.ratingVal = val;
     };
 
-    $scope.$on('stateChangeSuccess', function () {
+    $scope.$on('$stateChangeSuccess', function () {
       $scope.loadMore();
     });
 
@@ -985,6 +985,7 @@ var myModule = angular.module('starter.controllers', [])
   })
   .controller('HealthCtrl', function ($scope, $ionicListDelegate, $timeout, CommonService) {
     $scope.hasmore = false;
+    $scope.healths = [];
     var param = {page: 1, pageSize: 10, blogCategoryId: 2}, timer = null;
 
     CommonService.showLoadding();
@@ -1020,7 +1021,7 @@ var myModule = angular.module('starter.controllers', [])
       return $scope.hasmore;
     };
 
-    $scope.$on('stateChangeSuccess', function () {
+    $scope.$on('$stateChangeSuccess', function () {
       $scope.loadMore();
     });
 
@@ -1050,37 +1051,86 @@ var myModule = angular.module('starter.controllers', [])
       });
     }
   })
-  
+
    .controller('SearchResultCtrl', function ($scope, $stateParams,sharedCartService, CommonService) {
 	   $scope.query = $stateParams.query;
 	   var cart = sharedCartService.cart;
-	   
+
 	   angular.element(document).ready(function () {
 			  $scope.initData();
 		  });
-	   
+
 	   $scope.initData = function(){
 		   if (null != $scope.query ) {
 		      CommonService.showLoadding();
 		      CommonService.get('/product/findAllProductByName', {'name': $scope.query}).success(function (res) {
 		         $scope.data = res.data;
-		       
+
 		      }).error(function (res) {
 		        CommonService.hideLoading();
 		        CommonService.toast('服务器异常,请稍后再试');
 		      });
 		   }
-         }
-    
+         };
+
 	    $scope.search = function(query){
-	    	
+
 	    	$scope.initData();
-	    }
-	    
+	    };
+
 	    //add to cart function
 		 $scope.addToCart=function(id,image,name,price){
 			cart.add(id,image,name,price,1);
 		 }
+  })
+
+  .controller('MyOrderCtrl', function ($scope, CommonService, UserService) { //我的订单
+    $scope.hasmore = false;
+    $scope.orders = [];
+    var param = {page: 1, pageSize: 10, userId: UserService.getUserId()}, timer = null;
+    $scope.searchOrders = function (type) {
+      param.type = type;
+      if (UserService.getUserId()) {
+        CommonService.showLoadding();
+        CommonService.get('/orders/getwxrechargeOrders', param).success(function (res) {
+          $scope.orders = res.data;
+          CommonService.hideLoading();
+        }).error(function (res) {
+          CommonService.hideLoading();
+          CommonService.toast('服务器异常,请稍后再试');
+        });
+      }
+    };
+
+    $scope.loadMore = function () {
+      param.page = param.page + 1;
+      timer = $timeout(function () {
+        if (!$scope.hasmore) {
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+          return;
+        }
+
+        CommonService.get('/orders/getwxrechargeOrders', param).success(function (res) {
+          $scope.hasmore = res.next_page > 0;
+          $scope.orders = $scope.orders.concat(res.data);
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+        }).error(function (res) {
+          CommonService.toast('服务器异常,请稍后再试');
+        });
+      }, 1000);
+    };
+
+    $scope.moreDataCanBeLoaded = function () {
+      return $scope.hasmore;
+    };
+
+    $scope.$on('$stateChangeSuccess', function () {
+      $scope.searchOrders('noPay');
+    });
+  })
+
+  .controller('RechargeRecordCtrl', function ($scope) {
+
   });
 
 myModule.directive('ngFocus', function () {
@@ -1141,6 +1191,25 @@ myModule.directive('ngBack', function ($ionicHistory) {
   }
 });
 
+myModule.directive('ngOrderToggle', function ($rootScope) {
+  return{
+    restrict: 'A',
+    link: function (scope, element, attrs, ctrl) {
+      element.bind('click', function () {
+        if (!element.hasClass('active')) {
+          element[0].className = 'active';
+          if (element[0].nextElementSibling) {
+            element[0].nextElementSibling.className = '';
+          }
+          if (element[0].previousElementSibling) {
+            element[0].previousElementSibling.className = '';
+          }
+        }
+      });
+    }
+  }
+});
+
 myModule.directive('star', function () {
   return {
     template: '<ul class="rating" ng-mouseleave="leave()"><li ng-repeat="star in stars" ng-class="star" ng-click="score($index + 1)" ng-mouseover="over($index + 1)">\u2605</li></ul>',
@@ -1191,4 +1260,3 @@ myModule.directive('star', function () {
     }
   }
 });
-

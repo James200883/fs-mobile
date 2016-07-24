@@ -31,7 +31,16 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.co
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+
+  $ionicConfigProvider.platform.ios.tabs.style('standard');
+  $ionicConfigProvider.platform.ios.tabs.position('bottom');
+  $ionicConfigProvider.platform.android.tabs.style('standard');
+  $ionicConfigProvider.platform.android.tabs.position('bottom');
+  $ionicConfigProvider.platform.ios.navBar.alignTitle('center');
+  $ionicConfigProvider.platform.android.navBar.alignTitle('center');
+  $ionicConfigProvider.platform.ios.views.transition('ios');
+  $ionicConfigProvider.platform.ios.views.transition('android');
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -179,31 +188,47 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.co
       templateUrl: 'templates/app-editUserInfo.html',
       controller: 'EditUserInfoCtrl'
     })
+
     .state('shop', {
       url: '/shop',
       templateUrl: 'templates/app-shop.html',
       controller: 'ShopCtrl'
     })
+
     .state('shopDetail', {
       url: '/shopDetail/:shopId',
       templateUrl: 'templates/app-shop-detail.html',
       controller: 'ShopCtrlDetailCtrl'
     })
+
     .state('health', {
       url: '/health',
       templateUrl: 'templates/app-health.html',
       controller: 'HealthCtrl'
     })
+
     .state('bbsDetail', {
       url: '/bbsDetail/:bbsId',
       templateUrl: 'templates/app-bbs-detail.html',
       controller: 'BBSDetailCtrl'
     })
-    
+
     .state('searchResult', {
       url: '/searchResult/:query',
       templateUrl: 'templates/app-search.html',
       controller: 'SearchResultCtrl'
+    })
+
+    .state('myOrder', {
+      url: '/myOrder',
+      templateUrl: 'templates/app-my-order.html',
+      controller: 'MyOrderCtrl'
+    })
+    
+    .state('rechargeRecord', {
+      url: '/rechargeRecord',
+      templateUrl: 'templates/app-recharge-record.html',
+      controller: 'RechargeRecordCtrl'
     });
 
   // if none of the above states are matched, use this as the fallback

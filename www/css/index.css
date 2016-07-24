@@ -465,7 +465,7 @@ html.win_lock,html.win_lock body{ height: 100%; overflow: hidden;}
 .wzList .wz-head .w-phone {position: relative; color:#bbb;}
 .wzList .wz-head .w-status {display:block;}
 .wzList .wz-head .w-status.hasStatus {color:#66aa39;}
-.wzList .w-price {display:block; font-size: 18px; font-weight: 700;  color:#ff4400;}
+.wzList .w-price {font-size: 18px; font-weight: 700;  color:#ff4400;}
 .wzList .w-title {font-size: 16px;}
 .noTip {padding:50px 0;text-align: center; color:#b4b4b4;}
 
