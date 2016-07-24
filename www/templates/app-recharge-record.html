@@ -1,0 +1,28 @@
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">充值记录</p>
+</ion-header-bar>
+
+<ion-view>
+  <ion-content>
+    <ion-list>
+      <div class="wzContent">
+        <ul class="wzList bor-b">
+          <li ng-repeat="order in orders">
+            <div class="wz-head border-b row">
+              <span class="w-phone col sb-align-horizontal">编号:<p class="padding-left">123123123</p></span>
+              <span class="w-status hasStatus">123123</span>
+            </div>
+
+            <div class="w-middle row">
+              <p class="col w-title">qweqweqwe</p>
+              <span class="w-price sb-align-horizontal">￥<p class="padding-right">123</p></span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </ion-list>
+
+    <!--<ion-infinite-scroll ng-if="moreDataCanBeLoaded()" on-infinite="loadMore()" distance="10%" icon="ion-loading-c"></ion-infinite-scroll>-->
+  </ion-content>
+</ion-view>

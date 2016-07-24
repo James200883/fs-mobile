@@ -1,0 +1,35 @@
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">我的订单</p>
+</ion-header-bar>
+
+<ion-view>
+  <ion-content>
+    <nav class="zxTab wzTab">
+      <ul class="border-b">
+        <li data-type="noPay" class="active" ng-click="searchOrders('noPay')" ng-order-toggle><span>未支付订单</span></li>
+        <li data-type="hasPay" ng-click="searchOrders('hasPay')" ng-order-toggle><span>已支付订单</span></li>
+      </ul>
+    </nav>
+
+    <ion-list>
+      <div class="wzContent">
+        <ul class="wzList bor-b">
+          <li ng-repeat="order in orders">
+            <div class="wz-head border-b row">
+              <span class="w-phone col sb-align-horizontal">编号:<p class="padding-left" ng-bind="order.orderNo"></p></span>
+              <span class="w-status hasStatus" ng-bind="order.statusStr"></span>
+            </div>
+
+            <div class="w-middle row" ng-repeat="orderItem in order.items">
+              <p class="col w-title" ng-bind="orderItem.productName"></p>
+              <span class="w-price sb-align-horizontal">￥<p class="padding-right" ng-bind="orderItem.productPrice"></p></span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </ion-list>
+
+    <ion-infinite-scroll ng-if="moreDataCanBeLoaded()" on-infinite="loadMore()" distance="10%" icon="ion-loading-c"></ion-infinite-scroll>
+  </ion-content>
+</ion-view>
