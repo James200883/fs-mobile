@@ -1129,8 +1129,49 @@ var myModule = angular.module('starter.controllers', [])
     });
   })
 
-  .controller('RechargeRecordCtrl', function ($scope) {
+  .controller('RechargeRecordCtrl', function ($scope, CommonService, UserService) { //充值记录
+    $scope.hasmore = false;
+    $scope.orders = [];
+    var param = {page: 1, pageSize: 10, userId: UserService.getUserId()}, timer = null;
+    $scope.searchOrders = function (type) {
+      param.type = type;
+      if (UserService.getUserId()) {
+        CommonService.showLoadding();
+        CommonService.get('/orders/getwxrechargeOrders', param).success(function (res) {
+          $scope.orders = res.data;
+          CommonService.hideLoading();
+        }).error(function (res) {
+          CommonService.hideLoading();
+          CommonService.toast('服务器异常,请稍后再试');
+        });
+      }
+    };
 
+    $scope.loadMore = function () {
+      param.page = param.page + 1;
+      timer = $timeout(function () {
+        if (!$scope.hasmore) {
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+          return;
+        }
+
+        CommonService.get('/orders/getwxrechargeOrders', param).success(function (res) {
+          $scope.hasmore = res.next_page > 0;
+          $scope.orders = $scope.orders.concat(res.data);
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+        }).error(function (res) {
+          CommonService.toast('服务器异常,请稍后再试');
+        });
+      }, 1000);
+    };
+
+    $scope.moreDataCanBeLoaded = function () {
+      return $scope.hasmore;
+    };
+
+    $scope.$on('$stateChangeSuccess', function () {
+      $scope.searchOrders('recharge');
+    });
   });
 
 myModule.directive('ngFocus', function () {

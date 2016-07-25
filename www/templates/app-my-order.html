@@ -12,10 +12,10 @@
       </ul>
     </nav>
 
-    <ion-list>
+    <ion-list show-delete="shouldShowDelete">
       <div class="wzContent">
         <ul class="wzList bor-b">
-          <li ng-repeat="order in orders">
+          <li ng-repeat="order in orders" class="item-thumbnail-left">
             <div class="wz-head border-b row">
               <span class="w-phone col sb-align-horizontal">编号:<p class="padding-left" ng-bind="order.orderNo"></p></span>
               <span class="w-status hasStatus" ng-bind="order.statusStr"></span>
