@@ -1,62 +1,59 @@
+<ion-header-bar class="item-input-inset bar-balanced">
+  <i class="ion-ios-location-outline header-location"></i>
+  <label class="header-location">广州市</label>
+
+  <label class="item-input-wrapper">
+    <i class="icon ion-ios-search placeholder-icon"></i>
+    <input type="search" placeholder="Search"/>
+  </label>
+</ion-header-bar>
 
 <ion-view>
-  <ion-content ng-controller="DashCtrl" ng-init="loadPageData()">
+  <ion-content ng-init="loadPageData()">
+    <ion-slide-box auto-play="true" does-continue="true" slide-interval="2000" show-pager="true">
+      <ion-slide class="swiper-slide" style="width: 100%; height: 130px;" ng-repeat="slide in slide_items">
+        <div><img ng-src="{{slide.impageUrl}}"/></div>
+      </ion-slide>
+    </ion-slide-box>
 
-	<!--Automatically loops back from the begining -->
-	<ion-slide-box auto-play ="true" does-continue="true" show-pager="true"  >
-	
-		<!-- width: 100% height 50% to fill the slidder image according to the layout -->
-	   <ion-slide class="swiper-slide swiper-slide-active" style="width:100%; height: 50%; "  ng-repeat="slide in slide_items" >
-	      <div>
-	         <img  ng-src="{{slide.impageUrl}}"  ng-click="showPageInfo(slide.resouceId,slide.url)" >
-	      </div>
-	   </ion-slide >
-	   
-	</ion-slide-box>
-
-   
-   <div style="display:block">
-        <nav class="menuList">
-            <ul class="row">
-                <li class="col"><a href="activity-list.html">我的礼包</a></li>
-                <li class="col"><a href="presell-list.html">预购产品</a></li>
-                <li class="col"><a href="chong-zhi.html">会员充值</a></li>
-                <li class="col"><a href="bbs.html">有机生活</a></li>
-            </ul>
-        </nav>
+    <div style="display: block">
+      <nav class="menuList">
+        <ul class="row">
+          <li class="col"><a href="javascript:void(0);">我的礼包</a></li>
+          <li class="col"><a href="javascript:void(0);">预购产品</a></li>
+          <li class="col"><a href="javascript:void(0);">会员充值</a></li>
+          <li class="col"><a href="javascript:void(0);">有机生活</a></li>
+        </ul>
+      </nav>
     </div>
 
-     <div id="main">
-           <div class="index-nav clearfixFx" ng-repeat="category in categoryData" >
-             <a  ng-click="showCategory(category.data.id)">
-                <div class="index-nav-txt">
-                    <h6>{{category.data.name}}</h6>
-                </div>
-                  <img ng-src="{{category.pageAds.impageUrl}}"  width="100%"/> 
-             </a>
-           </div>
+    <div class="main">
+      <div class="index-nav clearfixFx" ng-repeat="category in categoryData">
+        <a href="javascript:void(0);" ui-sref="app.category({categoryId: category.data.id})">
+          <div class="index-nav-txt"><h6 ng-bind="category.name"></h6></div>
+          <img ng-src="{{category.pageAds.impageUrl}}"/>
+        </a>
+      </div>
 
-       <div class="boxItem likeItem ">
-            <div class="like clearfxEx">
-                <h6><span>推荐商品</span></h6>
-            </div>
+      <div class="padding-top">
+        <div class="like">
+          <h6><span>推荐商品</span></h6>
         </div>
-        <div class="likeProduct">
-                    <ul class="likeList" ng-repeat="product in productData">
-                    
-                     <li>
-                            <a ng-click="showProduct(product.id)">
-                                <div class="likeImg"><img ng-src="{{product.imageUrl}}"  class="lazy" /></div>
-                                <div class="like-title ellipsis2">{{product.name}}</div>
-                                <p class="like-price"><span class="lk-new">￥<em>{{product.distPrice}}</em></span><span class="lk-old">￥{{product.price}}</span></p>
-                                <p class="lk-buyNum"><span>{{product.countSale}}人已购买</span></p>
-                            </a>
-                            <a class="like-buy" ng-click="addToCart(product.id, product.imageUrl,product.name,product.distPrice)">购物车</a>
-                        </li>
-                    </ul>
-         </div>
- 
-      </div>          
-    
+      </div>
+
+      <div class="likeProduct">
+        <ul class="likeList">
+          <li ng-repeat="product in productData">
+            <a href="javascript:void(0);" ui-sref="product({productId: product.id})">
+              <div class="likeImg"><img ng-src="{{product.imageUrl}}"  class="lazy" /></div>
+              <div class="like-title ellipsis2">{{product.name}}</div>
+              <p class="like-price"><span class="lk-new">￥<em>{{product.distPrice}}</em></span><span class="lk-old">￥{{product.price}}</span></p>
+              <p class="lk-buyNum"><span>{{product.countSale}}人已购买</span></p>
+            </a>
+            <a class="like-buy" href="javascript:void(0)" ng-click="addToCart(product.id, product.imageUrl,product.name,product.distPrice)">购物车</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </ion-content>
 </ion-view>

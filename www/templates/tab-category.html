@@ -1,16 +1,11 @@
-<ion-header-bar class="item-input-inset bar-balanced">
-  <i class="ion-ios-location-outline header-location"></i>
-  <label class="header-location">广州市</label>
-
-  <label class="item-input-wrapper">
-    <i class="icon ion-ios-search placeholder-icon"></i>
-    <input type="search" placeholder="Search" ng-model="query" ng-change="search(query)">
-  </label>
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">分类</p>
 </ion-header-bar>
 
 <ion-view>
   <ion-content scroll="true">
-   
+
     <div class="cateList">
        <nav class="cateTab">
             <ul class="row">
@@ -38,25 +33,14 @@
                          </a>
                          <a class="pct-buy" ng-click="addToCart(product.id, product.imageUrl,product.name,product.distPrice)">购物车</a>
                      </li>
-                     
-                    
+
+
                     </ul>
                 </div>
             </div>
         </div>
-       
+
     </div>
-    
-      
-      <!--  
-		<ion-infinite-scroll 
-		ng-if="!noMoreItemsAvailable" 
-		on-infinite="loadMore()" 
-		distance="10%">
-			<ion-infinite-scroll-content
-			loadingSpinner="bubbles">
-		</ion-infinite-scroll>
-		-->
 
   </ion-content>
 </ion-view>

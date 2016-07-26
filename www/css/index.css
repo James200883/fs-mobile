@@ -209,7 +209,7 @@ display:-webkit-box; display:box;
 .likeList li:nth-child(2n) {padding-left:5px;}
 .likeList li a {position:relative; display: block; border:1px solid #dcdcdc; background-color: #fff;}
 .likeList li img {width: 100%; display: block;}
-.likeList .like-title {height: 40px; padding:5px 10px; font-size: 12px;}
+.likeList .like-title {height: 30px; padding:5px 10px; font-size: 12px;}
 .likeList .like-price span {display: inline-block; color:#969696;  margin-left: 10px;}
 .likeList .like-price .lk-new {color:#ff4400;}
 .likeList .lk-new em {font-size: 16px; font-weight: 700;}
