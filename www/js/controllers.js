@@ -18,7 +18,37 @@ var myModule = angular.module('starter.controllers', [])
       });
     };
   })
+  
+    
+ .controller('NavCtrl', function($scope, $ionicSideMenuDelegate) {
+	  $scope.showMenu = function () {
+	    $ionicSideMenuDelegate.toggleLeft();
+	  };
+	  
+	})
 
+	
+	.controller('AccordionCategoryCtrl', function($scope, CommonService) {
+	
+	  
+	  $scope.loadCategory = function() {
+	      CommonService.get('/category/getWXAllCategory').success(function (results) {
+	        $scope.categoryData = results.data;
+	      }).error(function (results) {
+	        CommonService.toast('获取分类异常，请稍后再试');
+	      });
+	    };
+
+	    
+	  angular.element(document).ready(function () {
+	      $scope.loadCategory();//加载分类
+	    });
+	  
+	})
+	
+	
+	
+	
   .controller('CategoryCtrl', function($scope, $stateParams, $state, $ionicSideMenuDelegate, sharedCartService, CommonService) {
 
     $scope.toggleLeft = function () {

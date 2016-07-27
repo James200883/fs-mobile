@@ -1,12 +1,4 @@
-<ion-header-bar class="item-input-inset bar-balanced">
-  <i class="ion-ios-location-outline header-location"></i>
-  <label class="header-location">广州市</label>
 
-  <label class="item-input-wrapper">
-    <i class="icon ion-ios-search placeholder-icon"></i>
-    <input type="search" placeholder="Search"/>
-  </label>
-</ion-header-bar>
 
 <ion-view>
   <ion-content ng-init="loadPageData()">
@@ -28,6 +20,9 @@
     </div>
 
     <div class="main">
+      <div class="boxItem">
+            <h6><span>分类</span></h6>
+      </div>
       <div class="index-nav clearfixFx" ng-repeat="category in categoryData">
         <a href="javascript:void(0);" ui-sref="app.category({categoryId: category.data.id})">
           <div class="index-nav-txt"><h6 ng-bind="category.name"></h6></div>
@@ -35,15 +30,13 @@
         </a>
       </div>
 
-      <div class="padding-top">
-        <div class="like">
-          <h6><span>推荐商品</span></h6>
-        </div>
-      </div>
+       <div class="boxItem">
+            <h6><span>热门推荐</span></h6>
+       </div>
 
       <div class="likeProduct">
-        <ul class="likeList">
-          <li ng-repeat="product in productData">
+        <ul class="likeList" ng-repeat="product in productData">
+          <li>
             <a href="javascript:void(0);" ui-sref="product({productId: product.id})">
               <div class="likeImg"><img ng-src="{{product.imageUrl}}"  class="lazy" /></div>
               <div class="like-title ellipsis2">{{product.name}}</div>

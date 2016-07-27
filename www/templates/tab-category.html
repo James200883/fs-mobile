@@ -1,29 +1,16 @@
-<ion-header-bar class="item-input-inset bar-light">
-  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
-  <p class="title">分类</p>
-</ion-header-bar>
-
 <ion-view>
-  <ion-content scroll="true">
-
-    <div class="cateList">
+  <ion-content>
        <nav class="cateTab">
             <ul class="row">
-                <li class="col cur" data-type="all"><span>综合</span></li>
                 <li class="col" data-type="sale"><span>销量</span></li>
                 <li class="col" data-type="new"><span>上新</span></li>
                 <li class="sortPrice col" data-type="price"><span>价格<i></i></span></li>
             </ul>
         </nav>
-        <div class="cateContent">
-            <div class="allProduct">
-                <div class="allMenu">
-                    <ul class="allMenuListEx bor-b"  ng-repeat="category in categoryData">
-                        <li class="current"><span><a ng-click="loadDataByCate(category.id)">{{category.name}}</a></span></li>
-                    </ul>
-                </div>
-                <div class="all-product-right">
-                    <ul class="all-pct-list pList clearfixEx" ng-repeat="product in productData">
+      
+       <div>
+        <ul class="productsList pList" ng-repeat="product in productData">
+                    
                      <li>
                          <a ng-click="showProduct(product.id)">
                            <div class="p-img"><img  ng-src="{{product.imageUrl}}"/></div>
@@ -35,12 +22,7 @@
                      </li>
 
 
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
+        </ul>
+      </div>
   </ion-content>
 </ion-view>
