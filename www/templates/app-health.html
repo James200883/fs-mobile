@@ -4,7 +4,7 @@
 </ion-header-bar>
 
 <ion-view>
-  <ion-content>
+  <ion-content ng-init="loadHealthData()">
     <ion-list>
       <ul class="ysList bor-b">
         <li ng-repeat="health in healths">

@@ -188,7 +188,7 @@ var myModule = angular.module('starter.controllers', [])
       }).error(function (results) {
         CommonService.toast('获取分类异常，请稍后再试');
       });
-    }
+    };
 
     //remove function
     $scope.removeFromCart=function(c_id){
@@ -219,7 +219,7 @@ var myModule = angular.module('starter.controllers', [])
       $scope.cart.notificationChange(itemId);
       $scope.total_qty=sharedCartService.total_select_qty;
       $scope.total_amount=sharedCartService.total_select_amount;
-    }
+    };
     //check out
     $scope.checkout=function(){
       if($scope.total_amount>0){
@@ -271,12 +271,9 @@ var myModule = angular.module('starter.controllers', [])
         });
       }
     }
-
   })
 
-
   .controller('OrderCtrl', function($scope,$http,$stateParams, sharedCartService,CommonService) {
-
 
     //初始化购物车的产品属性
     angular.element(document).ready(function () {
@@ -284,7 +281,6 @@ var myModule = angular.module('starter.controllers', [])
       $scope.addrChoice = 'A';
       $scope.initData();
     });
-
 
     $scope.show_addr = true;
     $scope.show_shop = false;
@@ -318,19 +314,18 @@ var myModule = angular.module('starter.controllers', [])
       }).error(function (results) {
         CommonService.toast('获取分类异常，请稍后再试');
       });
-    }
+    };
 
     $scope.goAddress = function(){
       alert($scope.orderId);
       window.location.href='#/address/'+$scope.orderId;
-    }
+    };
 
     $scope.pay = function(){
 
     }
 
   })
-
 
   .controller('ChongzhiCtrl', function($scope,$http,$stateParams, CommonService) {
 
@@ -360,7 +355,7 @@ var myModule = angular.module('starter.controllers', [])
       }).error(function (results) {
         CommonService.toast('获取分类异常，请稍后再试');
       });
-    }
+    };
 
     //充值操作
     $scope.chongzhi = function(){
@@ -380,7 +375,6 @@ var myModule = angular.module('starter.controllers', [])
           template: '请选择充值订单!'
         });
       }
-
     }
   })
 
@@ -400,14 +394,13 @@ var myModule = angular.module('starter.controllers', [])
       }).error(function (results) {
         CommonService.toast('获取分类异常，请稍后再试');
       });
-    }
+    };
 
     $scope.pay = function(){
 
     }
 
   })
-
 
   .controller('AddressCtrl', function($scope,$http,$state,$stateParams, CommonService) {
 
@@ -423,7 +416,7 @@ var myModule = angular.module('starter.controllers', [])
     $scope.pushNotificationChange = function(id,contactUserName,contractTel,address ){
       var selectAddr = {'id':id,'contactUserName':contactUserName,'contractTel':contractTel,'address':address};
       sessionStorage.setItem('user_select_address', JSON.stringify(selectAddr));
-    }
+    };
 
     //TODO add dync userId
     $scope.initData = function(){
@@ -433,7 +426,7 @@ var myModule = angular.module('starter.controllers', [])
       }).error(function (results) {
         CommonService.toast('获取数据异常，请稍后再试');
       });
-    }
+    };
 
     $scope.goDel = function(id){
       CommonService.post('/userAddr/del', {'idStr':id}).success(function (results) {
@@ -444,16 +437,15 @@ var myModule = angular.module('starter.controllers', [])
       }).error(function (results) {
         CommonService.toast('获取数据异常，请稍后再试');
       });
-    }
+    };
 
     $scope.goEdit = function(id){
       window.location.href='#/addaddr/'+id;
-    }
-
+    };
 
     $scope.goAdd = function(){
       window.location.href='#/addaddr/00';
-    }
+    };
 
     $scope.isToOrder = function(){
       var orderId = sessionStorage.getItem('user_select_order');
@@ -464,7 +456,7 @@ var myModule = angular.module('starter.controllers', [])
         return true;
       }
 
-    }
+    };
 
     //返回到对应的页面
     $scope.goOrder = function(){
@@ -473,14 +465,11 @@ var myModule = angular.module('starter.controllers', [])
       }else{
         window.location.href='#/app/account';
       }
-
     }
 
   })
 
-
   .controller('AddAddrCtrl', function($scope,$http,$state,$stateParams, CommonService) {
-
 
     var vm=$scope.vm={};
 
@@ -489,7 +478,7 @@ var myModule = angular.module('starter.controllers', [])
       areaData: [],
       tag: '-',
       defaultAreaData: ['广州', '广东', '天河区']
-    }
+    };
 
     //初始化参数
     angular.element(document).ready(function () {
@@ -501,7 +490,6 @@ var myModule = angular.module('starter.controllers', [])
       }
     });
 
-
     //TODO add dync userId
     $scope.initData = function(){
       CommonService.post('/userAddr/findUserAddrById',{'id':''+$scope.id}).success(function (results) {
@@ -509,7 +497,7 @@ var myModule = angular.module('starter.controllers', [])
       }).error(function (results) {
         CommonService.toast('获取数据异常，请稍后再试');
       });
-    }
+    };
 
     //保存并返回到用户地址列表
     $scope.saveAddr = function(){
@@ -547,24 +535,24 @@ var myModule = angular.module('starter.controllers', [])
       });
     }
 
-
-
   })
 
-  .controller('AccountCtrl', function($scope, CommonService, UserService, AuthenticationService) {
-    CommonService.post('/member/userIndex', {'userId': UserService.getUserId()}).success(function (res) {
-      if (res.result.imageUrl) {
-        $scope.headImg = res.result.imageUrl;
-      } else {
-        $scope.headImg = 'img/head.png';
-      }
-      $scope.realName = res.result.realname;
-      $scope.userAmount = res.result.amount;
-      $scope.userCouponCount = res.result.couponCount;
-      $scope.userPoint = res.result.userPoint;
-    }).error(function (res) {
-      CommonService.toast('服务器异常,请稍后再试');
-    });
+  .controller('AccountCtrl', function($scope, CommonService, UserService) {
+    $scope.loadAccountInfo = function () {
+      CommonService.post('/member/userIndex', {'userId': UserService.getUserId()}).success(function (res) {
+        if (res.result.imageUrl) {
+          $scope.headImg = res.result.imageUrl;
+        } else {
+          $scope.headImg = 'img/head.png';
+        }
+        $scope.realName = res.result.realname;
+        $scope.userAmount = res.result.amount;
+        $scope.userCouponCount = res.result.couponCount;
+        $scope.userPoint = res.result.userPoint;
+      }).error(function (res) {
+        CommonService.toast('服务器异常,请稍后再试');
+      });
+    };
 
     $scope.userLogOut = function () {
       CommonService.showConfirm('确定要离开我吗?>﹏<').then(function (res) {
@@ -576,11 +564,13 @@ var myModule = angular.module('starter.controllers', [])
   })
 
   .controller('BBSCtrl', function($scope, CommonService) {
-    CommonService.get('/blog/findBlogNew', {}).success(function (res) {
-      $scope.blogs = res;
-    }).error(function (res) {
-      CommonService.toast('服务器异常,请稍后再试');
-    });
+    $scope.loadBBS = function () {
+      CommonService.get('/blog/findBlogNew', {}).success(function (res) {
+        $scope.blogs = res;
+      }).error(function (res) {
+        CommonService.toast('服务器异常,请稍后再试');
+      });
+    };
   })
 
   .controller('LoginCtrl', function ($scope, $state, $window, UserService, CommonService) {
@@ -674,11 +664,13 @@ var myModule = angular.module('starter.controllers', [])
     };
   })
   .controller('CouponCtrl', function ($scope, $ionicHistory, CommonService, UserService) { //我的优惠券
-    CommonService.post('/userCoupon/getUserCoupon', {'userId': UserService.getUserId()}).success(function (res) {
-      $scope.coupons = res.data;
-    }).error(function (res) {
-      CommonService.toast('服务器异常,请稍后再试');
-    });
+    $scope.loadCoupon = function () {
+      CommonService.post('/userCoupon/getUserCoupon', {'userId': UserService.getUserId()}).success(function (res) {
+        $scope.coupons = res.data;
+      }).error(function (res) {
+        CommonService.toast('服务器异常,请稍后再试');
+      });
+    };
   })
   .controller('ForgetPwdCtrl', function ($scope, $state, $interval, CommonService) { //忘记密码
     $scope.btnText = '获取验证码';
@@ -747,27 +739,29 @@ var myModule = angular.module('starter.controllers', [])
   })
 
   .controller('UserInfoCtrl', function ($scope, $ionicActionSheet, $cordovaCamera, $stateParams, CommonService, UserService) {
-    CommonService.post('/member/userIndex', {'userId': UserService.getUserId()}).success(function (results) {
-      if (results.result.imageUrl) {
-        $scope.headImage = results.result.imageUrl;
-      } else {
-        $scope.headImage = 'img/head.png';
-      }
-      if (results.result.sex == 3) {
-        $scope.userSex = '保密';
-      }
-      if (results.result.sex == 2) {
-        $scope.userSex = '女';
-      }
-      if (results.result.sex == 1) {
-        $scope.userSex = '男';
-      }
-      $scope.nickName = results.result.realname;
-      $scope.userPhone = results.result.mobile;
-      $scope.userEmail = results.result.email;
-    }).error(function (results) {
-      CommonService.toast('服务器异常,请稍后再试');
-    });
+    $scope.loadUserInfo = function () {
+      CommonService.post('/member/userIndex', {'userId': UserService.getUserId()}).success(function (results) {
+        if (results.result.imageUrl) {
+          $scope.headImage = results.result.imageUrl;
+        } else {
+          $scope.headImage = 'img/head.png';
+        }
+        if (results.result.sex == 3) {
+          $scope.userSex = '保密';
+        }
+        if (results.result.sex == 2) {
+          $scope.userSex = '女';
+        }
+        if (results.result.sex == 1) {
+          $scope.userSex = '男';
+        }
+        $scope.nickName = results.result.realname;
+        $scope.userPhone = results.result.mobile;
+        $scope.userEmail = results.result.email;
+      }).error(function (results) {
+        CommonService.toast('服务器异常,请稍后再试');
+      });
+    };
 
     $scope.selectImg = function () {
       var hideSheet = $ionicActionSheet.show({
@@ -851,16 +845,17 @@ var myModule = angular.module('starter.controllers', [])
     $scope.readonly = true;
     var param = {page: 1, pageSize: 10}, timer = null;
 
-    CommonService.showLoadding();
-    CommonService.get('/store/getStoreByPage', param).success(function (res) {
-      $scope.shops = res.data;
-      CommonService.hideLoading();
-      $scope.hasmore = true;
-    }).error(function (res) {
-      CommonService.hideLoading();
-      CommonService.toast('服务器异常,请稍后再试');
-      return;
-    });
+    $scope.loadShops = function () {
+      CommonService.showLoadding();
+      CommonService.get('/store/getStoreByPage', param).success(function (res) {
+        $scope.shops = res.data;
+        CommonService.hideLoading();
+        $scope.hasmore = true;
+      }).error(function (res) {
+        CommonService.hideLoading();
+        CommonService.toast('服务器异常,请稍后再试');
+      });
+    };
 
     $scope.loadMore = function () {
       param.page = param.page + 1;
@@ -896,10 +891,6 @@ var myModule = angular.module('starter.controllers', [])
       $scope.ratingVal = val;
     };
 
-    $scope.$on('$stateChangeSuccess', function () {
-      $scope.loadMore();
-    });
-
     $scope.$on('$destroy', function () {
       if (timer != null) {
         $timeout.cancel(timer);
@@ -909,27 +900,29 @@ var myModule = angular.module('starter.controllers', [])
   })
 
   .controller('ShopCtrlDetailCtrl', function ($scope, $stateParams, CommonService) { //店铺详情
-    var shopId = $stateParams.shopId;
-    if (shopId) {
-      CommonService.showLoadding();
-      CommonService.post('/store/getShopById', {'shopId': shopId}).success(function (res) {
-        $scope.shopName = res.data[0].shopName;
-        $scope.shopScore = res.data[0].shopScore;
-        $scope.shopAddress = res.data[0].address;
-        $scope.shopPhone = res.data[0].contactTel;
-        $scope.postDate = res.data[0].startTimeStr + ' - ' + res.data[0].endTimeStr;
-        $scope.shopInfo = '';
-        if (res.data[0].blogInfo) {
-          $scope.shopInfo = res.data[0].blogInfo.information;
-        }
-        CommonService.hideLoading();
-      }).error(function (res) {
-        CommonService.hideLoading();
+    $scope.loadShopDetail = function () {
+      var shopId = $stateParams.shopId;
+      if (shopId) {
+        CommonService.showLoadding();
+        CommonService.post('/store/getShopById', {'shopId': shopId}).success(function (res) {
+          $scope.shopName = res.data[0].shopName;
+          $scope.shopScore = res.data[0].shopScore;
+          $scope.shopAddress = res.data[0].address;
+          $scope.shopPhone = res.data[0].contactTel;
+          $scope.postDate = res.data[0].startTimeStr + ' - ' + res.data[0].endTimeStr;
+          $scope.shopInfo = '';
+          if (res.data[0].blogInfo) {
+            $scope.shopInfo = res.data[0].blogInfo.information;
+          }
+          CommonService.hideLoading();
+        }).error(function (res) {
+          CommonService.hideLoading();
+          CommonService.toast('服务器异常,请稍后再试');
+        });
+      } else {
         CommonService.toast('服务器异常,请稍后再试');
-      });
-    } else {
-      CommonService.toast('服务器异常,请稍后再试');
-    }
+      }
+    };
 
     $scope.favouriteShop = function () {
       CommonService.toast('已收藏');
@@ -940,16 +933,17 @@ var myModule = angular.module('starter.controllers', [])
     $scope.healths = [];
     var param = {page: 1, pageSize: 10, blogCategoryId: 2}, timer = null;
 
-    CommonService.showLoadding();
-    CommonService.get('/blog/blogList', param).success(function (res) {
-      $scope.healths = res.data;
-      CommonService.hideLoading();
-      $scope.hasmore = true;
-    }).error(function (res) {
-      CommonService.hideLoading();
-      CommonService.toast('服务器异常,请稍后再试');
-      return;
-    });
+    $scope.loadHealthData = function () {
+      CommonService.showLoadding();
+      CommonService.get('/blog/blogList', param).success(function (res) {
+        $scope.healths = res.data;
+        CommonService.hideLoading();
+        $scope.hasmore = true;
+      }).error(function (res) {
+        CommonService.hideLoading();
+        CommonService.toast('服务器异常,请稍后再试');
+      });
+    };
 
     $scope.loadMore = function () {
       param.page = param.page + 1;
@@ -973,10 +967,6 @@ var myModule = angular.module('starter.controllers', [])
       return $scope.hasmore;
     };
 
-    $scope.$on('$stateChangeSuccess', function () {
-      $scope.loadMore();
-    });
-
     $scope.$on('$destroy', function () {
       if (timer != null) {
         $timeout.cancel(timer);
@@ -986,22 +976,24 @@ var myModule = angular.module('starter.controllers', [])
   })
 
   .controller('BBSDetailCtrl', function ($scope, $stateParams, CommonService) {
-    var bbsId = $stateParams.bbsId;
-    if (bbsId) {
-      CommonService.showLoadding();
-      CommonService.get('/blog/blogDetailInfo', {'id': bbsId}).success(function (res) {
-        $scope.sbTitle = res.title;
-        $scope.sbAuthor = res.author;
-        $scope.sbContent = '';
-        if (res.blogInfo) {
-          $scope.sbContent = res.blogInfo.information;
-        }
-        CommonService.hideLoading();
-      }).error(function (res) {
-        CommonService.hideLoading();
-        CommonService.toast('服务器异常,请稍后再试');
-      });
-    }
+    $scope.loadBBSDetail = function () {
+      var bbsId = $stateParams.bbsId;
+      if (bbsId) {
+        CommonService.showLoadding();
+        CommonService.get('/blog/blogDetailInfo', {'id': bbsId}).success(function (res) {
+          $scope.sbTitle = res.title;
+          $scope.sbAuthor = res.author;
+          $scope.sbContent = '';
+          if (res.blogInfo) {
+            $scope.sbContent = res.blogInfo.information;
+          }
+          CommonService.hideLoading();
+        }).error(function (res) {
+          CommonService.hideLoading();
+          CommonService.toast('服务器异常,请稍后再试');
+        });
+      }
+    };
   })
 
   .controller('SearchResultCtrl', function ($scope, $stateParams,sharedCartService, CommonService) {
@@ -1075,17 +1067,13 @@ var myModule = angular.module('starter.controllers', [])
     $scope.moreDataCanBeLoaded = function () {
       return $scope.hasmore;
     };
-
-    $scope.$on('$stateChangeSuccess', function () {
-      $scope.searchOrders('noPay');
-    });
   })
 
   .controller('RechargeRecordCtrl', function ($scope, CommonService, UserService) { //充值记录
     $scope.hasmore = false;
     $scope.orders = [];
     var param = {page: 1, pageSize: 10, userId: UserService.getUserId()}, timer = null;
-    $scope.searchOrders = function (type) {
+    $scope.searchRechargeRecord = function (type) {
       param.type = type;
       if (UserService.getUserId()) {
         CommonService.showLoadding();
@@ -1120,10 +1108,6 @@ var myModule = angular.module('starter.controllers', [])
     $scope.moreDataCanBeLoaded = function () {
       return $scope.hasmore;
     };
-
-    $scope.$on('$stateChangeSuccess', function () {
-      $scope.searchOrders('recharge');
-    });
   });
 
 myModule.directive('ngFocus', function () {

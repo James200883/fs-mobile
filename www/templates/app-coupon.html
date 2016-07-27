@@ -4,7 +4,7 @@
 </ion-header-bar>
 
 <ion-view>
-  <ion-content>
+  <ion-content ng-init="loadCoupon()">
     <div class="coupon padding">
       <div class="stamp stamp03" ng-repeat="cou in coupons">
         <div class="par"><p>有机鲜生优惠券</p><sub class="sign">￥</sub><span ng-bind="cou.amount">100</span><sub>元券</sub><p><!-- 订单满100.00元 --></p></div>

@@ -4,7 +4,7 @@
 </ion-header-bar>
 
 <ion-view>
-  <ion-content>
+  <ion-content ng-init="searchOrders('noPay')">
     <nav class="zxTab wzTab">
       <ul class="border-b">
         <li data-type="noPay" class="active" ng-click="searchOrders('noPay')" ng-order-toggle><span>未支付订单</span></li>
@@ -13,7 +13,7 @@
     </nav>
 
     <ion-list show-delete="shouldShowDelete">
-      <div class="wzContent">
+      <div class="wzContent" ng-if="orders.length > 0">
         <ul class="wzList bor-b">
           <li ng-repeat="order in orders" class="item-thumbnail-left">
             <div class="wz-head border-b row">
@@ -28,6 +28,7 @@
           </li>
         </ul>
       </div>
+      <div class='noComment' ng-if="orders.length == 0"><span>还没有记录哦~~</span></div>
     </ion-list>
 
     <ion-infinite-scroll ng-if="moreDataCanBeLoaded()" on-infinite="loadMore()" distance="10%" icon="ion-loading-c"></ion-infinite-scroll>

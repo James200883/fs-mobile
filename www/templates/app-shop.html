@@ -4,7 +4,7 @@
 </ion-header-bar>
 
 <ion-view>
-  <ion-content>
+  <ion-content ng-init="loadShops()">
     <ion-list>
       <ul class="dianpu-list list">
         <li class="border-tb" ng-repeat="shop in shops" ui-sref="shopDetail({shopId: shop.id})">
