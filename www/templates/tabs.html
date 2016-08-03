@@ -1,59 +1,23 @@
-<ion-side-menus>
-    <ion-side-menu-content class="calm-bg" ng-controller="NavCtrl" >
+<ion-tabs class="tabs-icon-top tabs-color-active-positive">
 
-        <ion-nav-bar class="bar-positive">
-            <ion-nav-back-button class="button-icon ion-arrow-left-c">
-            </ion-nav-back-button>
-          
-            <ion-nav-buttons side="left">
-              <button class="button button-icon button-clear ion-navicon" ng-click="showMenu()">
-              分类</button>
-            </ion-nav-buttons>
-            
-   
-            <input type="search" placeholder="请输入关键字" />
+  <ion-tab title="首页" icon="ion-home" href="#/app/dash">
+    <ion-nav-view name="app-dash"></ion-nav-view>
+  </ion-tab>
 
-        </ion-nav-bar>
-        
-		   <ion-tabs class="tabs-icon-top tabs-color-active-positive"  animation="slide-left-right">
-		
-		  <ion-tab title="首页" icon="ion-home" href="#/app/dash">
-		    <ion-nav-view name="app-dash"></ion-nav-view>
-		  </ion-tab>
-		
-		  <ion-tab title="分类" icon="ion-ios-list-outline" href="#/app/category/00">
-		    <ion-nav-view name="app-category"></ion-nav-view>
-		  </ion-tab>
-		
-		  <ion-tab title="我的鲜生" icon="ion-ios-person-outline" href="#/app/account">
-		    <ion-nav-view name="app-account"></ion-nav-view>
-		  </ion-tab>
-		
-		  <ion-tab title="购物车" icon="ion-ios-cart-outline" href="#/app/cart">
-		    <ion-nav-view name="app-cart"></ion-nav-view>
-		  </ion-tab>
-		
-		  <ion-tab title="有机生活" icon="ion-ios-chatboxes-outline" href="#/app/bbs">
-		    <ion-nav-view name="app-bbs"></ion-nav-view>
-		  </ion-tab>
-		
-		</ion-tabs>
-   </ion-side-menu-content>
+  <ion-tab title="分类" icon="ion-ios-list-outline" href="#/app/category/00">
+    <ion-nav-view name="app-category"></ion-nav-view>
+  </ion-tab>
 
-    <ion-side-menu side="left" width="150" class="balanced-bg">
-    	<ion-header-bar class="bar bar-header bar-assertive">
-            <h1 class="title">选择产品分类</h1>
-          </ion-header-bar>
-          <ion-content has-header="true">
-            <div ng-controller="AccordionCategoryCtrl">
-            <ul class="list" ng-repeat=" subData in categoryData ">
-              <li>
-                <a class="item" menu-close ui-sref="app.category({categoryId: subData.id})">{{subData.name}}</a>
-              </li>
-             
-            </ul>
-           </div>
-          </ion-content>
-    </ion-side-menu>
-   
-</ion-side-menus>
+  <ion-tab title="我的鲜生" icon="ion-ios-person-outline" href="#/app/account">
+    <ion-nav-view name="app-account"></ion-nav-view>
+  </ion-tab>
+
+  <ion-tab title="购物车" icon="ion-ios-cart-outline" href="#/app/cart">
+    <ion-nav-view name="app-cart"></ion-nav-view>
+  </ion-tab>
+
+  <ion-tab title="有机生活" icon="ion-ios-chatboxes-outline" href="#/app/bbs">
+    <ion-nav-view name="app-bbs"></ion-nav-view>
+  </ion-tab>
+
+</ion-tabs>

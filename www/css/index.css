@@ -21,7 +21,7 @@ display:-webkit-box; display:box;
 
 .boxItem h6 {padding:15px 0 10px;}
 .boxItem h6 span {position:relative; padding-left:10px; color:#000; font-size: 16px;}
-.boxItem h6 span:before {position:absolute; content:""; width:4px; height:12px; left:0; top:50%; margin-top:-6px; background-color: #86cc37;}
+.boxItem h6 span:before {position:absolute; content:""; width:4px; height:12px; left:0; top:50%; margin-top:-6px;}
 
 .rq-rec {margin:0 0 -2px -2px;}
 .rq-rec li {float:left; width:33.3%; -webkit-box-sizing:border-box; box-sizing:border-box;}
@@ -75,11 +75,11 @@ display:-webkit-box; display:box;
 .cateTab .sortPrice i.up:before,.cateTab .sortPrice i.down:after {border-color: #ff0000;}
 .cateContent {position:absolute; top:91px; left:0; bottom:51px; width:100%;}
 .allProduct {position:relative; height: 100%; background-color: #f5f5f5;}
-.allProduct .allMenu {width:80px; overflow-y: scroll; -webkit-overflow-scrolling: touch;}
+.allProduct .allMenu {width:80px; height: 100%; -webkit-overflow-scrolling: touch;}
 .allProduct.hideMenu {display: none;}
-.allMenu .allMenuListEx li {padding:12px 0; text-align: center; color:#5e5e5e;}
-.allMenu .allMenuListEx li.current {background-color: #fff; color:#000;}
-.all-product-right {background-color: #fff; position:absolute; top:0; left:80px; right:0; bottom: 0; overflow-y: scroll; -webkit-overflow-scrolling: touch; }
+.allMenu .allMenuList li {padding:10px 0; text-align: center;}
+.allMenu .allMenuList li.current {background-color: #fff; color:#66aa39;}
+.all-product-right {background-color: #fff; position:absolute; top:0; left:80px; right:0; bottom: 0; -webkit-overflow-scrolling: touch; }
 .all-product-right .pList {margin-left:10px;}
 .pList li {position:relative; float:left; width:50%; padding:10px; border-width:0 1px 1px 0; border-style: solid; border-color:#dcdcdc; -webkit-box-sizing:border-box; box-sizing:border-box;}
 .pList li:nth-child(2n) {border-right-color: #fff;}
@@ -222,7 +222,6 @@ display:-webkit-box; display:box;
 .likeItem .like h6 {padding:0;}
 .likeItem .like h6 span {background-color: #f5f5f5;}
 .likeItem .like h6 span:before {background-color: transparent;}
-
 .checkAll {line-height: 50px; margin:0 20px 0 10px;}
 .cartInfo {margin:5px 10px 0 0; text-align: right;}
 .cartInfo.isDel {visibility: hidden; opacity: 0;}
@@ -424,7 +423,7 @@ display:-webkit-box; display:box;
 .bbs-comment-list .b-time {color:#969696; font-size: 12px;}
 
 .cmtFooter {height: 50px;}
-.cmtFrom {position:fixed; left:0; bottom:0; width:100%; padding:10px; -webkit-box-sizing:border-box; box-sizing:border-box; z-index: 99; background:#f0f0f0;}
+.cmtFrom {position:fixed; left:0; bottom:0; width:100%; padding:10px; -webkit-box-sizing:border-box; box-sizing:border-box; z-index: 99; background:#fafafa;}
 .cmtFrom .cmtSet {display:block; padding:5px; color:#a0a0a0; border-radius: 3px; background-color: #fff;}
 .cmtFrom .icon-msg { position:absolute; right:20px; top:50%; margin-top:-10px; width:20px; height:20px;}
 .cmtFrom .icon-msg:before {position:absolute; content:""; width:20px; height:20px; left:0; top:50%; margin-top:-12px; background-position:-80px -42px;}

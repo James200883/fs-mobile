@@ -1,28 +1,48 @@
+<ion-header-bar class="item-input-inset bar-light" align-title="center">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">商品分类</p>
+</ion-header-bar>
+
 <ion-view>
-  <ion-content>
-       <nav class="cateTab">
-            <ul class="row">
-                <li class="col" data-type="sale"><span>销量</span></li>
-                <li class="col" data-type="new"><span>上新</span></li>
-                <li class="sortPrice col" data-type="price"><span>价格<i></i></span></li>
-            </ul>
-        </nav>
-      
-       <div>
-        <ul class="productsList pList" ng-repeat="product in productData">
-                    
-                     <li>
-                         <a ng-click="showProduct(product.id)">
-                           <div class="p-img"><img  ng-src="{{product.imageUrl}}"/></div>
-                             <h6 class="ellipsis2">{{product.name}}</h6>
-                             <p class="p-weight">{{product.weight}}</p>
-                             <p class="p-price"><span class="lk-new">￥<em>{{product.distPrice}}</em></span><span class="lk-old">￥{{product.price}}</span></p>
-                         </a>
-                         <a class="pct-buy" ng-click="addToCart(product.id, product.imageUrl,product.name,product.distPrice)">购物车</a>
-                     </li>
-
-
+  <ion-content ng-init="initCateData()">
+    <div class="cateList">
+      <div class="cateTab">
+        <ul class="row">
+          <li class="col cur" data-type="sale" ng-click="sortProduct('sale')" ng-switch><span>销量</span></li>
+          <li class="col" data-type="new" ng-click="sortProduct('new')" ng-switch><span>上新</span></li>
+          <li class="sortPrice col" data-type="price" ng-click="sortProduct('price')" ng-switch><span>价格<i></i></span></li>
         </ul>
       </div>
+
+      <div class="cateContent">
+        <div class="allProduct">
+          <div class="allMenu">
+            <ul class="allMenuList bor-b">
+              <li ng-class="{'current': cateId == 00 ? $index == 0 : cateId == subData.id}" ng-repeat="subData in categoryData" ng-click="getProdByCategoryId(subData.id)" ng-switch>
+                <span ng-bind="subData.name"></span>
+              </li>
+            </ul>
+          </div>
+          <div class="all-product-right">
+            <ul class="all-pct-list pList clearfix">
+              <li ng-repeat="product in productData">
+                <a href="javascript:void(0)" ui-sref="productDetail({productId: product.id})">
+                  <div class="p-img"><img ng-src="{{product.imageUrl}}" class="lazy cate-img"/></div>
+                  <h6 class="ellipsis2" ng-bind="product.name"></h6>
+                  <p class="p-weight" ng-bind="product.weight"></p>
+                  <p class="p-price">
+                    <span class="lk-new">￥<em ng-bind="product.distPrice"></em></span>
+                    <span style="color: #969696;text-decoration: line-through">￥<em ng-bind="product.price"></em></span>
+                  </p>
+                </a>
+                <a href="javascript:void(0)" ng-click="addToCart(product.id, product.imageUrl,product.name,product.distPrice)" class="pct-buy">购物车</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ion-infinite-scroll ng-if="moreDataCanBeLoaded()" on-infinite="loadMore()" distance="10%" icon="ion-loading-c"></ion-infinite-scroll>
   </ion-content>
 </ion-view>

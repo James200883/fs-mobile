@@ -1,84 +1,69 @@
-<ion-header-bar class="item-input-inset bar-stable">
-  <a class="button icon-left ion-ios-arrow-left button-clear button-dark"></a>
+<ion-header-bar class="item-input-inset bar-light" align-title="center">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">商品详情</p>
 </ion-header-bar>
 
-
-	
 <ion-view>
-  <ion-content ng-controller="ProductCtrl" ng-init="loadPageData()">
+  <ion-content ng-init="loadProductDetail()">
+    <ion-slide-box auto-play="true" does-continue="true" slide-interval="2000" show-pager="true">
+      <ion-slide class="swiper-slide" style="width: 100%; height: 120px;" ng-repeat="pdImg in productDetailImages">
+        <div><img ng-src="{{pdImg.impageUrl}}"/></div>
+      </ion-slide>
+    </ion-slide-box>
 
-	<!--Automatically loops back from the begining -->
-	<ion-slide-box auto-play ="true" does-continue="true" show-pager="true"  >
-	
-		<!-- width: 100% height 50% to fill the slidder image according to the layout -->
-	   <ion-slide class="swiper-slide swiper-slide-active" style="width:100%; height: 50%; "  ng-repeat="slide in data.picData" >
-	      <div>
-	         <img  ng-src="{{slide.impageUrl}}" >
-	      </div>
-	   </ion-slide >
-	   
-	</ion-slide-box>
-	
-	 <div class="details">
-          <div class="detail-head" id="prodDetail">
-          
-          <h2>{{data.product.name}}</h2>
-            <p class="pct-txt">{{data.product.weight}}</p>
-            <p class="pct-price">
-                <span class="new-p">￥<em>{{data.product.distPrice}}</em></span>
-                <span class="old-p">￥{{data.product.price}}</span>
-            </p>
-            <div class="d-tool">
-                <span class="collect cur">收藏</span>
-            </div>
-            <div class="d-info row">
-                <span class="d-info-l">{{htmlActivity}}</span>
-                <span class="d-info-m col">已售数量{{data.product.countSale}}</span>
-                <span class="d-info-r">98%好评</span>
-            </div>
+    <div class="details">
+      <div class="detail-head">
+        <h2 ng-bind="productInfo.name"></h2>
+        <p class="pct-txt" ng-bind="productInfo.weight"></p>
+        <p class="pct-price">
+          <span class="new-p">￥<em ng-bind="productInfo.distPrice"></em></span>
+          <span class="old-p">￥<em ng-bind="productInfo.price"></em></span>
+        </p>
+        <div class="d-info row">
+          <span class="d-info-l">快递:满88包邮</span>
+          <span class="d-info-m col">已售数量:<em ng-bind="productInfo.countSale"></em></span>
+          <span class="d-info-r">98%好评</span>
+        </div>
+      </div>
 
-            <div class="counts">
-                <a ng-click="decCur()"><span class="b-reduce"></span></a>
-                <input type="tel" class="b-txt" value="{{productCount}}">
-                <a ng-click="incCur()"><span class="b-add" ></span></a>
-            </div>
-          
+      <div class="m-pro-tab">
+        <nav class="nav-tabs">
+          <ul class="row">
+            <li class="col cur"><span>宝贝详情</span></li>
+            <li class="col"><span>评价(0)</span></li>
+          </ul>
+        </nav>
+
+        <div class="m-tab-content">
+          <div class="tab-pane active">
+            <div class="detail-content" data-ng-bind-html="productDetails.information"></div>
           </div>
 
-        <div class="m-pro-tab">
-            <nav class="nav-tabs">
-                <ul class="row">
-                    <li class="col cur"><span>详情</span></li>
-                    <li class="col"><span>评论</span></li>
-                </ul>
-            </nav>
-            <div class="m-tab-content">
+          <!--<div class="tab-pane">
+            <div class="comment">
+              <ul class="commentList bor-b">
+                <li>
+                  <span class="cmtImg"><img src="images/c1.jpg" /></span>
+                  <div class="cmtDesc">
+                    <h6><span class="cmt-name ellipsis">yangbys</span><time>2016-02-06</time></h6>
+                    <p class="cmt-txt">发货快，第二天下午就收到，奇异果个大，收到的时候每个都有点硬，放一天就好了，味甜微酸。</p>
+                  </div>
+                </li>
+              </ul>
 
-                <div class="tab-pane active">
-                    <div class="detail-content"   data-ng-bind-html="data.productInfo.information">
-                      
-                    </div>
-                </div>
-
-                <div class="tab-pane">
-                    <div class="comment">
-                    	
-                    </div>
-                </div>
+              <div class="loadMoreComment"><a href="allComment.html">查看全部评价</a></div>
             </div>
+          </div>-->
         </div>
+      </div>
     </div>
-    
-    
-    <div class="detailFoot">
-        <div class="detail-btm border-t row">
-            <span class="goBuyCar">{{productCount}}</span>
-            <div class="dr-btm col">
-                <a class="addCar" ng-click="inc()">加入购物车</a>
-                <a class="goBuging" href="#/app/cart">查看购物车</a>
-            </div>
-        </div>
-    </div>
-    
-      </ion-content>
+  </ion-content>
 </ion-view>
+
+<ion-footer-bar class="item-input-inset bar-light" align-title="center">
+  <div class="cmtFooter">
+    <div class="cmtFrom border-t">
+      <div class="dr-btm col" style="width:120px; height: 40px; float: right;"><a class="addCar">加入购物车</a></div>
+    </div>
+  </div>
+</ion-footer-bar>

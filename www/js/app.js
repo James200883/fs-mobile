@@ -94,13 +94,13 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.co
           }
         }
       })
-      
+
       .state('order', {
         url: '/order/:orderId',
         templateUrl: 'templates/order.html',
         controller: 'OrderCtrl'
       })
-      
+
       .state('rechargeorder', {
         url: '/rechargeorder/:orderId',
         templateUrl: 'templates/recharge-order.html',
@@ -125,7 +125,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.co
         templateUrl: 'templates/addAddress.html',
         controller: 'AddAddrCtrl'
       })
-      
+
       .state('activity', {
         url: '/activity',
         templateUrl: 'templates/activity-list.html',
@@ -142,10 +142,10 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.co
         }
       })
 
-      .state('product', {
-        url: '/product/:productId',
+      .state('productDetail', {
+        url: '/productDetail/:productId',
         templateUrl: 'templates/product-detail.html',
-        controller: 'ProductCtrl'
+        controller: 'ProductDetailCtrl'
       })
 
       .state('login', {

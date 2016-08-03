@@ -7,8 +7,8 @@
   <ion-content ng-init="searchOrders('noPay')">
     <nav class="zxTab wzTab">
       <ul class="border-b">
-        <li data-type="noPay" class="active" ng-click="searchOrders('noPay')" ng-order-toggle><span>未支付订单</span></li>
-        <li data-type="hasPay" ng-click="searchOrders('hasPay')" ng-order-toggle><span>已支付订单</span></li>
+        <li data-type="noPay" class="active" ng-click="searchOrders('noPay')" ng-switch><span>未支付订单</span></li>
+        <li data-type="hasPay" ng-click="searchOrders('hasPay')" ng-switch><span>已支付订单</span></li>
       </ul>
     </nav>
 

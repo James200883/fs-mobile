@@ -1,39 +1,35 @@
 angular.module('starter.services', [])
 
 .factory('sharedCartService', ['$ionicPopup',function($ionicPopup){
-
 	var cartObj = {};
 	cartObj.cart=[];
 	cartObj.total_amount=0;
 	cartObj.total_qty=0;
-
 	cartObj.total_select_amount=0.00;
 	cartObj.total_select_qty=0;
 
-	cartObj.cart.add=function(id,image,name,price,qty){
-		if( cartObj.cart.find(id)!=-1 ){
+	cartObj.cart.add = function(id, image, name, price, qty){
+		if(cartObj.cart.find(id)!= -1){
 			//加一
-			cartObj.cart[cartObj.cart.find(id)].cart_item_qty+=1;
+			cartObj.cart[cartObj.cart.find(id)].cart_item_qty+= 1;
 			cartObj.total_qty+= 1;
 			cartObj.total_amount+= parseFloat(cartObj.cart[cartObj.cart.find(id)].cart_item_price);
 
 			var alertPopup = $ionicPopup.alert({
-                title: '产品已经存在',
-                template: '增加产品到购物车'
-            });
-
-		}
-		else{
-		    cartObj.cart.push( { "cart_item_id": id , "cart_item_image": image , "cart_item_name": name , "cart_item_price": price , "cart_item_qty": qty , "cart_item_check":false,"tagType": 0 } );
+        title: '产品已经存在',
+        template: '增加产品到购物车'
+      });
+		} else {
+      cartObj.cart.push({"cart_item_id": id , "cart_item_image": image , "cart_item_name": name , "cart_item_price": price , "cart_item_qty": qty , "cart_item_check":false,"tagType": 0 } );
 			cartObj.total_qty+=1;
 			cartObj.total_amount+=parseFloat(price);
 		}
 	};
 
 	cartObj.cart.find=function(id){
-		var result=-1;
+		var result = -1;
 		for( var i = 0, len = cartObj.cart.length; i < len; i++ ) {
-			if( cartObj.cart[i].cart_item_id === id ) {
+			if(cartObj.cart[i].cart_item_id === id ) {
 				result = i;
 				break;
 			}
@@ -41,28 +37,24 @@ angular.module('starter.services', [])
 		return result;
 	};
 
-
 	cartObj.cart.findIds=function(){
-		var result="";
+		var result = "";
 		for( var i = 0, len = cartObj.cart.length; i < len; i++ ) {
-
-			result +=""+cartObj.cart[i].cart_item_id;
-			if( i < len-1 ) {
+			result += cartObj.cart[i].cart_item_id + "";
+			if( i < len - 1 ) {
 				result +="-";
 			}
 		}
 		return result;
 	};
 
-
 	cartObj.cart.checkForCheckout=function(){
 		var curTagType=0;
 		var curTagCount = 1;
 		for( var i = 0, len = cartObj.cart.length; i < len; i++ ) {
-
 			if(cartObj.cart[i].tagType === curTagType && i == 0){
 				curTagCount =1;
-			}else if(cartObj.cart[i].tagType === 1 && i === 0){
+			} else if (cartObj.cart[i].tagType === 1 && i === 0){
 				curTagCount =1;
 				curTagType = cartObj.cart[i].tagType;
 			} else if(curTagType != cartObj.cart[i].tagType){
@@ -73,7 +65,7 @@ angular.module('starter.services', [])
 
 		if(curTagCount > 1){
 			return 0;
-		}else if(curTagType === 0){
+		} else if (curTagType === 0){
 			return 1; //正常订单
 		}else {
 			return 2;//预购订单
@@ -81,36 +73,32 @@ angular.module('starter.services', [])
 	};
 
 	//得到当前的选择的明细
-	  //初始化明细
 	cartObj.cart.findOrderItem = function (){
-		    var result = new Array();
-		    for( var i = 0, len = cartObj.cart.length; i < len; i++ ) {
-	    	   var temp=cartObj.cart[i];
-				if(temp.cart_item_check === true){
-		           var orderItem = {};
-		           // orderItem.id = data[i].id;  //不能设置orderItem 的id否则后台报错
-		           orderItem.productId = temp.cart_item_id;
-		           orderItem.productName = temp.cart_item_name;
-		           orderItem.productUrl = temp.cart_item_image;
-		           orderItem.sellCount = temp.cart_item_qty;
-		           orderItem.distPrice = temp.cart_item_price;
-		           orderItem.sellPrice = parseFloat(temp.cart_item_price)*parseInt(temp.cart_item_qty);
-		           result.push(orderItem) ;
-				}
-		   }
-
-		    return result;
-	}
+    var result = new Array();
+    for( var i = 0, len = cartObj.cart.length; i < len; i++ ) {
+      var temp=cartObj.cart[i];
+      if(temp.cart_item_check === true){
+        var orderItem = {};
+        orderItem.productId = temp.cart_item_id;
+        orderItem.productName = temp.cart_item_name;
+        orderItem.productUrl = temp.cart_item_image;
+        orderItem.sellCount = temp.cart_item_qty;
+        orderItem.distPrice = temp.cart_item_price;
+        orderItem.sellPrice = parseFloat(temp.cart_item_price)*parseInt(temp.cart_item_qty);
+        result.push(orderItem) ;
+      }
+    }
+    return result;
+  };
 
 	//已生产订单，删除
 	cartObj.cart.dropCheck=function(){
-       for( var i = 0, len = cartObj.cart.length; i < len; i++ ) {
-    	   var temp=cartObj.cart[i];
+    for( var i = 0, len = cartObj.cart.length; i < len; i++ ) {
+      var temp=cartObj.cart[i];
 			if(temp.cart_item_check === true){
 				cartObj.total_select_qty-= parseInt(temp.cart_item_qty);
-			    cartObj.total_select_amount -=( parseFloat(temp.cart_item_qty) *  parseFloat(temp.cart_item_price) );
-
-			    cartObj.cart.splice(i, 1);
+        cartObj.total_select_amount -=( parseFloat(temp.cart_item_qty) *  parseFloat(temp.cart_item_price) );
+        cartObj.cart.splice(i, 1);
 			}
 		}
 	};
@@ -120,82 +108,70 @@ angular.module('starter.services', [])
 	 cartObj.total_qty-= parseInt(temp.cart_item_qty);
 	 cartObj.total_amount-=( parseInt(temp.cart_item_qty) *  parseFloat(temp.cart_item_price) );
 
-	 if(temp.cart_item_check === true)
-	 {
+	 if(temp.cart_item_check === true) {
 		 cartObj.total_select_qty-= parseInt(temp.cart_item_qty);
 		 cartObj.total_select_amount -=( parseInt(temp.cart_item_qty) *  parseFloat(temp.cart_item_price) );
 	 }
-
 	 cartObj.cart.splice(cartObj.cart.find(id), 1);
-
 	};
 
 	//选择当前的购物车明细
-	cartObj.cart.notificationChange=function(id){
+	cartObj.cart.notificationChange = function(id){
 		var temp = cartObj.cart[cartObj.cart.find(id)];
-		if( temp.cart_item_check === true){
+		if(temp.cart_item_check === true){
 			 cartObj.total_select_qty+= parseInt(temp.cart_item_qty);
 			 cartObj.total_select_amount +=( parseInt(temp.cart_item_qty) *  parseFloat(temp.cart_item_price) );
-		}else{
+		} else {
 			 cartObj.total_select_qty-= parseInt(temp.cart_item_qty);
 			 cartObj.total_select_amount -=( parseInt(temp.cart_item_qty) *  parseFloat(temp.cart_item_price) );
 		}
-	}
-
+	};
 
 	//选择当前的购物车所有明细
 	cartObj.cart.notificationAll=function(checked){
-
-        if(checked === true){
-        	cartObj.total_select_qty = 0;
-        	cartObj.total_select_amount = 0;
-        	for( var i = 0, len = cartObj.cart.length; i < len; i++ ) {
-    			var temp = cartObj.cart[i];
-    			cartObj.cart[i].cart_item_check = checked;
-        		 cartObj.total_select_qty+= parseInt(temp.cart_item_qty);
-        		 cartObj.total_select_amount+=( parseInt(temp.cart_item_qty) *  parseFloat(temp.cart_item_price) );
-    		}
-        }else{
-        	cartObj.total_select_qty = 0;
-        	cartObj.total_select_amount = 0;
-        	for( var i = 0, len = cartObj.cart.length; i < len; i++ ) {
-
-    			cartObj.cart[i].cart_item_check = checked;
-    		}
-        }
-
-	}
-
-	cartObj.cart.increment=function(id){
-		 cartObj.cart[cartObj.cart.find(id)].cart_item_qty+=1;
-		 cartObj.total_qty+= 1;
-		 cartObj.total_amount+=( parseInt( cartObj.cart[cartObj.cart.find(id)].cart_item_price) );
-
-		 if(cartObj.cart[cartObj.cart.find(id)].cart_item_check === true)
-		 {
-			 cartObj.total_select_qty+= 1;
-			 cartObj.total_select_amount += parseFloat( cartObj.cart[cartObj.cart.find(id)].cart_item_price) ;
-		 }
-
+    if(checked === true){
+      cartObj.total_select_qty = 0;
+      cartObj.total_select_amount = 0;
+      for( var i = 0, len = cartObj.cart.length; i < len; i++ ) {
+        var temp = cartObj.cart[i];
+        cartObj.cart[i].cart_item_check = checked;
+        cartObj.total_select_qty+= parseInt(temp.cart_item_qty);
+        cartObj.total_select_amount+=( parseInt(temp.cart_item_qty) *  parseFloat(temp.cart_item_price) );
+      }
+    }else{
+      cartObj.total_select_qty = 0;
+      cartObj.total_select_amount = 0;
+      for( var i = 0, len = cartObj.cart.length; i < len; i++ ) {
+        cartObj.cart[i].cart_item_check = checked;
+      }
+    }
 	};
 
-	cartObj.cart.incrementNum=function(id,image,name,price,qty){
-		var tempId = cartObj.cart.find(id);
-		if( tempId!=-1 ){
-			 cartObj.cart[tempId].cart_item_qty+=qty;
-			 cartObj.total_qty+= qty;
-			 cartObj.total_amount+=(qty * parseInt( cartObj.cart[tempId].cart_item_price) );
+	cartObj.cart.increment = function(id){
+    cartObj.cart[cartObj.cart.find(id)].cart_item_qty+=1;
+    cartObj.total_qty+= 1;
+    cartObj.total_amount+=( parseInt( cartObj.cart[cartObj.cart.find(id)].cart_item_price) );
+    if(cartObj.cart[cartObj.cart.find(id)].cart_item_check === true) {
+      cartObj.total_select_qty+= 1;
+      cartObj.total_select_amount += parseFloat( cartObj.cart[cartObj.cart.find(id)].cart_item_price) ;
+    }
+	};
 
-			 if(cartObj.cart[tempId].cart_item_check === true)
-			 {
-				 cartObj.total_select_qty+= qty;
-				 cartObj.total_select_amount +=(qty * parseInt( cartObj.cart[tempId].cart_item_price));
-			 }
-		}else{
-			 cartObj.total_qty+= qty;
-			 cartObj.total_amount+=(qty * price );
-			 cartObj.cart.push( { "cart_item_id": id , "cart_item_image": image , "cart_item_name": name , "cart_item_price": price , "cart_item_qty": qty , "cart_item_check":false,"tagType": 0 } );
-		}
+	cartObj.cart.incrementNum = function(id,image,name,price,qty){
+		var tempId = cartObj.cart.find(id);
+		if(tempId!=-1){
+      cartObj.cart[tempId].cart_item_qty+=qty;
+      cartObj.total_qty+= qty;
+      cartObj.total_amount+=(qty * parseInt( cartObj.cart[tempId].cart_item_price) );
+      if(cartObj.cart[tempId].cart_item_check === true) {
+        cartObj.total_select_qty+= qty;
+        cartObj.total_select_amount +=(qty * parseInt( cartObj.cart[tempId].cart_item_price));
+      }
+		} else {
+      cartObj.total_qty+= qty;
+      cartObj.total_amount+=(qty * price );
+      cartObj.cart.push( { "cart_item_id": id , "cart_item_image": image , "cart_item_name": name , "cart_item_price": price , "cart_item_qty": qty , "cart_item_check":false,"tagType": 0 } );
+    }
 	};
 
 	cartObj.cart.setTagType=function(id, tagType){
@@ -203,24 +179,19 @@ angular.module('starter.services', [])
 	};
 
 	cartObj.cart.decrement=function(id){
-
 		 cartObj.total_qty-= 1;
-		 cartObj.total_amount-= parseFloat( cartObj.cart[cartObj.cart.find(id)].cart_item_price) ;
-
-		 if(cartObj.cart[cartObj.cart.find(id)].cart_item_check === true)
-		 {
+		 cartObj.total_amount-= parseFloat(cartObj.cart[cartObj.cart.find(id)].cart_item_price) ;
+		 if(cartObj.cart[cartObj.cart.find(id)].cart_item_check === true) {
 			 cartObj.total_select_qty-= 1;
 			 cartObj.total_select_amount -= parseFloat( cartObj.cart[cartObj.cart.find(id)].cart_item_price) ;
 		 }
 
 		 if(cartObj.cart[cartObj.cart.find(id)].cart_item_qty == 1){  // if the cart item was only 1 in qty
 			cartObj.cart.splice( cartObj.cart.find(id) , 1);  //edited
-		 }else{
+		 } else {
 			cartObj.cart[cartObj.cart.find(id)].cart_item_qty-=1;
 		 }
-
 	};
-
 	return cartObj;
 }])
 
@@ -364,5 +335,5 @@ angular.module('starter.services', [])
     }
   })
 
-.constant('prefixUrl', 'http://192.168.1.39:8080/fs-server');
+.constant('prefixUrl', 'http://192.168.0.103:8080/fs-server');
 

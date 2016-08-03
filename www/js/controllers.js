@@ -1,15 +1,16 @@
 var myModule = angular.module('starter.controllers', [])
 
   .controller('DashCtrl', function($scope, sharedCartService, CommonService) {
-    //CommonService.getCurrentPosition();
     var cart = sharedCartService.cart;
-    $scope.slide_items = {};
-    $scope.productData = {};
-    $scope.categoryData = {};
+    $scope.slide_items = [];
+    $scope.productData = [];
+    $scope.categoryData = [];
 
     //开始加载数据
     $scope.loadPageData = function (){
       CommonService.get('/pageAds/findHomePageAds').success(function (results) {
+        $scope.cateTitle = '分类';
+        $scope.hotProd = '热门推荐';
         $scope.slide_items = results.bannerData;
         $scope.productData = results.pageProduct;
         $scope.categoryData = results.pageCategory;
@@ -17,188 +18,101 @@ var myModule = angular.module('starter.controllers', [])
         CommonService.toast('服务器异常,请稍后再试');
       });
     };
-  })
-  
-    
- .controller('NavCtrl', function($scope, $ionicSideMenuDelegate) {
-	  $scope.showMenu = function () {
-	    $ionicSideMenuDelegate.toggleLeft();
-	  };
-	  
-	})
 
-	
-	.controller('AccordionCategoryCtrl', function($scope, CommonService) {
-	
-	  
-	  $scope.loadCategory = function() {
-	      CommonService.get('/category/getWXAllCategory').success(function (results) {
-	        $scope.categoryData = results.data;
-	      }).error(function (results) {
-	        CommonService.toast('获取分类异常，请稍后再试');
-	      });
-	    };
-
-	    
-	  angular.element(document).ready(function () {
-	      $scope.loadCategory();//加载分类
-	    });
-	  
-	})
-	
-	
-	
-	
-  .controller('CategoryCtrl', function($scope, $stateParams, $state, $ionicSideMenuDelegate, sharedCartService, CommonService) {
-
-    $scope.toggleLeft = function () {
-      $ionicSideMenuDelegate.toggleLeft();
-    };
-
-    //put cart after menu
-    var cart = sharedCartService.cart;
-
-    $scope.noMoreItemsAvailable = false; // lazy load list
-
-    $scope.curCategoryId = '';
-    $scope.sortBy = '';
-    $scope.sortType = 0;
-    $scope.nextPage = 1;
-
-    $scope.query = ""; //查询字段
-
-    if($stateParams.categoryId){
-      $scope.curCategoryId = $stateParams.categoryId;
+    $scope.addToCart = function (id, image, name, price) {
+      cart.add(id, image, name, price, 1);
     }
+  })
 
-    angular.element(document).ready(function () {
-      $scope.loadCategory();//加载分类
-      $scope.loadMore();  //Added Infine Scroll
-    });
+  .controller('CategoryCtrl', function($scope, $stateParams, $state, $timeout, sharedCartService, CommonService) {
+    $scope.hasmore = false;
+    $scope.productData = [];
+    $scope.cateId = $stateParams.categoryId;
+    var cart = sharedCartService.cart;
+    var param = {page: 1, pageSize: 10, type: 'sale', categoryId: $scope.cateId}, timer = null;
 
-    // Loadmore() called inorder to load the list
-    $scope.loadMore = function() {
-
-      var paramDatas = {};
-      if($scope.curCategoryId.length > 0 && $scope.sortBy.length > 0){
-        paramDatas = {'categoryId':$scope.curCategoryId, 'type': $scope.sortBy,'sortType':$scope.sortType,'page':$scope.nextPage};
-      }else if($scope.curCategoryId.length > 0){
-        paramDatas = {'categoryId':$scope.curCategoryId, 'sortType':$scope.sortType,'page':$scope.nextPage};
-      }else if($scope.sortBy.length > 0 ) {
-        paramDatas = {'type': $scope.sortBy, 'sortType':$scope.sortType,'page':$scope.nextPage};
-      }else{
-        paramDatas = {'sortType':$scope.sortType,'page':$scope.nextPage};
-      }
-      CommonService.get('/product/cateList',paramDatas).success(function (results) {
-        $scope.productData = results.data;
-        if(results.next_page > 1){
-          $scope.hasmore=(results.next_page-1)*30;
-          $scope.nextPage = results.next_page;
-        }
-        else {
-          $scope.hasmore = 0;
-        }
-      }).error(function (results) {
-        CommonService.toast('获取分类异常，请稍后再试');
-      });
-
+    $scope.initCateData = function () {//初始化数据
+      loadCategory();
+      loadProduct(param);
     };
 
-    $scope.pageStateReload = function(sortBy, sortType) {
-      $state.go($state.current, {'sortBy':sortBy, 'sortType':sortType}, {reload: true});
+    $scope.sortProduct = function (sortType) { //排序
+      param.type = sortType;
+      param.page = 1;
+      loadProduct(param);
     };
 
-    $scope.loadCategory = function() {
+    $scope.addToCart = function (id, image, name, price) {//加到购物车
+      cart.add(id, image, name, price, 1);
+    };
+
+    $scope.getProdByCategoryId = function (categoryId) {//分类查询商品
+      param.categoryId = categoryId;
+      param.page = 1;
+      loadProduct(param);
+    };
+
+    $scope.loadMore = function () {
+      param.page = param.page + 1;
+      timer = $timeout(function () {
+        if (!$scope.hasmore) {
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+          return;
+        }
+
+        CommonService.get('/product/cateList', param).success(function (res) {
+          $scope.hasmore = res.next_page > 0;
+          $scope.productData = $scope.productData.concat(res.data);
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+        }).error(function (res) {
+          CommonService.toast('获取商品异常,请稍后再试');
+        });
+      }, 1000);
+    };
+
+    $scope.moreDataCanBeLoaded = function () {
+      return $scope.hasmore;
+    };
+
+    function loadCategory() { //获取分类
       CommonService.get('/category/getWXAllCategory').success(function (results) {
         $scope.categoryData = results.data;
-      }).error(function (results) {
+      }).error(function () {
         CommonService.toast('获取分类异常，请稍后再试');
       });
-    };
-
-    //show product page
-    $scope.showProduct=function (id) {
-      sessionStorage.setItem('page_id', id);
-      window.location.href = '#/product/'+id;
-    };
-
-    //add to cart function
-    $scope.addToCart=function(id,image,name,price){
-      cart.add(id,image,name,price,1);
-    };
-  })
-
-
-  .controller('ProductCtrl', function($scope,$http,$stateParams, sharedCartService,CommonService) {
-    if($stateParams.productId){
-      $scope.productId = $stateParams.productId;
     }
 
-    $scope.productCount = 1;
-
-    //onload event-- to set the values
-    $scope.$on('$stateChangeSuccess', function () {
-      $scope.cart=sharedCartService.cart;
-
-      if($scope.cart.find($scope.productId) >0 )
-      {
-        $scope.cartCount = $scope.cart[$scope.cart.find($scope.productId)].cart_item_qty;
-      }
-    });
-
-    $scope.incCur=function(){
-      $scope.productCount += 1;
-    };
-
-    $scope.decCur=function(){
-      $scope.productCount -= 1;
-
-      if($scope.productCount == 0){
-        $scope.productCount =1;
-      }
-    };
-
-    $scope.inc=function(){
-      $scope.cart.add($scope.productId,$scope.data.product.imageUrl,$scope.data.product.name,$scope.data.product.distPrice, $scope.productCount);
-    };
-
-    //加载产品，加载促销活动
-    var url = '/product/getWXProductById';
-    $scope.htmlActivity = '';
-    var urlActivity = '/activity/WXfindActivityProduct';
-
-    $scope.loadPageData = function (){
-      //获取产品资料
-      CommonService.get(url,{'id':$scope.productId}).success(function (results) {
-        $scope.data = results;
-
-      }).error(function (results) {
-        CommonService.toast('获取分类异常，请稍后再试');
-      });
-
-      //获取活动信息的信息
-      CommonService.get(urlActivity).success(function (results) {
-        var result = results.data;
-        if(null != result)
-        {
-          $scope.htmlActivity += result[0].name+'  ';
-          if(result.length >= 2){
-            $scope.htmlActivity += result[1].name;
-          }
+    function loadProduct(paramData) { //获取产品
+      CommonService.showLoadding();
+      CommonService.get('/product/cateList', paramData).success(function (results) {
+        $scope.productData = results.data;
+        CommonService.hideLoading();
+        if (results.next_page > 0) {
+          $scope.hasmore = true;
         }
-      }).error(function (results) {
-        CommonService.toast('获取分类异常，请稍后再试');
+      }).error(function () {
+        CommonService.hideLoading();
+        CommonService.toast('获取商品异常,请稍后再试');
+      });
+    }
+  })
+
+  .controller('ProductDetailCtrl', function($scope, $stateParams, sharedCartService, CommonService) { //产品详情
+    $scope.productDetailImages = [];
+    $scope.productInfo = [];
+    $scope.productDetails = [];
+    $scope.loadProductDetail = function () {
+      CommonService.get('/product/getWXProductById', {id: $stateParams.productId}).success(function (res) {
+        $scope.productDetailImages = res.picData;
+        $scope.productInfo = res.product;
+        $scope.productDetails = res.productInfo;
+      }).error(function () {
+        CommonService.toast('获取商品详情异常,请稍后再试');
       });
     }
   })
 
   .controller('CartCtrl', function ($scope,$http,$stateParams, sharedCartService,CommonService) {
-
-    //初始化购物车的产品属性
-    angular.element(document).ready(function () {
-      $scope.initCartData();
-    });
-
     $scope.total_amount=0;
     $scope.total_qty=0;
 
@@ -216,7 +130,7 @@ var myModule = angular.module('starter.controllers', [])
         }
 
       }).error(function (results) {
-        CommonService.toast('获取分类异常，请稍后再试');
+        CommonService.toast('服务器异常，请稍后再试');
       });
     };
 
@@ -279,7 +193,6 @@ var myModule = angular.module('starter.controllers', [])
           CommonService.postBody('/orders/addOrUpdateOrders',orders).success(function (results) {
             var orderId = results.orderId;
 
-            alert('Success' + orderId);
             //已生产订单，清空当前数据
             //$scope.cart.dropCheck();
 
@@ -880,7 +793,9 @@ var myModule = angular.module('starter.controllers', [])
       CommonService.get('/store/getStoreByPage', param).success(function (res) {
         $scope.shops = res.data;
         CommonService.hideLoading();
-        $scope.hasmore = true;
+        if (res.next_page > 0) {
+          $scope.hasmore = true;
+        }
       }).error(function (res) {
         CommonService.hideLoading();
         CommonService.toast('服务器异常,请稍后再试');
@@ -968,7 +883,9 @@ var myModule = angular.module('starter.controllers', [])
       CommonService.get('/blog/blogList', param).success(function (res) {
         $scope.healths = res.data;
         CommonService.hideLoading();
-        $scope.hasmore = true;
+        if (res.next_page > 0) {
+          $scope.hasmore = true;
+        }
       }).error(function (res) {
         CommonService.hideLoading();
         CommonService.toast('服务器异常,请稍后再试');
@@ -1068,6 +985,9 @@ var myModule = angular.module('starter.controllers', [])
         CommonService.showLoadding();
         CommonService.get('/orders/getwxrechargeOrders', param).success(function (res) {
           $scope.orders = res.data;
+          if (res.next_page > 0) {
+            $scope.hasmore = true;
+          }
           CommonService.hideLoading();
         }).error(function (res) {
           CommonService.hideLoading();
@@ -1109,6 +1029,9 @@ var myModule = angular.module('starter.controllers', [])
         CommonService.showLoadding();
         CommonService.get('/orders/getwxrechargeOrders', param).success(function (res) {
           $scope.orders = res.data;
+          if (res.next_page > 0) {
+            $scope.hasmore = true;
+          }
           CommonService.hideLoading();
         }).error(function (res) {
           CommonService.hideLoading();
@@ -1198,18 +1121,29 @@ myModule.directive('ngBack', function ($ionicHistory) {
   }
 });
 
-myModule.directive('ngOrderToggle', function ($rootScope) {
+myModule.directive('ngSwitch', function ($rootScope) {
   return{
     restrict: 'A',
     link: function (scope, element, attrs, ctrl) {
       element.bind('click', function () {
-        if (!element.hasClass('active')) {
-          element[0].className = 'active';
-          if (element[0].nextElementSibling) {
-            element[0].nextElementSibling.className = '';
+        if (!element.hasClass('active') || !element.hasClass('current') || !element.hasClass('cur')) {
+          element[0].className = 'active current col cur';
+          var nextElement = element[0].nextElementSibling;
+          var previousElement = element[0].previousElementSibling;
+          while (nextElement) {
+            if (nextElement.className.indexOf('current') >= 0 || nextElement.className.indexOf('active') >= 0 || nextElement.className.indexOf('cur') >= 0) {
+              nextElement.className = 'col';
+            } else {
+              nextElement = nextElement.nextElementSibling;
+            }
           }
-          if (element[0].previousElementSibling) {
-            element[0].previousElementSibling.className = '';
+
+          while (previousElement) {
+            if (previousElement.className.indexOf('current') >= 0 || previousElement.className.indexOf('active') >= 0 || previousElement.className.indexOf('cur') >= 0) {
+              previousElement.className = 'col';
+            } else {
+              previousElement = previousElement.previousElementSibling;
+            }
           }
         }
       });
