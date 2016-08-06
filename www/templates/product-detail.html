@@ -4,7 +4,7 @@
 </ion-header-bar>
 
 <ion-view>
-  <ion-content ng-init="loadProductDetail()">
+  <ion-content ng-init="initProductDetailData()">
     <ion-slide-box auto-play="true" does-continue="true" slide-interval="2000" show-pager="true">
       <ion-slide class="swiper-slide" style="width: 100%; height: 120px;" ng-repeat="pdImg in productDetailImages">
         <div><img ng-src="{{pdImg.impageUrl}}"/></div>
@@ -20,19 +20,19 @@
           <span class="old-p">￥<em ng-bind="productInfo.price"></em></span>
         </p>
         <div class="d-info row">
-          <span class="d-info-l">快递:满88包邮</span>
+          <span class="d-info-l col" ng-bind="activities"></span>
           <span class="d-info-m col">已售数量:<em ng-bind="productInfo.countSale"></em></span>
-          <span class="d-info-r">98%好评</span>
+          <!--<span class="d-info-r col">98%好评</span>-->
         </div>
       </div>
 
       <div class="m-pro-tab">
-        <nav class="nav-tabs">
+        <div class="nav-tabs">
           <ul class="row">
             <li class="col cur"><span>宝贝详情</span></li>
-            <li class="col"><span>评价(0)</span></li>
+            <li class="col"><span>评价</span></li>
           </ul>
-        </nav>
+        </div>
 
         <div class="m-tab-content">
           <div class="tab-pane active">
@@ -60,10 +60,12 @@
   </ion-content>
 </ion-view>
 
-<ion-footer-bar class="item-input-inset bar-light" align-title="center">
+<ion-footer-bar class="item-input-inset bar-light">
   <div class="cmtFooter">
-    <div class="cmtFrom border-t">
-      <div class="dr-btm col" style="width:120px; height: 40px; float: right;"><a class="addCar">加入购物车</a></div>
+    <div class="cmtFrom">
+      <div class="dr-btm col" style="width:120px; height: 40px; float: right; margin-right: -13px;">
+        <a class="addCar" href="javascript:void(0)" ng-click="addShopCart(productInfo.id, productInfo.imageUrl, productInfo.name, productInfo.price, productInfo.weight, productInfo.tagPresell)">加入购物车</a>
+      </div>
     </div>
   </div>
 </ion-footer-bar>

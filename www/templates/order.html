@@ -1,70 +1,82 @@
-<ion-header-bar class="item-input-inset bar-stable">
-  <a class="button icon-left ion-ios-arrow-left button-clear button-dark"></a>
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">填写订单</p>
 </ion-header-bar>
-<ion-view>
-  <ion-content>
-        <h4 class="box-title"><span class="b-left">订单编号:{{orders.orderNo}}</span><span class="b-right">订单金额：￥{{orders.amount}}</span></h4>
-        <div class="dian border-t">
-            <ul class="dianList bor-b" id="produlist" ng-repeat="item in orders.items" >
-                <li>
-                    <a href="#">
-                        <span class="dian-img"><img src="{{item.productUrl}}" /></span>
-                        <div class="dian-desc">
-                            <h6 class="row">
-                                <p class="ellipsis2 col">{{item.productName}}</p>
-                                <span class="dn-num">数量：{{item.sellCount}}</span>
-                            </h6>
-                            <p class="dn-price"><span class="dn-new">￥{{item.productPrice}}</span></p>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </div>
-     <div class="row list" >
-       <div class="col col-50">  
-           <ion-radio name="nameChoice" ng-model="addrChoice" ng-change="pushNotificationChange('A')" ng-value="'A'">配送到家</ion-radio>
-         </div>
-        <div class="col col-50">
-           <ion-radio name="nameChoice"  ng-model="addrChoice" ng-change="pushNotificationChange('S')" ng-value="'S'">到实体店自取</ion-radio>
-        </div>
-      </div>
 
-    <div class="row" ng-if="show_addr" >
-      <div class="col col-offset-67" >
-          <p class="getAddress" ><a ng-click="goAddress()" id="btnAddressOne">添加我的地址</a></p>
+<ion-view>
+  <ion-content ng-init="initOrderData()">
+    <h4 class="box-title">
+      <span class="b-left">订单编号: <em ng-bind="orders.orderNo"></em></span>
+      <span class="b-right padding-right">订单金额: <em ng-bind="orders.amount"></em></span>
+    </h4>
+    <div class="dian border-t">
+      <ul class="dianList bor-b">
+        <li ng-repeat="item in orders.items">
+          <a href="javascript:void(0);">
+            <span class="dian-img"><img ng-src="{{item.productUrl}}"/></span>
+            <div class="dian-desc">
+              <h6 class="row">
+                <p class="ellipsis2 col" ng-bind="item.productName"></p>
+                <span class="dn-num">数量: <em ng-bind="item.sellCount"></em></span>
+              </h6>
+              <p class="dn-price"><span class="dn-new">￥<em ng-bind="item.productPrice"></em></span></p>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="row list">
+      <div class="col col-50">
+        <ion-radio name="nameChoice" ng-model="addrChoice" ng-change="pushNotificationChange('A')" ng-value="'A'">配送到家</ion-radio>
+      </div>
+      <div class="col col-50">
+        <ion-radio name="nameChoice" ng-model="addrChoice" ng-change="pushNotificationChange('S')" ng-value="'S'">实体店自取</ion-radio>
       </div>
     </div>
-    
-    <div class="row" ng-if="show_shop">
-         <div class="col col-offset-67" >
-            <p class="getAddress" ><a href="javascript:void(0);" id="btnAddressOne">选实体门店</a></p>
-        </div>
+
+    <div class="list list-inset" ng-if="addresses.length > 0 && showAddress" ng-repeat="address in addresses | limitTo: 1" ui-sref="address({orderId: orderId})">
+      <a class="item item-avatar item-arrow" style="padding-left: 10px;" href="javascript:void(0)">
+        <h2 ng-bind="address.contactUserName"></h2>
+        <p>
+          <em ng-bind="address.province"></em>
+          <em ng-bind="address.city"></em>
+          <em ng-bind="address.area"></em>
+          <em ng-bind="address.address"></em>
+        </p>
+      </a>
     </div>
-     <div class="row" >
-     <div class="col col-20">
-                地址：
-     </div>
-         <div class="col col-80" >
-            <p >{{orders.contactUserName}}-{{orders.contractTel}}-{{orders.dispatchAddr}}</p>
-        </div>
+
+    <div class="list row" ng-if="address.length <= 0 && showAddress">
+      <div class="col">
+        <p class="getAddress">
+          <a class="item item-avatar" href="javascript:void(0);">添加地址</a>
+        </p>
+      </div>
     </div>
-  
-    <div class="row list" >
-        <div class="col col-50" >  
-          <ion-radio name="nameEndType"  ng-model="orders.dispatchEndType" ng-value="1">今日送达约17:00送达 </ion-radio>
-         </div>
-         <div class="col col-50" >  
-         <ion-radio name="nameEndType" ng-model="orders.dispatchEndType" ng-value="2">明日送达约17:00送达 </ion-radio>
-         </div>
+
+    <div class="list row" ng-if="showShop">
+      <div class="col">
+        <p class="getAddress">
+          <a class="item item-avatar" href="javascript:void(0);">选择实体门店</a>
+        </p>
+      </div>
     </div>
-    
+
+    <div class="row list">
+      <div class="col col-50">
+        <ion-radio name="nameEndType" ng-model="orders.dispatchEndType" ng-value="1">今日约17:00送达</ion-radio>
+      </div>
+      <div class="col col-50">
+        <ion-radio name="nameEndType" ng-model="orders.dispatchEndType" ng-value="2">明日约17:00送达</ion-radio>
+      </div>
+    </div>
+
     <div class="component payArea border-t">
-        <p class="py1">支付金额：￥{{orders.amount}} <span></span></p>
-        <p class="py2"></p>
-        <div class="payBtn">
-            <a  class="wxBtn">微信支付</a>
-        </div>
+      <p class="py1">支付金额：￥<em ng-bind="orders.amount"></em><span></span></p>
+      <p class="py2"></p>
+      <div class="payBtn"><a class="wxBtn">微信支付</a></div>
     </div>
-    </ion-content>
+  </ion-content>
 </ion-view>
 

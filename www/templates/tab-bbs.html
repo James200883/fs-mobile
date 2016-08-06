@@ -23,8 +23,10 @@
                 <img ng-src="{{blog.imageUrl}}" class="lazy"/>
               </span>
               <div class="nDesc">
-                <h6 class="ellipsis"><span ng-bind="blog.title"></span></h6>
-                <p class="n-txt ellipsis2" ng-bind="blog.summary"></p>
+                <div ui-sref="bbsDetail({bbsId: blog.id})">
+                  <h6 class="ellipsis"><span ng-bind="blog.title"></span></h6>
+                  <p class="n-txt ellipsis2" ng-bind="blog.summary"></p>
+                </div>
                 <div class="n-btm row">
                   <time class="col" style="padding-left: 0px;" ng-bind="blog.publishDateString"></time>
                   <div class="n-right n-tool">

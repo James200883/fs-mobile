@@ -1,13 +1,22 @@
 var myModule = angular.module('starter.controllers', [])
 
-  .controller('DashCtrl', function($scope, sharedCartService, CommonService) {
-    var cart = sharedCartService.cart;
+  .controller('AppCtrl', function ($scope, CartService) {
+    var shopCart = CartService.getCartData();
+    var totalCount = 0;
+    if (shopCart) {
+      shopCart = shopCart.cart;
+      for (var i = 0; i < shopCart.length; i++) {
+        totalCount += shopCart[i].cart_item_qty;
+      }
+    }
+    $scope.badges = {carts: totalCount}
+  })
+
+  .controller('DashCtrl', function($scope, CommonService) {
     $scope.slide_items = [];
     $scope.productData = [];
     $scope.categoryData = [];
-
-    //开始加载数据
-    $scope.loadPageData = function (){
+    $scope.loadPageData = function (){ //首页分类 热门推荐
       CommonService.get('/pageAds/findHomePageAds').success(function (results) {
         $scope.cateTitle = '分类';
         $scope.hotProd = '热门推荐';
@@ -18,17 +27,12 @@ var myModule = angular.module('starter.controllers', [])
         CommonService.toast('服务器异常,请稍后再试');
       });
     };
-
-    $scope.addToCart = function (id, image, name, price) {
-      cart.add(id, image, name, price, 1);
-    }
   })
 
-  .controller('CategoryCtrl', function($scope, $stateParams, $state, $timeout, sharedCartService, CommonService) {
+  .controller('CategoryCtrl', function($scope, $stateParams, $state, $timeout, CartService, CommonService) {
     $scope.hasmore = false;
     $scope.productData = [];
     $scope.cateId = $stateParams.categoryId;
-    var cart = sharedCartService.cart;
     var param = {page: 1, pageSize: 10, type: 'sale', categoryId: $scope.cateId}, timer = null;
 
     $scope.initCateData = function () {//初始化数据
@@ -40,10 +44,6 @@ var myModule = angular.module('starter.controllers', [])
       param.type = sortType;
       param.page = 1;
       loadProduct(param);
-    };
-
-    $scope.addToCart = function (id, image, name, price) {//加到购物车
-      cart.add(id, image, name, price, 1);
     };
 
     $scope.getProdByCategoryId = function (categoryId) {//分类查询商品
@@ -74,6 +74,20 @@ var myModule = angular.module('starter.controllers', [])
       return $scope.hasmore;
     };
 
+    $scope.addToCart = function (productId, productImg, productName, productPrice, productWeight, tagPresell) {
+      var product = {};
+      product.productId = productId;
+      product.productImg = productImg;
+      product.productName = productName;
+      product.productPrice = productPrice;
+      product.productCount = 1;
+      product.productWeight = productWeight;
+      product.tagPresell = tagPresell;
+      CartService.addCart(product);
+
+      CommonService.toast('已成功加入购物车o(∩_∩)o');
+    };
+
     function loadCategory() { //获取分类
       CommonService.get('/category/getWXAllCategory').success(function (results) {
         $scope.categoryData = results.data;
@@ -97,180 +111,148 @@ var myModule = angular.module('starter.controllers', [])
     }
   })
 
-  .controller('ProductDetailCtrl', function($scope, $stateParams, sharedCartService, CommonService) { //产品详情
+  .controller('ProductDetailCtrl', function($scope, $stateParams, CartService, CommonService) { //产品详情
     $scope.productDetailImages = [];
     $scope.productInfo = [];
     $scope.productDetails = [];
-    $scope.loadProductDetail = function () {
+    $scope.activities = '';
+    $scope.initProductDetailData = function () {
+      loadProductDetail();
+      loadActivity();
+    };
+
+    $scope.addShopCart = function (productId, productImg, productName, productPrice, productWeight, tagPresell) { //加入购物车
+      var product = {};
+      product.productId = productId;
+      product.productImg = productImg;
+      product.productName = productName;
+      product.productPrice = productPrice;
+      product.productCount = 1;
+      product.productWeight = productWeight;
+      product.tagPresell = tagPresell;
+      CartService.addCart(product);
+
+      CommonService.toast('已成功加入购物车o(∩_∩)o');
+    };
+
+    function loadProductDetail () { //加载商品详情
       CommonService.get('/product/getWXProductById', {id: $stateParams.productId}).success(function (res) {
+        console.log(res.product);
         $scope.productDetailImages = res.picData;
         $scope.productInfo = res.product;
         $scope.productDetails = res.productInfo;
       }).error(function () {
         CommonService.toast('获取商品详情异常,请稍后再试');
       });
+    };
+
+    function loadActivity () { //加载促销活动
+      CommonService.get('/activity/WXfindActivityProduct').success(function (res) {
+        var prodActivities = res.data;
+        var arr = [];
+        for (var i = 0; i < prodActivities.length; i++) {
+          if (i >= 2) {break;}
+          arr.push(prodActivities[i].name);
+        }
+        $scope.activities = arr.toString();
+      }).error(function () {
+        CommonService.toast('服务器异常,请稍后再试');
+      });
     }
   })
 
-  .controller('CartCtrl', function ($scope,$http,$stateParams, sharedCartService,CommonService) {
-    $scope.total_amount=0;
-    $scope.total_qty=0;
-
-    $scope.initCartData = function (){
-      $scope.cart=sharedCartService.cart;
-      var ids =  $scope.cart.findIds();
-
-      //获取产品资料
-      CommonService.get('/product/findAllProductIds',{'ids':ids}).success(function (results) {
-        var data = results;
-        for(var m =0, len = data.length; m<len; m++){
-          if(data[m].tagPresell === 1){
-            $scope.cart.setTagType(data[m].id, data[m].tagPresell);
-          }
-        }
-
-      }).error(function (results) {
-        CommonService.toast('服务器异常，请稍后再试');
-      });
+  .controller('CartCtrl', function ($scope, $stateParams, $state, CartService, CommonService, UserService) { //购物车
+    $scope.cartProducts = [];
+    $scope.totalPrice = 0.0;
+    $scope.pushNotification = {checked: false};
+    $scope.initCartData = function () { //初始化购物车商品
+      var cartData = CartService.getCartData();
+      if (cartData) {
+        $scope.cartProducts = cartData.cart;
+      }
     };
 
-    //remove function
-    $scope.removeFromCart=function(c_id){
-      $scope.cart.drop(c_id);
-      $scope.total_qty=sharedCartService.total_select_qty;
-      $scope.total_amount=sharedCartService.total_select_amount;
+    $scope.decrement = function (itemId) { //数量减
+      CartService.decrement(itemId);
     };
 
-    $scope.inc=function(c_id){
-      $scope.cart.increment(c_id);
+    $scope.increment = function (itemId) { //数量加
+      CartService.increment(itemId);
     };
 
-    $scope.dec=function(c_id){
-      $scope.cart.decrement(c_id);
+    $scope.pushNotificationChange = function () { //全选
+      CartService.notificationAll($scope.pushNotification.checked);
+      $scope.totalPrice = CartService.totalAmount;
     };
 
-    //全选按钮
-    $scope.pushNotificationChange = function() {
-      $scope.cart.notificationAll($scope.pushNotification.checked);
-      $scope.total_qty=sharedCartService.total_select_qty;
-      $scope.total_amount=sharedCartService.total_select_amount;
+    $scope.itemNotificationChange = function (itemId) { //单选
+      CartService.notificationItem(itemId);
+      $scope.totalPrice = CartService.totalItemAmount;
     };
 
-    $scope.pushNotification = { checked: false };
-
-    //item选择
-    $scope.itemNotificationChange = function(itemId){
-      $scope.cart.notificationChange(itemId);
-      $scope.total_qty=sharedCartService.total_select_qty;
-      $scope.total_amount=sharedCartService.total_select_amount;
-    };
-    //check out
-    $scope.checkout=function(){
-      if($scope.total_amount>0){
-        var orderType = $scope.cart.checkForCheckout();
-        alert('ss'+orderType);
-        //正常订单或预购订单
-        if(orderType > 0) {
-
-
-          var orders = {accessCode:'',
-            userId:'1',
-            orderId:'',
-            contactUserName:'',
-            contractTel:'',
-            dispatchAddr:'',
-            orderType:orderType,//1正常配送，2预售订单 3充值订单
-            payType:'',
-            dispatchType:'',
-            totalNumber:$scope.total_qty,
-            amount:$scope.total_amount};
-
-          //初始化订单明细
-          orders.items = $scope.cart.findOrderItem();
-
-          console.log('Json' + JSON.stringify(orders));
-          //添加订单，跳转到订单页面
-          CommonService.postBody('/orders/addOrUpdateOrders',orders).success(function (results) {
-            var orderId = results.orderId;
-
-            //已生产订单，清空当前数据
-            //$scope.cart.dropCheck();
-
-            window.location.href = '#/order/'+orderId;
-          }).error(function (results) {
-            CommonService.toast('生成订单异常，请稍后再试');
-          });
-
-        }else{
-          var alertPopup = $ionicPopup.alert({
-            title: '预购订单独生成订单',
-            template: '请勾选预购的产品，独生成预购订单!'
+    $scope.goPay = function () { //去结算
+      if ($scope.totalPrice > 0) {
+        var objs = CartService.getSelectedCartData(); //获取被选中的商品
+        var orderType = CartService.isMixed(objs);
+        if (orderType == 0) {
+          CommonService.toast('预购商品请单独下单');
+        } else {
+          var orderParam = {userId: UserService.getUserId(), orderType: orderType, amount: $scope.totalPrice, items: objs};
+          CommonService.showLoadding();
+          CommonService.postBody('/orders/addOrUpdateOrders', orderParam).success(function (res) {
+            CommonService.hideLoading();
+            $state.go('order', {orderId: res.orderId});
+          }).error(function () {
+            CommonService.hideLoading();
+            CommonService.toast('服务器异常,请稍后再试');
           });
         }
-      }else{
-        var alertPopup = $ionicPopup.alert({
-          title: 'No item in your Cart',
-          template: 'Please add Some Items!'
-        });
+      } else {
+        CommonService.toast('您还没有选择商品哦!');
       }
     }
   })
 
-  .controller('OrderCtrl', function($scope,$http,$stateParams, sharedCartService,CommonService) {
+  .controller('OrderCtrl', function($scope, $stateParams, CommonService, UserService) { //填写订单
+    $scope.orderId = $stateParams.orderId;
+    $scope.addrChoice = 'A';
+    $scope.showShop = false;
+    $scope.showAddress = true;
+    $scope.orders = [];
+    $scope.addresses = [];
 
-    //初始化购物车的产品属性
-    angular.element(document).ready(function () {
-      $scope.orderId = $stateParams.orderId;
-      $scope.addrChoice = 'A';
-      $scope.initData();
-    });
+    $scope.initOrderData = function () {
+      initProductData();
+      initUserAddressData();
+    };
 
-    $scope.show_addr = true;
-    $scope.show_shop = false;
-
-    //全选按钮
-    $scope.pushNotificationChange = function(val) {
-
+    $scope.pushNotificationChange = function (val) {
       $scope.addrChoice = val;
-      if($scope.addrChoice === 'A'){
-        $scope.show_addr = true;
-        $scope.show_shop = false;
-      }else{
-        $scope.show_addr = false;
-        $scope.show_shop = true;
+      if ($scope.addrChoice == 'A') {
+        $scope.showAddress = true;
+        $scope.showShop = false;
+      } else {
+        $scope.showShop = true;
+        $scope.showAddress = false;
       }
     };
 
-    $scope.initData = function(){
-      //获取产品资料
-      CommonService.get('/orders/getOrdersById',{'id':$scope.orderId }).success(function (results) {
-        $scope.orders = 	results;
-
-        var userAddr = sessionStorage.getItem('user_select_address');
-        if(null != userAddr){
-          var userAddrData = JSON.parse(userAddr);
-          $scope.orders.contactUserName = userAddrData.contactUserName;
-          $scope.orders.contractTel = userAddrData.contractTel;
-          $scope.orders.dispatchAddr = userAddrData.address;
-        }
-
-      }).error(function (results) {
-        CommonService.toast('获取分类异常，请稍后再试');
+    function initProductData () { //初始化订单产品信息
+      CommonService.get('/orders/getOrdersById', {id: $scope.orderId}).success(function (res) {
+        $scope.orders = res;
+      }).error(function () {
+        CommonService.toast('初始化订单失败!');
       });
     };
 
-    $scope.goAddress = function(){
-      alert($scope.orderId);
-      window.location.href='#/address/'+$scope.orderId;
-    };
-
-    $scope.pay = function(){
-
+    function initUserAddressData () { //获取用户地址
+     CommonService.get('/userAddr/findUserAddrByUserId', {userId: UserService.getUserId()}).success(function (res) {
+       $scope.addresses = res.data;
+     });
     }
-
   })
 
-  .controller('ChongzhiCtrl', function($scope,$http,$stateParams, CommonService) {
+  .controller('ChongzhiCtrl', function($scope, $stateParams, CommonService) {
 
     //初始化购物车的产品属性
     angular.element(document).ready(function () {
@@ -283,8 +265,6 @@ var myModule = angular.module('starter.controllers', [])
 
     //全选按钮
     $scope.pushNotificationChange = function(val,amount) {
-      alert(val);
-      alert(amount);
       $scope.czId = val;
       $scope.czAmount = amount;
     };
@@ -322,7 +302,7 @@ var myModule = angular.module('starter.controllers', [])
   })
 
 
-  .controller('RechargeOrderCtrl', function($scope,$http,$stateParams, sharedCartService,CommonService) {
+  .controller('RechargeOrderCtrl', function($scope, $stateParams, CommonService) {
     //初始化购物车的产品属性
     angular.element(document).ready(function () {
       $scope.orderId = $stateParams.orderId;
@@ -345,7 +325,7 @@ var myModule = angular.module('starter.controllers', [])
 
   })
 
-  .controller('AddressCtrl', function($scope,$http,$state,$stateParams, CommonService) {
+  .controller('AddressCtrl', function($scope, $state, $stateParams, CommonService) {
 
     $scope.orderId = $stateParams.orderId;
 
@@ -361,7 +341,6 @@ var myModule = angular.module('starter.controllers', [])
       sessionStorage.setItem('user_select_address', JSON.stringify(selectAddr));
     };
 
-    //TODO add dync userId
     $scope.initData = function(){
       CommonService.get('/userAddr/findUserAddrByUserId',{'userId':'5'}).success(function (results) {
         $scope.userAddress = results.data;
@@ -943,9 +922,8 @@ var myModule = angular.module('starter.controllers', [])
     };
   })
 
-  .controller('SearchResultCtrl', function ($scope, $stateParams,sharedCartService, CommonService) {
+  .controller('SearchResultCtrl', function ($scope, $stateParams, CommonService) {
     $scope.query = $stateParams.query;
-    var cart = sharedCartService.cart;
 
     angular.element(document).ready(function () {
       $scope.initData();
@@ -965,14 +943,8 @@ var myModule = angular.module('starter.controllers', [])
     };
 
     $scope.search = function(query){
-
       $scope.initData();
     };
-
-    //add to cart function
-    $scope.addToCart=function(id,image,name,price){
-      cart.add(id,image,name,price,1);
-    }
   })
 
   .controller('MyOrderCtrl', function ($scope, CommonService, UserService) { //我的订单

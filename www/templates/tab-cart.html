@@ -1,63 +1,97 @@
+<ion-header-bar class="item-input-inset bar-light" align-title="center">
+  <p class="title">我的购物车</p>
+</ion-header-bar>
+
 <ion-view>
   <ion-content ng-init="initCartData()">
     <div class="cart">
-      <div class="cartHead">
-        <h4><span>购物车</span></h4>
-      </div>
-
-      <div class="product-cart">
+      <div class="product-cart" ng-if="cartProducts.length > 0">
         <div class="pct-cart-head row">
-           <div class = "col col-33 c">
-             <ion-checkbox ng-model="pushNotification.checked" ng-change="pushNotificationChange()" style="height:30px;border-style:none;"><span style="vertiral-align:center;">全选</span></ion-checkbox>
-          </div>
-          <div class="col col-67">
-           <p>已选择 ( {{ total_qty }} ) =
-                <strong>￥ {{total_amount}}</strong>
-            </p>
-            </div>
+          <ion-checkbox ng-model="pushNotification.checked" ng-change="pushNotificationChange()" style="border-style: none"><span>有机鲜生</span></ion-checkbox>
+          <!--<a href="javascript:void(0)" class="getCoupon">领优惠券</a>-->
         </div>
 
-        <ul class="product-cart-list" ng-repeat="item in cart"   >
-          <li>
-
-             <div class="col col-33">
-               <div class="row">
-              <div class="col-33"><ion-checkbox ng-model="item.cart_item_check" ng-change="itemNotificationChange(item.cart_item_id)" style="width:10px;height:20px;border-style:none;"></ion-checkbox></div>
-              <div class="col-67"><span class="pct-img"><img ng-src="{{item.cart_item_image}}"></span></div>
-              </div>
-             </div>
-
-              <div class="col col-33">
-                   <h6 class="ellipsis2"><a href="#/product/{{item.cart_item_id}}">{{item.cart_item_name}}</a></h6>
-                  <span class="pct-price">¥{{item.cart_item_price}}</span>
-               	  <span class="pct-price" ng-if="item.tagType">预购</span>
-              </div>
-
-              <div class="pct-btm col-33">
+        <ul class="product-cart-list">
+          <li style="border-top: 1px solid #ddd" ng-repeat="cartProduct in cartProducts">
+            <ion-checkbox ng-model="cartProduct.cart_item_check" ng-change="itemNotificationChange(cartProduct.cart_item_id)" style="border-style: none; margin-left: -30px;"></ion-checkbox>
+            <span class="pct-img"><img ng-src="{{cartProduct.cart_item_image}}"/></span>
+            <div class="pct-desc">
+              <h6 class="ellipsis2"><a href="javascript:void(0);" ui-sref="productDetail({productId: cartProduct.cart_item_id})" ng-bind="cartProduct.cart_item_name"></a></h6>
+              <p ng-bind="cartProduct.cart_item_weight"></p>
+              <div class="pct-btm row">
                 <div class="num-sel-lage clearfix">
-                  <a class="inC" ng-click="">-</a>
-                  <input type="tel" class="buy-num" ng-model="item.cart_item_qty">
-                  <a class="deC" ng-click="">+</a>
-
+                  <a class="inC" href="javascript:void(0);" ng-click="decrement(cartProduct.cart_item_id)">-</a>
+                  <input type="tel" class="buy-num" value="{{cartProduct.total_qty}}"/>
+                  <a class="deC" href="javascript:void(0);" ng-click="increment(cartProduct.cart_item_id)">+</a>
                 </div>
-                <button ng-click="removeFromCart(item.cart_item_id)" class="button button-assertive button-block button-small icon ion-android-delete" ></button>
+                <span class="pct-price col">¥<em ng-bind="cartProduct.total_amount"></em></span>
               </div>
+              <div class="row" style="margin-top: 10px;" ng-if="cartProduct.cart_item_type == 1">
+                <span style="color: #ef473a">预购商品</span>
+              </div>
+            </div>
           </li>
         </ul>
       </div>
-    </div>
 
-    <div class="detailFoot">
-      <div class="detail-btm border-t row">
-         <ion-checkbox ng-model="pushNotification.checked" ng-change="pushNotificationChange()" style="height:30px;border-style:none;">全选</ion-checkbox>
-        <div class="dr-btm col">
-          <div class="cartInfo">
-            <p class="c-p1">总计: <span class="countPrice">{{total_amount}}</span></p>
-            <p class="c-p2">总数：{{total_qty}}</p>
-          </div>
-          <a class="goBuging" ng-click="checkout()">去结算</a>
+      <div class='noComment' ng-if="cartProducts.length == 0"><span>还没有商品喔~</span></div>
+
+      <!--<div class="like">
+        <h6><span>猜你喜欢</span></h6>
+        <div class="likeProduct">
+          <ul class="likeList clearfix">
+            <li>
+              <a href="javascript:void(0);">
+                <div class="likeImg"><img src="img/c_load.jpg"></div>
+                <div class="like-title ellipsis2">泰国进口山竹4斤 新鲜时令水果60-80g/个</div>
+                <p class="like-price"><span class="lk-new">￥<em>59.00</em></span><span class="lk-old">￥59.00</span></p>
+                <p class="lk-buyNum"><span>123人已购买</span></p>
+              </a>
+            </li>
+
+            <li>
+              <a href="javascript:void(0);">
+                <div class="likeImg"><img src="img/c_load.jpg"></div>
+                <div class="like-title ellipsis2">泰国进口山竹4斤 新鲜时令水果60-80g/个</div>
+                <p class="like-price"><span class="lk-new">￥<em>59.00</em></span><span class="lk-old">￥59.00</span></p>
+                <p class="lk-buyNum"><span>123人已购买</span></p>
+              </a>
+            </li>
+
+            <li>
+              <a href="javascript:void(0);">
+                <div class="likeImg"><img src="img/c_load.jpg"></div>
+                <div class="like-title ellipsis2">泰国进口山竹4斤 新鲜时令水果60-80g/个</div>
+                <p class="like-price"><span class="lk-new">￥<em>59.00</em></span><span class="lk-old">￥59.00</span></p>
+                <p class="lk-buyNum"><span>123人已购买</span></p>
+              </a>
+            </li>
+
+            <li>
+              <a href="javascript:void(0);">
+                <div class="likeImg"><img src="img/c_load.jpg"></div>
+                <div class="like-title ellipsis2">泰国进口山竹4斤 新鲜时令水果60-80g/个</div>
+                <p class="like-price"><span class="lk-new">￥<em>59.00</em></span><span class="lk-old">￥59.00</span></p>
+                <p class="lk-buyNum"><span>123人已购买</span></p>
+              </a>
+            </li>
+          </ul>
         </div>
-      </div>
+      </div>-->
     </div>
   </ion-content>
 </ion-view>
+
+<ion-footer-bar class="item-input-inset bar-light" ng-if="cartProducts.length > 0">
+  <div class="detailFoot">
+    <div class="detail-btm border-t row">
+      <ion-checkbox ng-model="pushNotification.checked" ng-change="pushNotificationChange()" style="border-style: none; margin-left: 0px;">全选</ion-checkbox>
+      <div class="dr-btm col">
+        <div class="cartInfo">
+          <p class="c-p1 padding">总计: <span class="countPrice">¥<em ng-bind="totalPrice"></em></span></p>
+        </div>
+        <a class="goBuging" href="javascript:void(0);" ng-click="goPay()">去结算</a>
+      </div>
+    </div>
+  </div>
+</ion-footer-bar>

@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.controllers', 'starter.services'])
 
-  .run(function($ionicPlatform) {
+  .run(function($ionicPlatform, CartService) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -22,7 +22,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.co
     });
   })
   .run(function ($ionicPlatform, $rootScope, $ionicHistory, $state, AuthenticationService) {
-    var needLoginView = ['app.account', 'myCoupon', 'userInfo', 'editUserInfo']; //需要登录页面的state
+    var needLoginView = ['app.account', 'app.cart', 'myCoupon', 'userInfo', 'editUserInfo']; //需要登录页面的state
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
       if (needLoginView.indexOf(toState.name) >= 0 && !AuthenticationService.isLogin()) {
         $state.go("login");
@@ -52,7 +52,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.co
       .state('app', {
         url: '/app',
         abstract: true,
-        templateUrl: 'templates/tabs.html'
+        controller: 'AppCtrl',
+        templateUrl: 'templates/tabs.html',
+        cache: false
       })
 
       .state('app.dash', {
@@ -92,7 +94,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.co
             templateUrl: 'templates/tab-cart.html',
             controller: 'CartCtrl'
           }
-        }
+        },
+        cache: false
       })
 
       .state('order', {
@@ -106,8 +109,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.co
         templateUrl: 'templates/recharge-order.html',
         controller: 'RechargeOrderCtrl'
       })
-
-
+      
       .state('chongzhi', {
         url: '/chongzhi',
         templateUrl: 'templates/chong-zhi.html',
