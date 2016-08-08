@@ -135,10 +135,16 @@ angular.module('starter.services', [])
       },
 
       getUserName: function () {
+    	if(null == $window.localStorage['user_token']){
+    		return "";
+    	}
         return JSON.parse($window.localStorage['user_token']).username;
       },
 
       getUserId: function () {
+    	  if(null == $window.localStorage['user_token']){
+      		return null;
+      	}
         return JSON.parse($window.localStorage['user_token']).user_id;
       }
     }
@@ -274,5 +280,5 @@ angular.module('starter.services', [])
     return cartObj;
   })
 
-.constant('prefixUrl', 'http://192.168.1.132:8080/fs-server');
-
+.constant('prefixUrl', 'http://139.129.202.208:8080/fs-server');
+//'http://192.168.1.132:8080/fs-server'
