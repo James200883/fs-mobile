@@ -1,7 +1,7 @@
 <ion-view>
   <ion-content ng-init="loadPageData()">
     <ion-slide-box auto-play="true" does-continue="true" slide-interval="2000" show-pager="true">
-      <ion-slide class="swiper-slide" style="width: 100%; height: 130px;" ng-repeat="slide in slide_items">
+      <ion-slide style="width: 100%; height: 130px;" ng-repeat="slide in slide_items">
         <div><img ng-src="{{slide.impageUrl}}"/></div>
       </ion-slide>
     </ion-slide-box>

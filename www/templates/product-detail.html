@@ -6,7 +6,7 @@
 <ion-view>
   <ion-content ng-init="initProductDetailData()">
     <ion-slide-box auto-play="true" does-continue="true" slide-interval="2000" show-pager="true">
-      <ion-slide class="swiper-slide" style="width: 100%; height: 120px;" ng-repeat="pdImg in productDetailImages">
+      <ion-slide style="width: 100%; height: 120px;" ng-repeat="pdImg in productDetailImages">
         <div><img ng-src="{{pdImg.impageUrl}}"/></div>
       </ion-slide>
     </ion-slide-box>
@@ -23,6 +23,12 @@
           <span class="d-info-l col" ng-bind="activities"></span>
           <span class="d-info-m col">已售数量:<em ng-bind="productInfo.countSale"></em></span>
           <!--<span class="d-info-r col">98%好评</span>-->
+        </div>
+
+        <div class="counts">
+          <a class="b-reduce" href="javascript:void(0)" ng-click="sellCounts('reduce')"></a>
+          <input type="tel" class="b-txt" ng-model="sellCount"/>
+          <a class="b-add" href="javascript:void(0);" ng-click="sellCounts('add')"></a>
         </div>
       </div>
 
@@ -64,7 +70,11 @@
   <div class="cmtFooter">
     <div class="cmtFrom">
       <div class="dr-btm col" style="width:120px; height: 40px; float: right; margin-right: -13px;">
-        <a class="addCar" href="javascript:void(0)" ng-click="addShopCart(productInfo.id, productInfo.imageUrl, productInfo.name, productInfo.price, productInfo.weight, productInfo.tagPresell)">加入购物车</a>
+        <a class="addCar" href="javascript:void(0)" ng-click="buy(productInfo)">立即购买</a>
+      </div>
+
+      <div class="dr-btm col" style="width:120px; height: 40px; float: right; margin-right: -5px;">
+        <a class="addCar" href="javascript:void(0)" style="background-color: gold" ng-click="addShopCart(productInfo.id, productInfo.imageUrl, productInfo.name, productInfo.price, productInfo.weight, productInfo.tagPresell)">加入购物车</a>
       </div>
     </div>
   </div>

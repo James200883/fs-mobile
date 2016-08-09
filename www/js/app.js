@@ -5,9 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services'])
 
-  .run(function($ionicPlatform, CartService) {
+  .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -109,7 +109,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.co
         templateUrl: 'templates/recharge-order.html',
         controller: 'RechargeOrderCtrl'
       })
-      
+
       .state('chongzhi', {
         url: '/chongzhi',
         templateUrl: 'templates/chong-zhi.html',
@@ -117,15 +117,15 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic-citypicker', 'starter.co
       })
 
       .state('address', {
-        url: '/address/:orderId',
+        url: '/address',
         templateUrl: 'templates/address.html',
         controller: 'AddressCtrl'
       })
 
-      .state('addaddr', {
-        url: '/addaddr/:id',
-        templateUrl: 'templates/addAddress.html',
-        controller: 'AddAddrCtrl'
+      .state('addOrEditAddress', {
+        url: '/addOrEditAddress/:id',
+        templateUrl: 'templates/addOrEditAddress.html',
+        controller: 'addOrEditAddressCtrl'
       })
 
       .state('activity', {

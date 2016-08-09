@@ -111,11 +111,12 @@ var myModule = angular.module('starter.controllers', [])
     }
   })
 
-  .controller('ProductDetailCtrl', function($scope, $stateParams, CartService, CommonService) { //产品详情
+  .controller('ProductDetailCtrl', function($scope, $stateParams, $state, CartService, CommonService, UserService) { //产品详情
     $scope.productDetailImages = [];
     $scope.productInfo = [];
     $scope.productDetails = [];
     $scope.activities = '';
+    $scope.sellCount = 1;
     $scope.initProductDetailData = function () {
       loadProductDetail();
       loadActivity();
@@ -135,9 +136,39 @@ var myModule = angular.module('starter.controllers', [])
       CommonService.toast('已成功加入购物车o(∩_∩)o');
     };
 
+    $scope.buy = function (productInfo) { //立即购买
+      var orderItem = {}, resultObj = [];
+      orderItem.productId = productInfo.id;
+      orderItem.productName = productInfo.name;
+      orderItem.productUrl = productInfo.imageUrl;
+      orderItem.sellCount = $scope.sellCount;
+      orderItem.distPrice = productInfo.price;
+      orderItem.sellPrice = ($scope.sellCount) * (productInfo.price);
+      resultObj.push(orderItem);
+
+      var orderParam = {userId: UserService.getUserId(), orderType: productInfo.tagPresell, amount: ($scope.sellCount) * (productInfo.price), items: resultObj};
+      CommonService.showLoadding();
+      CommonService.postBody('/orders/addOrUpdateOrders', orderParam).success(function (res) {
+        CommonService.hideLoading();
+        $state.go('order', {orderId: res.orderId});
+        CommonService.hideLoading();
+      }).error(function () {
+        CommonService.hideLoading();
+        CommonService.toast('服务器异常,请稍后再试');
+      });
+    };
+
+    $scope.sellCounts = function (type) {
+      if (type == 'reduce' && $scope.sellCount > 1) {
+        $scope.sellCount = $scope.sellCount - 1;
+      }
+      if (type == 'add') {
+        $scope.sellCount = $scope.sellCount + 1;
+      }
+    };
+
     function loadProductDetail () { //加载商品详情
       CommonService.get('/product/getWXProductById', {id: $stateParams.productId}).success(function (res) {
-        console.log(res.product);
         $scope.productDetailImages = res.picData;
         $scope.productInfo = res.product;
         $scope.productDetails = res.productInfo;
@@ -202,6 +233,7 @@ var myModule = angular.module('starter.controllers', [])
           CommonService.postBody('/orders/addOrUpdateOrders', orderParam).success(function (res) {
             CommonService.hideLoading();
             $state.go('order', {orderId: res.orderId});
+            CommonService.hideLoading();
           }).error(function () {
             CommonService.hideLoading();
             CommonService.toast('服务器异常,请稍后再试');
@@ -301,7 +333,6 @@ var myModule = angular.module('starter.controllers', [])
     }
   })
 
-
   .controller('RechargeOrderCtrl', function($scope, $stateParams, CommonService) {
     //初始化购物车的产品属性
     angular.element(document).ready(function () {
@@ -325,120 +356,36 @@ var myModule = angular.module('starter.controllers', [])
 
   })
 
-  .controller('AddressCtrl', function($scope, $state, $stateParams, CommonService) {
-
-    $scope.orderId = $stateParams.orderId;
-
-    //初始化购物车的产品属性
-    angular.element(document).ready(function () {
-      $scope.orderId = $stateParams.orderId;
-      sessionStorage.setItem('user_select_order', ''+$scope.orderId);
-      $scope.initData();
-    });
-
-    $scope.pushNotificationChange = function(id,contactUserName,contractTel,address ){
-      var selectAddr = {'id':id,'contactUserName':contactUserName,'contractTel':contractTel,'address':address};
-      sessionStorage.setItem('user_select_address', JSON.stringify(selectAddr));
-    };
-
-    $scope.initData = function(){
-      CommonService.get('/userAddr/findUserAddrByUserId',{'userId':'5'}).success(function (results) {
-        $scope.userAddress = results.data;
-
-      }).error(function (results) {
+  .controller('AddressCtrl', function($scope, $state, $stateParams, CommonService, UserService) { //我的收货地址
+    $scope.userAddresses = [];
+    $scope.initUserAddress = function () {
+      CommonService.get('/userAddr/findUserAddrByUserId', {'userId': UserService.getUserId()}).success(function (res) {
+        $scope.userAddresses = res.data;
+      }).error(function () {
         CommonService.toast('获取数据异常，请稍后再试');
       });
     };
 
-    $scope.goDel = function(id){
-      CommonService.post('/userAddr/del', {'idStr':id}).success(function (results) {
-
-        //$state.go($state.current, {'orderId':$scope.orderId}, {location: 'replace', reload: true});
-        window.location.reload(true);
-
-      }).error(function (results) {
-        CommonService.toast('获取数据异常，请稍后再试');
+    $scope.delAddress = function (id) { //删除收获地址
+      CommonService.showConfirm('确定删除该地址吗').then(function (res) {
+        if (res) {
+          CommonService.post('/userAddr/del', {idStr: id}).success(function (res) {
+            if (res.success == 'true') {
+              CommonService.toast('删除成功');
+            }
+          }).error(function () {
+            CommonService.toast('删除失败');
+          });
+        }
       });
     };
-
-    $scope.goEdit = function(id){
-      window.location.href='#/addaddr/'+id;
-    };
-
-    $scope.goAdd = function(){
-      window.location.href='#/addaddr/00';
-    };
-
-    $scope.isToOrder = function(){
-      var orderId = sessionStorage.getItem('user_select_order');
-      if(null == orderId || orderId === '00')
-      {
-        return false;
-      }else{
-        return true;
-      }
-
-    };
-
-    //返回到对应的页面
-    $scope.goOrder = function(){
-      if($scope.isToOrder()){
-        window.location.href='#/order/'+sessionStorage.getItem('user_select_order');
-      }else{
-        window.location.href='#/app/account';
-      }
-    }
-
   })
 
-  .controller('AddAddrCtrl', function($scope,$http,$state,$stateParams, CommonService) {
-
-    var vm=$scope.vm={};
-
-    //例1
-    vm.CityPickData = {
-      areaData: [],
-      tag: '-',
-      defaultAreaData: ['广州', '广东', '天河区']
-    };
-
-    //初始化参数
-    angular.element(document).ready(function () {
-      $scope.id = ''+$stateParams.id;
-      if($scope.id == 00){
-        $scope.userAddr = {};
-      }else{
-        $scope.initData();
-      }
-    });
-
-    //TODO add dync userId
-    $scope.initData = function(){
-      CommonService.post('/userAddr/findUserAddrById',{'id':''+$scope.id}).success(function (results) {
-        $scope.userAddr = results;
-      }).error(function (results) {
-        CommonService.toast('获取数据异常，请稍后再试');
-      });
-    };
-
-    //保存并返回到用户地址列表
-    $scope.saveAddr = function(){
-      $scope.userAddr.userId = 5;
-      $scope.userAddr.province =  vm.CityPickData.areaData[0];
-      $scope.userAddr.city =  vm.CityPickData.areaData[1];
-      $scope.userAddr.area =  vm.CityPickData.areaData[2];
-
-      CommonService.post('/userAddr/save',$scope.userAddr).success(function (results) {
-
-        var orderId = sessionStorage.getItem('user_select_order');
-        //跳转刷新
-        $state.go('address',{'orderId':orderId},{location: 'replace', reload: true});
-
-      }).error(function (results) {
-        CommonService.toast('获取数据异常，请稍后再试');
-      });
+  .controller('addOrEditAddressCtrl', function($scope, $state, $stateParams, CommonService) {
+    var addressId = $stateParams.id;
+    $scope.selectData = function () {
+      console.log('123213');
     }
-
   })
 
   .controller('ActivityCtrl', function($scope,$http,$stateParams, CommonService) {

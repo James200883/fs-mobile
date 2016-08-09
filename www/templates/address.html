@@ -1,40 +1,40 @@
-<ion-header-bar class="item-input-inset bar-stable">
-  <a class="button icon-left ion-ios-arrow-left button-clear button-dark"></a>
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">收货地址</p>
 </ion-header-bar>
 
 <ion-view>
-  <ion-content>
-    <div class="component border-tb">
-        <p class="getAddress addAddress"><a ng-click="goEdit('00')">新增收货地址ַ</a></p>
+  <ion-content ng-init="initUserAddress()">
+    <div class="boxItem border-tb" ng-if="userAddresses.length > 0">
+      <div class="addressArea">
+        <ul class="addressList bor-b">
+          <li ng-repeat="userAddress in userAddresses">
+            <div class="adr-left">
+              <span class="checkAdr active"></span>
+              <div class="adr-desc">
+                <h6><span ng-bind="userAddress.contactUserName"></span><span ng-bind="userAddress.contractTel"></span></h6>
+                <p class="ellipsis padding-left">
+                  <em ng-bind="userAddress.province"></em>
+                  <em ng-bind="userAddress.city"></em>
+                  <em ng-bind="userAddress.area"></em>
+                  <em ng-bind="userAddress.address"></em>
+                </p>
+              </div>
+            </div>
+
+            <div class="adr-right border-l">
+              <a href="javascript:void(0)" class="adr-edit" ui-sref="addOrEditAddress({id: userAddress.id})">编辑</a>
+              <a href="javascript:void(0)" class="adr-del" ng-click="delAddress(userAddress.id)">删除</a>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <div class="boxItem border-tb">
-        <div class="addressArea">
-            <ul class="addressList bor-b" id="addressList" ng-repeat="item in userAddress">
-                    <li >
-                        <div class="row adr-left">
-                            <div class="col col-20"><ion-radio ng-model="choice" ng-change="pushNotificationChange(item.id, item.contactUserName,item.contractTel,item.address )" ng-value="item.id">选择</ion-radio></div>
-                           
-                            <div class="col col-60 ">
-                                <h6><span class="contactUserName">{{item.contactUserName}}</span><span class="contractTel">{{item.contractTel}}</span></h6>
-                                <p class="ellipsis">{{item.address}}</p>
-                            </div>
-                        </div>
-                        <div class="adr-right border-l">
-                            <a  class="adr-edit" ng-click="goEdit(item.id)">编辑</a>
-                            <a class="adr-del" ng-click="goDel(item.id)">删除</a>
-                        </div>
-                    </li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="btnBtm" id="btnToOrder" ng-if="isToOrder()">
-        <div class="saveArea">
-            <a class="saveBtn" ng-click="goOrder()" id="btnToOrderHtml">返回</a>
-        </div>
-    </div>
-
+    <div class='noComment' ng-if="userAddresses.length <= 0"><span>暂无收获地址~</span></div>
   </ion-content>
+
+  <ion-footer-bar align-title="center" style="margin-bottom: 5px;">
+    <button type="button" class="btn btn-success">新增收货地址</button>
+  </ion-footer-bar>
 </ion-view>
-	

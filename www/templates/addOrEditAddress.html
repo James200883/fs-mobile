@@ -1,0 +1,58 @@
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">编辑收货地址</p>
+</ion-header-bar>
+
+<ion-view>
+  <ion-content>
+    <div class="box-panel">
+      <div class="panel-content border-t">
+        <ul class="panel-list bor-b">
+          <li>
+            <span class="pn-left">收货人:</span>
+            <div class="pn-right padding-left">
+              <input type="text" placeholder="请输入姓名" class="p-name"/>
+            </div>
+          </li>
+
+          <li>
+            <span class="pn-left">联系方式:</span>
+            <div class="pn-right padding-left">
+              <input type="tel" placeholder="11位手机号码" class="p-tel">
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box-panel">
+      <div class="panel-content border-t">
+        <ul class="panel-list bor-b">
+          <li>
+            <span class="pn-left" style="margin-top: 6px;">所在地区:</span>
+            <div class="pn-right">
+              <span class="od-txt areaCity">
+                <label class="item-input item-select" style="height: 30px; width: 100%; float: left">
+                  <select ng-click="selectData()">
+                    <option><em>广东省</em><em>广州市</em><em>天河区</em></option>
+                  </select>
+                </label>
+              </span>
+            </div>
+          </li>
+
+          <li>
+            <span class="pn-left">详细地址:</span>
+            <div class="pn-right padding-left">
+              <input type="text" class="address-txt" placeholder="街道 楼牌等"/>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </ion-content>
+
+  <ion-footer-bar align-title="center" style="margin-bottom: 5px;">
+    <button type="button" class="btn btn-success">保存</button>
+  </ion-footer-bar>
+</ion-view>

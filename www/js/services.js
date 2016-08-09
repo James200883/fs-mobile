@@ -1,86 +1,86 @@
 angular.module('starter.services', [])
 
-.factory('CommonService', function($http, $cordovaToast, $ionicLoading, $ionicPopup, $cordovaGeolocation, prefixUrl) {
-  var options = {timeout:'10000', enableHighAccuracy: false};
-  var obj = {};
-  obj.toast = function (message) {
-	    $cordovaToast.show(message, 'short', 'center');
-	  };
+  .factory('CommonService', function ($http, $cordovaToast, $ionicLoading, $ionicPopup, $cordovaGeolocation, prefixUrl) {
+    var options = {timeout: '10000', enableHighAccuracy: false};
+    var obj = {};
+    obj.toast = function (message) {
+      $cordovaToast.show(message, 'short', 'center');
+    };
 
-	  obj.showLoadding = function () {
-	    $ionicLoading.show({
-	      template: 'Loading...'
-	    });
-	  };
+    obj.showLoadding = function () {
+      $ionicLoading.show({
+        template: 'Loading...'
+      });
+    };
 
-	  obj.hideLoading = function () {
-	    $ionicLoading.hide();
-	  };
+    obj.hideLoading = function () {
+      $ionicLoading.hide();
+    };
 
-	  obj.showConfirm = function (message) {
-	    return $ionicPopup.confirm({
-	      title: '提示',
-	      template: message,
-	      okText: '确定',
-	      cancelText: '取消'
-	    }).then(function (res) {
-	      return res;
-	    });
-	  };
+    obj.showConfirm = function (message) {
+      return $ionicPopup.confirm({
+        title: '提示',
+        template: message,
+        okText: '确定',
+        cancelText: '取消'
+      }).then(function (res) {
+        return res;
+      });
+    };
 
-  obj.get = function (url, data) {
-    return $http({
-      method: 'GET',
-      url: prefixUrl + url,
-      params: data
-    }).success(function (result) {
-      return result.data;
-    }).error(function (result) {
-      return result;
-    });
-  };
+    obj.get = function (url, data) {
+      return $http({
+        method: 'GET',
+        url: prefixUrl + url,
+        params: data
+      }).success(function (result) {
+        return result.data;
+      }).error(function (result) {
+        return result;
+      });
+    };
 
-  obj.post = function (url, data) {
-    return $http({
-      method: 'POST',
-      url: prefixUrl + url,
-      params: data
-    }).success(function (result) {
-      return result.data;
-    }).error(function (result) {
-      return result
-    });
-  };
+    obj.post = function (url, data) {
+      return $http({
+        method: 'POST',
+        url: prefixUrl + url,
+        params: data
+      }).success(function (result) {
+        return result.data;
+      }).error(function (result) {
+        return result
+      });
+    };
 
-  obj.postBody = function (url, data) {
-	    return $http({
-	      method: 'POST',
-	      url: prefixUrl + url,
-	      cache : false,
-	      async : false,//同步
-	      contentType: 'application/json',
-	      data : JSON.stringify(data)
-	    }).success(function (result) {
-	      return result.data;
-	    }).error(function (result) {
-	      return result
-	    });
-	  };
+    obj.postBody = function (url, data) {
+      return $http({
+        method: 'POST',
+        url: prefixUrl + url,
+        cache: false,
+        async: false,//同步
+        contentType: 'application/json',
+        data: JSON.stringify(data)
+      }).success(function (result) {
+        return result.data;
+      }).error(function (result) {
+        return result
+      });
+    };
 
-  obj.getCurrentPosition = function () { //获取当前位置
-    $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
-      return position;
-    }, function (err) {
-      CommonService.toast('获取位置信息失败');
-    });
-  };
+    obj.getCurrentPosition = function () { //获取当前位置
+      $cordovaGeolocation.getCurrentPosition(options).then(function (position) {
+        return position;
+      }, function (err) {
+        CommonService.toast('获取位置信息失败');
+      });
+    };
 
-  obj.clearPosition = function () { //清除位置信息
-    $cordovaGeolocation.watchPosition(options).clearWatch();
-  };
+    obj.clearPosition = function () { //清除位置信息
+      $cordovaGeolocation.watchPosition(options).clearWatch();
+    };
 
-  return obj;
-})
+    return obj;
+  })
 
   .factory('AuthenticationService', function (UserService) {
     return {
@@ -159,18 +159,34 @@ angular.module('starter.services', [])
           cartObj.cart[index].total_qty += parseInt(productInfo.productCount);
           cartObj.cart[index].total_amount += parseFloat(productInfo.productPrice);
         } else {
-          cartObj.cart.push({'cart_item_id': productInfo.productId, 'cart_item_image': productInfo.productImg,
-            'cart_item_name': productInfo.productName, 'cart_item_price': productInfo.productPrice,
-            'cart_item_qty': productInfo.productCount, 'cart_item_user': UserService.getUserId(),
-            'cart_item_weight': productInfo.productWeight, 'cart_item_check': false, 'total_qty': productInfo.productCount,
-            'total_amount': productInfo.productPrice, 'cart_item_type': productInfo.tagPresell});
+          cartObj.cart.push({
+            'cart_item_id': productInfo.productId,
+            'cart_item_image': productInfo.productImg,
+            'cart_item_name': productInfo.productName,
+            'cart_item_price': productInfo.productPrice,
+            'cart_item_qty': productInfo.productCount,
+            'cart_item_user': UserService.getUserId(),
+            'cart_item_weight': productInfo.productWeight,
+            'cart_item_check': false,
+            'total_qty': productInfo.productCount,
+            'total_amount': productInfo.productPrice,
+            'cart_item_type': productInfo.tagPresell
+          });
         }
       } else {
-        cartObj.cart.push({'cart_item_id': productInfo.productId, 'cart_item_image': productInfo.productImg,
-          'cart_item_name': productInfo.productName, 'cart_item_price': productInfo.productPrice,
-          'cart_item_qty': productInfo.productCount, 'cart_item_user': UserService.getUserId(),
-          'cart_item_weight': productInfo.productWeight, 'cart_item_check': false, 'total_qty': productInfo.productCount,
-        'total_amount': productInfo.productPrice, 'cart_item_type': productInfo.tagPresell});
+        cartObj.cart.push({
+          'cart_item_id': productInfo.productId,
+          'cart_item_image': productInfo.productImg,
+          'cart_item_name': productInfo.productName,
+          'cart_item_price': productInfo.productPrice,
+          'cart_item_qty': productInfo.productCount,
+          'cart_item_user': UserService.getUserId(),
+          'cart_item_weight': productInfo.productWeight,
+          'cart_item_check': false,
+          'total_qty': productInfo.productCount,
+          'total_amount': productInfo.productPrice,
+          'cart_item_type': productInfo.tagPresell
+        });
       }
       UserService.setObject(UserService.getUserId(), cartObj);
     };
@@ -265,7 +281,7 @@ angular.module('starter.services', [])
         orderType = 2; //预购订单
       } else if (normalCount == obj.length) {
         orderType = 1; //正常订单
-      }else if (beforeCount != obj.length || normalCount != obj.length) {
+      } else if (beforeCount != obj.length || normalCount != obj.length) {
         orderType = 0; //混合订单
       }
       return orderType;
@@ -274,5 +290,5 @@ angular.module('starter.services', [])
     return cartObj;
   })
 
-.constant('prefixUrl', 'http://192.168.1.132:8080/fs-server');
+  .constant('prefixUrl', 'http://192.168.1.132:8080/fs-server');
 

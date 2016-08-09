@@ -8481,8 +8481,8 @@ input:checked + .checkbox-icon:after {
     position: absolute;
     top: 0;
     bottom: 0;
-    right: 0;
-    padding: 0 48px 0 16px;
+    /**right: 0;**/
+    padding: -1px 48px 0 16px;
     max-width: 65%;
     border: none;
     background: #fff;
