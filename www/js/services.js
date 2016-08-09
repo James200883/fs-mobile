@@ -135,10 +135,16 @@ angular.module('starter.services', [])
       },
 
       getUserName: function () {
+    	if(null == $window.localStorage['user_token']){
+    		return "";
+    	}
         return JSON.parse($window.localStorage['user_token']).username;
       },
 
       getUserId: function () {
+    	  if(null == $window.localStorage['user_token']){
+      		return null;
+      	}
         return JSON.parse($window.localStorage['user_token']).user_id;
       }
     }
@@ -291,4 +297,3 @@ angular.module('starter.services', [])
   })
 
   .constant('prefixUrl', 'http://192.168.1.132:8080/fs-server');
-
