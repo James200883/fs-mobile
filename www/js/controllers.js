@@ -409,15 +409,17 @@ var myModule = angular.module('starter.controllers', [])
   .controller('AccountCtrl', function($scope, CommonService, UserService) {
     $scope.loadAccountInfo = function () {
       CommonService.post('/member/userIndex', {'userId': UserService.getUserId()}).success(function (res) {
-        if (res.result.imageUrl) {
-          $scope.headImg = res.result.imageUrl;
-        } else {
-          $scope.headImg = 'img/head.png';
+        if (res.result) {
+          if (res.result.imageUrl) {
+            $scope.headImg = res.result.imageUrl;
+          } else {
+            $scope.headImg = 'img/head.png';
+          }
+          $scope.realName = res.result.realname;
+          $scope.userAmount = res.result.amount;
+          $scope.userCouponCount = res.result.couponCount;
+          $scope.userPoint = res.result.userPoint;
         }
-        $scope.realName = res.result.realname;
-        $scope.userAmount = res.result.amount;
-        $scope.userCouponCount = res.result.couponCount;
-        $scope.userPoint = res.result.userPoint;
       }).error(function (res) {
         CommonService.toast('服务器异常,请稍后再试');
       });
@@ -446,7 +448,7 @@ var myModule = angular.module('starter.controllers', [])
     $scope.userParams = {};
     $scope.loginUser = function (user) {
       $scope.userParams = user;
-      if (typeof (user) == 'undefined') {
+      if (typeof (user) == 'undefined' || user.username == '' || user.password == '') {
         CommonService.toast('手机号或密码不填,小心召唤出怪物喔>o<');
         return false;
       }

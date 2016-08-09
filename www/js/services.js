@@ -135,16 +135,16 @@ angular.module('starter.services', [])
       },
 
       getUserName: function () {
-    	if(null == $window.localStorage['user_token']){
-    		return "";
-    	}
+        if (!this.getObject('user_token')) {
+          return null;
+        }
         return JSON.parse($window.localStorage['user_token']).username;
       },
 
       getUserId: function () {
-    	  if(null == $window.localStorage['user_token']){
-      		return null;
-      	}
+        if (!this.getObject('user_token')) {
+          return null;
+        }
         return JSON.parse($window.localStorage['user_token']).user_id;
       }
     }
