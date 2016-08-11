@@ -1,10 +1,10 @@
 <ion-view>
   <ion-content ng-init="loadPageData()">
-    <ion-slide-box auto-play="true" does-continue="true" slide-interval="2000" show-pager="true">
-      <ion-slide style="width: 100%; height: 130px;" ng-repeat="slide in slide_items">
-        <div><img ng-src="{{slide.impageUrl}}"/></div>
-      </ion-slide>
-    </ion-slide-box>
+    <ion-slides style="width: 100%; height: 130px;" option="options" slider="data.slider">
+      <ion-slide-page ng-repeat="slide in slide_items">
+        <div><img ng-src="{{slide.impageUrl}}"></div>
+      </ion-slide-page>
+    </ion-slides>
 
     <div>
       <nav class="menuList">
@@ -40,7 +40,7 @@
               <p class="like-price"><span class="lk-new">￥<em>{{product.distPrice}}</em></span><span class="lk-old">￥<em ng-bind="product.price"></em></span></p>
               <p class="lk-buyNum"><em ng-bind="product.countSale"></em><span>人已购买</span></p>
             </a>
-            <a class="like-buy" href="javascript:void(0)">购物车</a>
+            <a class="like-buy" href="javascript:void(0)" ng-click="shopCart(product.id, product.imageUrl, product.name, product.price, product.weight, product.tagPresell)">购物车</a>
           </li>
         </ul>
       </div>

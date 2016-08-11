@@ -13,7 +13,7 @@
 
         <ul class="product-cart-list">
           <li style="border-top: 1px solid #ddd" ng-repeat="cartProduct in cartProducts">
-            <ion-checkbox ng-model="cartProduct.cart_item_check" ng-change="itemNotificationChange(cartProduct.cart_item_id)" style="border-style: none; margin-left: -30px;"></ion-checkbox>
+            <ion-checkbox ng-model="cartProduct.cart_item_check" ng-change="itemNotificationChange(cartProduct.cart_item_id)" style="border-style: none; margin-left: -30px; background-color: #f5f5f5"></ion-checkbox>
             <span class="pct-img"><img ng-src="{{cartProduct.cart_item_image}}"/></span>
             <div class="pct-desc">
               <h6 class="ellipsis2"><a href="javascript:void(0);" ui-sref="productDetail({productId: cartProduct.cart_item_id})" ng-bind="cartProduct.cart_item_name"></a></h6>

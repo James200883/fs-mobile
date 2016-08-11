@@ -12,10 +12,11 @@ var myModule = angular.module('starter.controllers', [])
     $scope.badges = {carts: totalCount}
   })
 
-  .controller('DashCtrl', function($scope, CommonService) {
+  .controller('DashCtrl', function($scope, CommonService, CartService) {
     $scope.slide_items = [];
     $scope.productData = [];
     $scope.categoryData = [];
+    $scope.options = {loop: true, effect: 'fade', speed: 500};
     $scope.loadPageData = function (){ //首页分类 热门推荐
       CommonService.get('/pageAds/findHomePageAds').success(function (results) {
         $scope.cateTitle = '分类';
@@ -26,6 +27,20 @@ var myModule = angular.module('starter.controllers', [])
       }).error(function (results) {
         CommonService.toast('服务器异常,请稍后再试');
       });
+    };
+
+    $scope.shopCart = function (productId, productImg, productName, productPrice, productWeight, tagPresell) { //加入购物车
+      var product = {};
+      product.productId = productId;
+      product.productImg = productImg;
+      product.productName = productName;
+      product.productPrice = productPrice;
+      product.productCount = 1;
+      product.productWeight = productWeight;
+      product.tagPresell = tagPresell;
+      CartService.addCart(product);
+
+      CommonService.toast('已成功加入购物车o(∩_∩)o');
     };
   })
 

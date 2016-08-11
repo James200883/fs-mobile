@@ -53,8 +53,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
         url: '/app',
         abstract: true,
         controller: 'AppCtrl',
-        templateUrl: 'templates/tabs.html',
-        cache: false
+        templateUrl: 'templates/tabs.html'
       })
 
       .state('app.dash', {
