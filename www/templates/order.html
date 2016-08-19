@@ -35,14 +35,14 @@
       </div>
     </div>
 
-    <div class="list list-inset" ng-if="addresses.length > 0 && showAddress" ng-repeat="address in addresses | limitTo: 1" ui-sref="address({orderId: orderId})">
+    <div class="list list-inset" ng-if="addresses != null && showAddress" ui-sref="address({orderId: orderId})">
       <a class="item item-avatar item-arrow" style="padding-left: 10px;" href="javascript:void(0)">
-        <h2 ng-bind="address.contactUserName"></h2>
+        <h2 ng-bind="addresses.contactUserName"></h2>
         <p>
-          <em ng-bind="address.province"></em>
-          <em ng-bind="address.city"></em>
-          <em ng-bind="address.area"></em>
-          <em ng-bind="address.address"></em>
+          <em ng-bind="addresses.province"></em>
+          <em ng-bind="addresses.city"></em>
+          <em ng-bind="addresses.area"></em>
+          <em ng-bind="addresses.address"></em>
         </p>
       </a>
     </div>
@@ -50,7 +50,7 @@
     <div class="list row" ng-if="address.length <= 0 && showAddress">
       <div class="col">
         <p class="getAddress">
-          <a class="item item-avatar" href="javascript:void(0);">添加地址</a>
+          <a class="item item-avatar" href="javascript:void(0);" ui-sref="addOrEditAddress">添加地址</a>
         </p>
       </div>
     </div>
@@ -65,17 +65,17 @@
 
     <div class="row list">
       <div class="col col-50">
-        <ion-radio name="nameEndType" ng-model="orders.dispatchEndType" ng-value="1">今日约17:00送达</ion-radio>
+        <ion-radio name="nameEndType" ng-model="orders.dispatchEndType" ng-value="1">今日送达</ion-radio>
       </div>
       <div class="col col-50">
-        <ion-radio name="nameEndType" ng-model="orders.dispatchEndType" ng-value="2">明日约17:00送达</ion-radio>
+        <ion-radio name="nameEndType" ng-model="orders.dispatchEndType" ng-value="2">明日送达</ion-radio>
       </div>
     </div>
 
     <div class="component payArea border-t">
       <p class="py1">支付金额：￥<em ng-bind="orders.amount"></em><span></span></p>
       <p class="py2"></p>
-      <div class="payBtn"><a class="wxBtn">微信支付</a></div>
+      <div class="payBtn"><a class="wxBtn" href="javascript:void(0)" ng-click="payment()">微信支付</a></div>
     </div>
   </ion-content>
 </ion-view>

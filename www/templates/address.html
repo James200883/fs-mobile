@@ -8,7 +8,7 @@
     <div class="boxItem border-tb" ng-if="userAddresses.length > 0">
       <div class="addressArea">
         <ul class="addressList bor-b">
-          <li ng-repeat="userAddress in userAddresses">
+          <li ng-repeat="userAddress in userAddresses" class="item item-avatar" ng-click="selectAddress(userAddress);">
             <div class="adr-left">
               <span class="checkAdr active"></span>
               <div class="adr-desc">
@@ -35,6 +35,6 @@
   </ion-content>
 
   <ion-footer-bar align-title="center" style="margin-bottom: 5px;">
-    <button type="button" class="btn btn-success">新增收货地址</button>
+    <button type="button" class="btn btn-success" ui-sref="addOrEditAddress">新增收货地址</button>
   </ion-footer-bar>
 </ion-view>

@@ -132,6 +132,7 @@ var myModule = angular.module('starter.controllers', [])
     $scope.productDetails = [];
     $scope.activities = '';
     $scope.sellCount = 1;
+    $scope.options = {loop: true, effect: 'fade', speed: 500};
     $scope.initProductDetailData = function () {
       loadProductDetail();
       loadActivity();
@@ -248,7 +249,6 @@ var myModule = angular.module('starter.controllers', [])
           CommonService.postBody('/orders/addOrUpdateOrders', orderParam).success(function (res) {
             CommonService.hideLoading();
             $state.go('order', {orderId: res.orderId});
-            CommonService.hideLoading();
           }).error(function () {
             CommonService.hideLoading();
             CommonService.toast('服务器异常,请稍后再试');
@@ -261,16 +261,21 @@ var myModule = angular.module('starter.controllers', [])
   })
 
   .controller('OrderCtrl', function($scope, $stateParams, CommonService, UserService) { //填写订单
+    var addressId = $stateParams.addressId;
     $scope.orderId = $stateParams.orderId;
     $scope.addrChoice = 'A';
     $scope.showShop = false;
     $scope.showAddress = true;
     $scope.orders = [];
-    $scope.addresses = [];
+    $scope.addresses = null;
 
     $scope.initOrderData = function () {
       initProductData();
-      initUserAddressData();
+      if (addressId) {
+        initUserAddressDataByAddressId();
+      } else {
+        initUserAddressDataByUserId();
+      }
     };
 
     $scope.pushNotificationChange = function (val) {
@@ -284,18 +289,55 @@ var myModule = angular.module('starter.controllers', [])
       }
     };
 
+    $scope.payment = function () { //支付
+      var paramOrder = {};
+      paramOrder.dispatchAddr = $scope.addresses.address;
+      paramOrder.area = $scope.addresses.area;
+      paramOrder.city = $scope.addresses.city;
+      paramOrder.province = $scope.addresses.province;
+      paramOrder.contactUserName = $scope.addresses.contactUserName;
+      paramOrder.contractTel = $scope.addresses.contractTel;
+      paramOrder.orderId = $scope.orderId;
+      paramOrder.payType = 2;
+
+      CommonService.post('/appPay/appUnifiedorder', paramOrder).success(function (res) {
+        console.log(res);
+      }).error(function () {
+        CommonService.toast('程序异常,请稍后再试');
+      });
+      /*Wechat.isInstalled(function (installed) {
+        if (installed) {
+          CommonService.post('/appPay/appUnifiedorder', paramOrder).success(function (res) {
+            alert(res);
+          }).error(function () {
+            CommonService.toast('程序异常,请稍后再试');
+          });
+        } else {
+          CommonService.toast('未检测到微信支付相关应用程序');
+        }
+      }, function (reason) {
+        CommonService.toast(reason);
+      });*/
+    };
+
     function initProductData () { //初始化订单产品信息
       CommonService.get('/orders/getOrdersById', {id: $scope.orderId}).success(function (res) {
         $scope.orders = res;
       }).error(function () {
         CommonService.toast('初始化订单失败!');
       });
-    };
+    }
 
-    function initUserAddressData () { //获取用户地址
+    function initUserAddressDataByUserId () { //获取用户地址
      CommonService.get('/userAddr/findUserAddrByUserId', {userId: UserService.getUserId()}).success(function (res) {
-       $scope.addresses = res.data;
+       $scope.addresses = res.data[0];
      });
+    }
+
+    function initUserAddressDataByAddressId() {
+      CommonService.post('/userAddr/findUserAddrById', {id: addressId}).success(function (res) {
+        $scope.addresses = res;
+      });
     }
   })
 
@@ -372,11 +414,15 @@ var myModule = angular.module('starter.controllers', [])
   })
 
   .controller('AddressCtrl', function($scope, $state, $stateParams, CommonService, UserService) { //我的收货地址
+    var flagId = $stateParams.orderId; //标识作用,用于订单页面选择地址后返回
     $scope.userAddresses = [];
     $scope.initUserAddress = function () {
+      CommonService.showLoadding();
       CommonService.get('/userAddr/findUserAddrByUserId', {'userId': UserService.getUserId()}).success(function (res) {
         $scope.userAddresses = res.data;
+        CommonService.hideLoading();
       }).error(function () {
+        CommonService.hideLoading();
         CommonService.toast('获取数据异常，请稍后再试');
       });
     };
@@ -394,12 +440,51 @@ var myModule = angular.module('starter.controllers', [])
         }
       });
     };
+
+    $scope.selectAddress = function (userAddress) {
+      if (flagId) {
+        $state.go('order', {orderId: flagId, addressId: userAddress.id});
+      }
+    }
   })
 
-  .controller('addOrEditAddressCtrl', function($scope, $state, $stateParams, CommonService) {
+  .controller('addOrEditAddressCtrl', function($scope, $state, $stateParams, CommonService, CityDataService, UserService) {
     var addressId = $stateParams.id;
-    $scope.selectData = function () {
-      console.log('123213');
+    $scope.cities = [];
+    $scope.districts = [];
+    $scope.regionData = CityDataService.all();
+    if (addressId) {
+      $scope.addressTitle = '编辑收货地址';
+    } else {
+      $scope.addressTitle = '新增收货地址';
+    }
+
+    $scope.switchProvince = function (provinceName) {
+      $scope.cities = [];
+      $scope.districts = [];
+      $scope.cities = CityDataService.getCities(provinceName);
+    };
+
+    $scope.switchCities = function (cityName) {
+      if (cityName && $scope.cities) {
+        $scope.districts = CityDataService.getArea(cityName, $scope.cities);
+      }
+    };
+
+    $scope.saveOrEditAddress = function (addressForm, addressInfo) { //新增或修改收获地址
+      if (addressForm.$valid) {
+        addressInfo.userId = UserService.getUserId();
+        addressInfo.id = addressId;
+        CommonService.showLoadding();
+        CommonService.post('/userAddr/save', addressInfo).success(function (res) {
+          CommonService.toast('保存成功');
+          CommonService.hideLoading();
+          $state.go('address');
+        }).error(function () {
+          CommonService.hideLoading();
+          CommonService.toast('保存收货地址失败');
+        });
+      }
     }
   })
 
@@ -467,20 +552,36 @@ var myModule = angular.module('starter.controllers', [])
         CommonService.toast('手机号或密码不填,小心召唤出怪物喔>o<');
         return false;
       }
-      $scope.userParams.client_id = 'clientName';
+      /*$scope.userParams.client_id = 'clientName';
       $scope.userParams.client_secret = 'clientPassword';
       $scope.userParams.grant_type = 'password';
-      $scope.userParams.scope = 'read write';
+      $scope.userParams.scope = 'read write';*/
 
       CommonService.showLoadding();
-      UserService.login($scope.userParams).success(function (res) {
+      CommonService.post('/user/userLogin', $scope.userParams).success(function (res) {
+        if (res.code == '002') {
+          CommonService.toast('用户不存在');
+        }
+        if (res.code == '004') {
+          CommonService.toast('用户名或密码不正确');
+        }
+        if (res.code == '003') { //验证成功
+          UserService.setObject('user_token', res.data);
+          $state.go('app.dash');
+        }
+        CommonService.hideLoading();
+      }).error(function () {
+        CommonService.hideLoading();
+        CommonService.toast('服务器异常,请稍后重试');
+      });
+      /*UserService.login($scope.userParams).success(function (res) {
         UserService.setObject('user_token', res);
         $state.go('app.dash');
         CommonService.hideLoading();
       }).error(function (res) {
         CommonService.hideLoading();
         CommonService.toast('服务器异常,请稍后重试');
-      });
+      });*/
     }
   })
 

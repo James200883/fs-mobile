@@ -1,58 +1,86 @@
 <ion-header-bar class="item-input-inset bar-light">
   <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
-  <p class="title">编辑收货地址</p>
+  <p class="title" ng-bind="addressTitle"></p>
 </ion-header-bar>
 
 <ion-view>
   <ion-content>
-    <div class="box-panel">
-      <div class="panel-content border-t">
-        <ul class="panel-list bor-b">
-          <li>
-            <span class="pn-left">收货人:</span>
-            <div class="pn-right padding-left">
-              <input type="text" placeholder="请输入姓名" class="p-name"/>
-            </div>
-          </li>
+    <form name="addressForm" novalidate ng-submit="saveOrEditAddress(addressForm, addressInfo)">
+      <div class="box-panel">
+        <div class="panel-content border-t">
+          <ul class="panel-list bor-b">
+            <li>
+              <span class="pn-left">收货人:</span>
+              <div class="pn-right padding-left">
+                <input type="text" ng-model="addressInfo.contactUserName" ng-maxlength="10" name="contactUserName" placeholder="请输入姓名" class="p-name" required ng-focus/>
+                <div class="has-error" style="padding-top: 10px;" ng-show="addressForm.contactUserName.$dirty && addressForm.contactUserName.$invalid && !addressForm.contactUserName.$focused">
+                  <small ng-show="addressForm.contactUserName.$error.required">请输入收货人姓名</small>
+                  <small ng-show="addressForm.contactUserName.$error.maxlength">太长了,最多10位</small>
+                </div>
+              </div>
+            </li>
 
-          <li>
-            <span class="pn-left">联系方式:</span>
-            <div class="pn-right padding-left">
-              <input type="tel" placeholder="11位手机号码" class="p-tel">
-            </div>
-          </li>
-        </ul>
+            <li>
+              <span class="pn-left">联系方式:</span>
+              <div class="pn-right padding-left">
+                <input type="tel" ng-model="addressInfo.contractTel" ng-maxlength="11" ng-pattern="/^(((13[0-9]{1})|(15[0-35-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/" name="contractTel" placeholder="11位手机号码" class="p-tel" required ng-focus/>
+                <div class="has-error" ng-show="addressForm.contractTel.$dirty && addressForm.contractTel.$invalid && !addressForm.contractTel.$focused">
+                  <small ng-show="addressForm.contractTel.$error.required">手机号码填一下啊喂</small>
+                  <small ng-show="addressForm.contractTel.$error.pattern">你的手机号是火星的吗</small>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
 
-    <div class="box-panel">
-      <div class="panel-content border-t">
-        <ul class="panel-list bor-b">
-          <li>
-            <span class="pn-left" style="margin-top: 6px;">所在地区:</span>
-            <div class="pn-right">
-              <span class="od-txt areaCity">
-                <label class="item-input item-select" style="height: 30px; width: 100%; float: left">
-                  <select ng-click="selectData()">
-                    <option><em>广东省</em><em>广州市</em><em>天河区</em></option>
+      <div class="box-panel">
+        <div class="panel-content border-t">
+          <ul class="panel-list bor-b">
+            <li>
+              <span class="pn-left">所在地区:</span>
+              <div class="pn-right">
+                <label class="item-input item-select" style="height: 30px;">
+                  <select ng-model="addressInfo.province" ng-options="item.name as item.name for item in regionData" ng-change="switchProvince(addressInfo.province)" required>
+                    <option value="">请选择</option>
                   </select>
                 </label>
-              </span>
-            </div>
-          </li>
+              </div>
 
-          <li>
-            <span class="pn-left">详细地址:</span>
-            <div class="pn-right padding-left">
-              <input type="text" class="address-txt" placeholder="街道 楼牌等"/>
-            </div>
-          </li>
-        </ul>
+              <div class="pn-right">
+                <label class="item-input item-select" style="height: 30px;">
+                  <select style="width: 55px;" ng-model="addressInfo.city" ng-options="item.name as item.name for item in cities" ng-change="switchCities(addressInfo.city)" required>
+                    <option value="">请选择</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="pn-right">
+                <label class="item-input item-select" style="height: 30px;">
+                  <select style="width: 55px;" ng-model="addressInfo.area" ng-options="item for item in districts" required>
+                    <option value="">请选择</option>
+                  </select>
+                </label>
+              </div>
+            </li>
+
+            <li>
+              <span class="pn-left">详细地址:</span>
+              <div class="pn-right padding-left">
+                <input type="text" ng-model="addressInfo.address" ng-maxlength="50" name="address" class="address-txt" placeholder="街道 楼牌等" required ng-focus/>
+                <div class="has-error" style="padding-top: 10px;" ng-show="addressForm.address.$dirty && addressForm.address.$invalid && !addressForm.address.$focused">
+                  <small ng-show="addressForm.address.$error.required">请输入详细地址信息</small>
+                  <small ng-show="addressForm.address.$error.maxlength">你的地址有那么长吗?最多50个字符</small>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </ion-content>
 
-  <ion-footer-bar align-title="center" style="margin-bottom: 5px;">
-    <button type="button" class="btn btn-success">保存</button>
-  </ion-footer-bar>
+      <div class="sb-div">
+        <button type="submit" class="btn btn-success" ng-class="{'btn-disable': addressForm.$invalid}" ng-disabled="addressForm.$invalid">保存</button>
+      </div>
+    </form>
+  </ion-content>
 </ion-view>

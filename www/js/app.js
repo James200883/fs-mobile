@@ -98,7 +98,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
       })
 
       .state('order', {
-        url: '/order/:orderId',
+        url: '/order/:orderId/:addressId',
         templateUrl: 'templates/order.html',
         controller: 'OrderCtrl'
       })
@@ -116,7 +116,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
       })
 
       .state('address', {
-        url: '/address',
+        url: '/address/:orderId',
         templateUrl: 'templates/address.html',
         controller: 'AddressCtrl'
       })
