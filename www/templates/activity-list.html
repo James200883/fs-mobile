@@ -1,35 +1,30 @@
-<ion-header-bar class="item-input-inset bar-stable">
-  <a class="button icon-left ion-ios-arrow-left button-clear button-dark"></a>
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">我的礼包</p>
 </ion-header-bar>
 
 <ion-view>
-  <ion-content>
-  
-   <div class="boxItem row"> 
-        <h6><span>会员充值有礼</span></h6>
+  <ion-content ng-init="initActivityData()">
+    <div class="boxItem row">
+      <h6><span>会员充值有礼</span></h6>
     </div>
-  
-     <div class="index-nav clearfixFx" id="czItem" ng-repeat="dataItem in activityes">
-         <a ng-click="goCz()" ng-if="dataItem.type == 0"> 
-                       <div class="index-nav-txt"> 
-		                   <h6>{{dataItem.name}}</h6> 
-		                   <p>充{{dataItem.amount}}送{{dataItem.favorAmount}}</p> 
-		              	 </div> 
-		               <img ng-src="{{dataItem.imageUrl}}" /> 
-		  </a>
-     </div>
-     
-     <div class="boxItem row"> 
-        <h6><span>其它礼包</span></h6>
+
+    <div class="index-nav clearfixFx">
+      <a href="javascript:void(0)" ng-repeat="activity in activities" ng-if="activity.type == 0" ng-click="activityRecharge(activity.id)">
+        <p class="padding-left">充<em ng-bind="activity.amount"></em>送<em ng-bind="activity.favorAmount"></em></p>
+        <img ng-src="{{activity.imageUrl}}"/>
+      </a>
     </div>
-     <div class="index-nav clearfixFx" id="otherItem" ng-repeat="dataItem1 in activityes">
-        <a href="#"  ng-if=" dataItem1.type != 0 "> 
-                       <div class="index-nav-txt"> 
-		                   <h6>{{dataItem1.name}}</h6> 
-		                   <p>{{dataItem1.favorAmount}}</p> 
-		              	 </div> 
-		               <img ng-src="{{dataItem.imageUrl}}" /> 
-		           	</a>
-     </div>
+
+    <div class="boxItem row">
+      <h6><span>其它礼包</span></h6>
+    </div>
+
+    <div class="index-nav clearfixFx">
+      <a href="javascript:void(0)" ng-repeat="activity in activities" ng-if="activity.type != 0" ng-click="goBBSDetail(activity.resourceId)">
+        <h6 ng-bind="activity.name" class="padding-left"></h6>
+        <img ng-src="{{activity.imageUrl}}"/>
+      </a>
+    </div>
   </ion-content>
  </ion-view>

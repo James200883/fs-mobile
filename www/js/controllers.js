@@ -341,76 +341,46 @@ var myModule = angular.module('starter.controllers', [])
     }
   })
 
-  .controller('ChongzhiCtrl', function($scope, $stateParams, CommonService) {
+  .controller('RechargeCtrl', function($scope, $stateParams, $state, CommonService, UserService) { //会员充值
+    $scope.user = UserService.getUserName();
+    $scope.rechargeAmounts = [];
 
-    //初始化购物车的产品属性
-    angular.element(document).ready(function () {
-
-      $scope.initData();
-      $scope.czId =0;
-      $scope.czAmount =0.00;
-    });
-
-
-    //全选按钮
-    $scope.pushNotificationChange = function(val,amount) {
-      $scope.czId = val;
-      $scope.czAmount = amount;
-    };
-
-    $scope.initData = function(){
-      //获取产品资料
-      CommonService.get('/activity/WXfindActivityByType',{'type':'0'}).success(function (results) {
-        $scope.activitys = results.data;
-
-        console.log(JSON.stringify($scope.activitys));
-      }).error(function (results) {
-        CommonService.toast('获取分类异常，请稍后再试');
+    $scope.initRechargeData = function () {
+      CommonService.get('/activity/WXfindActivityByType', {type: 0}).success(function (res) {
+        $scope.rechargeAmounts = res.data;
       });
     };
 
-    //充值操作
-    $scope.chongzhi = function(){
-      if($scope.czId != 0){
-        var czParams = {'id':$scope.czId,'userId':5};
-        var url = '/userAccount/recharge';
-        CommonService.postBody(url,czParams).success(function (results) {
-          var orderId = results.orderId;
-          window.location.href='#/rechargeorder/'+orderId;
-
-        }).error(function (results) {
-          CommonService.toast('生成订单异常，请稍后再试');
-        });
-      }else {
-        var alertPopup = $ionicPopup.alert({
-          title: '没有选择充值订单',
-          template: '请选择充值订单!'
-        });
-      }
+    $scope.goRecharge = function (rechargeId) {
+      CommonService.showLoadding();
+      CommonService.postBody('/userAccount/recharge', {id: rechargeId, userId: UserService.getUserId()}).success(function (res) {
+        $state.go('rechargeOrder', {orderId: res.orderId});
+        CommonService.hideLoading();
+      }).error(function () {
+        CommonService.toast('生成订单异常，请稍后再试');
+      });
     }
   })
 
-  .controller('RechargeOrderCtrl', function($scope, $stateParams, CommonService) {
-    //初始化购物车的产品属性
-    angular.element(document).ready(function () {
-      $scope.orderId = $stateParams.orderId;
-      $scope.initData();
-    });
+  .controller('RechargeOrderCtrl', function($scope, $stateParams, CommonService) { //充值订单
+    var orderId = $stateParams.orderId;
+    $scope.orderNo = '';
+    $scope.rechargeAmount = '';
+    $scope.payAmount = '';
 
-    $scope.initData = function(){
-      //获取产品资料
-      CommonService.get('/orders/getOrdersById',{'id':$scope.orderId }).success(function (results) {
-        $scope.orders = 	results;
-
-      }).error(function (results) {
-        CommonService.toast('获取分类异常，请稍后再试');
+    $scope.initRechargeOrderData = function () {
+      CommonService.get('/orders/getOrdersById', {id: orderId}).success(function (res) {
+        $scope.orderNo = '订单编号:' + res.orderNo;
+        $scope.rechargeAmount = '充值金额:' + res.amount;
+        $scope.payAmount = '支付金额:' + res.payAmount;
+      }).error(function () {
+        CommonService.toast('初始化订单失败!');
       });
     };
 
-    $scope.pay = function(){
+    $scope.payment = function () {
 
     }
-
   })
 
   .controller('AddressCtrl', function($scope, $state, $stateParams, CommonService, UserService) { //我的收货地址
@@ -488,22 +458,31 @@ var myModule = angular.module('starter.controllers', [])
     }
   })
 
-  .controller('ActivityCtrl', function($scope,$http,$stateParams, CommonService) {
-    //获取活动
-    angular.element(document).ready(function () {
-      $scope.initData();
-    });
+  .controller('ActivityCtrl', function($scope, $state, CommonService, UserService) {
+    $scope.activities = [];
 
-    $scope.initData = function(){
-      //获取活动
-      CommonService.get('/activity/WXfindActivityAllBySort').success(function (results) {
-        $scope.activityes = 	results.data;
-
-      }).error(function (results) {
-        CommonService.toast('获取活动异常，请稍后再试');
+    $scope.initActivityData = function () {
+      CommonService.showLoadding();
+      CommonService.get('/activity/WXfindActivityAllBySort').success(function (res) {
+        $scope.activities = res.data;
+        CommonService.hideLoading();
       });
-    }
+    };
 
+    $scope.activityRecharge = function (rechargeId) {
+      CommonService.showLoadding();
+      CommonService.postBody('/userAccount/recharge', {id: rechargeId, userId: UserService.getUserId()}).success(function (res) {
+        $state.go('rechargeOrder', {orderId: res.orderId});
+        CommonService.hideLoading();
+      }).error(function () {
+        CommonService.toast('生成订单异常，请稍后再试');
+      });
+    };
+
+    $scope.goBBSDetail = function (resourceId) {
+      var bbsId = resourceId.split('=')[1];
+      $state.go('bbsDetail', {bbsId: bbsId});
+    }
   })
 
   .controller('AccountCtrl', function($scope, CommonService, UserService) {
@@ -650,6 +629,7 @@ var myModule = angular.module('starter.controllers', [])
       });
     };
   })
+
   .controller('CouponCtrl', function ($scope, $ionicHistory, CommonService, UserService) { //我的优惠券
     $scope.loadCoupon = function () {
       CommonService.post('/userCoupon/getUserCoupon', {'userId': UserService.getUserId()}).success(function (res) {
@@ -659,6 +639,7 @@ var myModule = angular.module('starter.controllers', [])
       });
     };
   })
+
   .controller('ForgetPwdCtrl', function ($scope, $state, $interval, CommonService) { //忘记密码
     $scope.btnText = '获取验证码';
 
@@ -786,7 +767,7 @@ var myModule = angular.module('starter.controllers', [])
                 $scope.userSex = '保密';
               }
             } else {
-              CommonService.toast('没设置成功(T_T)');
+              CommonService.toast('操作失败(T_T)');
             }
           }).error(function (res) {
             CommonService.toast('服务器异常,请稍后再试');

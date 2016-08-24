@@ -871,7 +871,7 @@ angular.module('starter.services', [])
       all: function () {
         return cities;
       },
-      
+
       getCities: function (province) {
         for (var i = 0; i < cities.length; i++) {
           if (cities[i].name == province) {
@@ -879,7 +879,7 @@ angular.module('starter.services', [])
           }
         }
       },
-      
+
       getArea: function (cityName, selectedCities) {
         for (var i = 0; i < selectedCities.length; i++) {
           if (selectedCities[i].name == cityName) {
@@ -890,4 +890,4 @@ angular.module('starter.services', [])
     }
   })
 
-  .constant('prefixUrl', 'http://192.168.1.108:8080/fs-server');
+  .constant('prefixUrl', 'http://192.168.1.109:8080/fs-server');

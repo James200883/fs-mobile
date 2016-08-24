@@ -1,22 +1,29 @@
-<ion-header-bar class="item-input-inset bar-stable">
-  <a class="button icon-left ion-ios-arrow-left button-clear button-dark"></a>
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">充值订单</p>
 </ion-header-bar>
+
 <ion-view>
-  <ion-content>
+  <ion-content ng-init="initRechargeOrderData()">
     <div class="component border-tb">
-        <h4 class="box-title"><span class="b-left">充值订单</span><span class="b-right" id="displayOrderId">订单编号:{{orders.orderNo}}</span></h4>
-        <div class="dian border-t" id="orderList">
-			<div class="rch" style="margin-left: auto;margin-right: auto;padding-top:40px;padding-bottom:40px;color:red"> 
-                  <p>充值金额:{{orders.amount}}</p> 
-            </div>
-            <div class="rch" style="margin-left: auto;margin-right: auto;padding-top:40px;padding-bottom:40px;color:red"> 
-                  <p>支付金额:{{orders.payAmount}}</p> 
-            </div>
+      <h4 class="box-title">
+        <span class="b-left">会员充值</span>
+        <span class="b-right" id="displayOrderId" ng-bind="orderNo"></span>
+      </h4>
+
+      <div class="dian border-t">
+        <div class="rch padding-top">
+          <p style="color: #e42112" ng-bind="rechargeAmount"></p>
         </div>
-    </div>
-    <div class="row">
-         <button class="button button-block button-positive button-assertive" ng-click="pay()">微信支付</button>
+
+        <div class="rch padding-top padding-bottom" style="margin-top: 20px;">
+          <p style="color: #e42112" ng-bind="payAmount"></p>
+        </div>
+      </div>
     </div>
 
+    <div class="component payArea border-t">
+      <div class="payBtn"><a class="wxBtn" href="javascript:void(0)" ng-click="payment()">微信支付</a></div>
+    </div>
  </ion-content>
 </ion-view>

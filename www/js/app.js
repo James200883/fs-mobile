@@ -22,7 +22,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
     });
   })
   .run(function ($ionicPlatform, $rootScope, $ionicHistory, $state, AuthenticationService) {
-    var needLoginView = ['app.account', 'app.cart', 'myCoupon', 'userInfo', 'editUserInfo']; //需要登录页面的state
+    var needLoginView = ['app.account', 'app.cart', 'myCoupon', 'myOrder', 'userInfo', 'editUserInfo', 'recharge', 'activity']; //需要登录页面的state
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
       if (needLoginView.indexOf(toState.name) >= 0 && !AuthenticationService.isLogin()) {
         $state.go("login");
@@ -32,7 +32,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
   })
 
   .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-
     $ionicConfigProvider.platform.ios.tabs.style('standard');
     $ionicConfigProvider.platform.ios.tabs.position('bottom');
     $ionicConfigProvider.platform.android.tabs.style('standard');
@@ -103,16 +102,16 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
         controller: 'OrderCtrl'
       })
 
-      .state('rechargeorder', {
-        url: '/rechargeorder/:orderId',
+      .state('rechargeOrder', {
+        url: '/rechargeOrder/:orderId',
         templateUrl: 'templates/recharge-order.html',
         controller: 'RechargeOrderCtrl'
       })
 
-      .state('chongzhi', {
-        url: '/chongzhi',
-        templateUrl: 'templates/chong-zhi.html',
-        controller: 'ChongzhiCtrl'
+      .state('recharge', {
+        url: '/recharge',
+        templateUrl: 'templates/app-recharge.html',
+        controller: 'RechargeCtrl'
       })
 
       .state('address', {

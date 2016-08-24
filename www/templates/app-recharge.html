@@ -1,0 +1,24 @@
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">会员充值</p>
+</ion-header-bar>
+
+<ion-view>
+  <ion-content ng-init="initRechargeData()">
+    <div class="list padding-top">
+      <label class="item item-input">
+        <input type="text" readonly="readonly" ng-model="user"/>
+      </label>
+    </div>
+
+    <div class="recharge">
+      <h6><span>用户充值</span></h6>
+      <ul class="rechargeList clearfixEx">
+        <li ng-repeat="rechargeAmount in rechargeAmounts">
+          <a href="javascript:void(0)" ng-click="goRecharge(rechargeAmount.id)"><div class="rch"><p ng-bind="rechargeAmount.amount"></p><span>送<em ng-bind="rechargeAmount.favorAmount"></em>元</span></div></a>
+        </li>
+      </ul>
+    </div>
+  </ion-content>
+</ion-view>
+
