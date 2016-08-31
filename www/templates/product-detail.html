@@ -5,9 +5,9 @@
 
 <ion-view>
   <ion-content ng-init="initProductDetailData()">
-    <ion-slides style="width: 100%; height: 130px;" option="options" slider="data.slider">
+    <ion-slides style="width: 100%; height: 300px;" option="options" slider="data.slider">
       <ion-slide-page ng-repeat="pdImg in productDetailImages">
-        <div><img ng-src="{{pdImg.impageUrl}}"></div>
+        <div><img ng-src="{{pdImg.imageUrl}}"/></div>
       </ion-slide-page>
     </ion-slides>
 
