@@ -48,6 +48,7 @@ var myModule = angular.module('starter.controllers', [])
     $scope.hasmore = false;
     $scope.productData = [];
     $scope.cateId = $stateParams.categoryId;
+    $scope.priceSort = '';
     var param = {page: 1, pageSize: 10, type: 'sale', categoryId: $scope.cateId}, timer = null;
 
     $scope.initCateData = function () {//初始化数据
@@ -56,6 +57,18 @@ var myModule = angular.module('starter.controllers', [])
     };
 
     $scope.sortProduct = function (sortType) { //排序
+      if (sortType == 'price') {
+        if ($scope.priceSort == 'up') {
+          $scope.priceSort = 'down';
+          param.sortType = 1;
+        } else if ($scope.priceSort == 'down') {
+          $scope.priceSort = 'up';
+          param.sortType = 0;
+        } else {
+          $scope.priceSort = 'up';
+          param.sortType = 0;
+        }
+      }
       param.type = sortType;
       param.page = 1;
       loadProduct(param);
@@ -75,7 +88,7 @@ var myModule = angular.module('starter.controllers', [])
           return;
         }
 
-        CommonService.get('/product/cateList', param).success(function (res) {
+        CommonService.get('/product/cateListApp', param).success(function (res) {
           $scope.hasmore = res.next_page > 0;
           $scope.productData = $scope.productData.concat(res.data);
           $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -113,7 +126,7 @@ var myModule = angular.module('starter.controllers', [])
 
     function loadProduct(paramData) { //获取产品
       CommonService.showLoadding();
-      CommonService.get('/product/cateList', paramData).success(function (results) {
+      CommonService.get('/product/cateListApp', paramData).success(function (results) {
         $scope.productData = results.data;
         CommonService.hideLoading();
         if (results.next_page > 0) {
@@ -1145,7 +1158,7 @@ myModule.directive('ngSwitch', function ($rootScope) {
     link: function (scope, element, attrs, ctrl) {
       element.bind('click', function () {
         if (!element.hasClass('active') || !element.hasClass('current') || !element.hasClass('cur')) {
-          element[0].className = 'active current col cur';
+          element[0].className = 'sortPrice active current col cur';
           var nextElement = element[0].nextElementSibling;
           var previousElement = element[0].previousElementSibling;
           while (nextElement) {

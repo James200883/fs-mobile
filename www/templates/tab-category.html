@@ -10,7 +10,7 @@
         <ul class="row">
           <li class="col cur" data-type="sale" ng-click="sortProduct('sale')" ng-switch><span>销量</span></li>
           <li class="col" data-type="new" ng-click="sortProduct('new')" ng-switch><span>上新</span></li>
-          <li class="sortPrice col" data-type="price" ng-click="sortProduct('price')" ng-switch><span>价格<i></i></span></li>
+          <li class="sortPrice col" data-type="price" ng-click="sortProduct('price')" ng-switch><span>价格<i ng-class="priceSort"></i></span></li>
         </ul>
       </div>
 
