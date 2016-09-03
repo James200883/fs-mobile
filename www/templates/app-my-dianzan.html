@@ -1,0 +1,22 @@
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">我的点赞</p>
+</ion-header-bar>
+
+<ion-view>
+  <ion-content ng-init="initDianZan()">
+    <div class="list card" ng-if="dianZans.length > 0" ng-repeat="dianZan in dianZans" ng-click="toPath(dianZan.resource, dianZan.resourceId)">
+      <div class="item">
+        <h2 ng-bind="dianZan.resourceName"></h2>
+      </div>
+
+      <div class="item item-image">
+        <img ng-src="{{dianZan.resourceImageUrl}}" height="200px;"/>
+      </div>
+
+      <div class="item"></div>
+    </div>
+
+    <div class='noComment' ng-if="dianZans.length <= 0"><span>您暂时还没有点赞哦~~</span></div>
+  </ion-content>
+</ion-view>

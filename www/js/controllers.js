@@ -1092,6 +1092,80 @@ var myModule = angular.module('starter.controllers', [])
     $scope.moreDataCanBeLoaded = function () {
       return $scope.hasmore;
     };
+  })
+
+  .controller('MyRecommendMemberCtrl', function ($scope, CommonService, UserService) {//我推荐的会员
+    $scope.recommendMembers = [];
+
+    $scope.initMyRecommendMemberData = function () {
+      CommonService.showLoadding();
+      CommonService.get('/userFollow/findAllUserFollow', {'user.id': UserService.getUserId()}).success(function (res) {
+        $scope.recommendMembers = res;
+        CommonService.hideLoading();
+      }).error(function () {
+        CommonService.hideLoading();
+        CommonService.toast('获取数据失败');
+      });
+    }
+  })
+
+  .controller('SuggestMyMemberCtrl', function ($scope, CommonService, UserService) {//推荐我的会员
+    $scope.suggestMyMembers = [];
+
+    $scope.initSuggestMyMemberData = function () {
+      CommonService.showLoadding();
+      CommonService.get('/userFollow/findUserFollowsById', {'userFollowed.id': UserService.getUserId()}).success(function (res) {
+        $scope.suggestMyMembers = res;
+        CommonService.hideLoading();
+      }).error(function () {
+        CommonService.hideLoading();
+        CommonService.toast('获取数据失败');
+      })
+    }
+  })
+
+  .controller('MyMessageCtrl', function ($scope, CommonService, UserService) { //我的消息
+    $scope.userMessages = [];
+
+    $scope.initUserMessage = function () {
+      CommonService.showLoadding();
+      CommonService.get('/userMsg/findAllUserMsg', {'user.id': UserService.getUserId()}).success(function (res) {
+        $scope.userMessages = res;
+        CommonService.hideLoading();
+      }).error(function () {
+        CommonService.hideLoading();
+        CommonService.toast('获取数据失败');
+      });
+    }
+  })
+
+  .controller('MyDianZanCtrl', function ($scope, $state, CommonService, UserService) { //我的点赞
+    $scope.dianZans = [];
+
+    $scope.initDianZan = function () {
+      CommonService.showLoadding();
+      CommonService.get('/userWish/findAllUserWish', {userId: UserService.getUserId()}).success(function (res) {
+        $scope.dianZans = res;
+        console.log(res);
+        CommonService.hideLoading();
+      }).error(function () {
+        CommonService.hideLoading();
+        CommonService.toast('获取数据失败');
+      });
+    };
+
+    $scope.toPath = function (resource, resourceId) {
+      if (resource == 'blog') {
+        $state.go('bbsDetail', {bbsId: resourceId});
+      }
+      if (resource == 'product') {
+        $state.go('productDetail', {productId: resourceId});
+      }
+    }
+  })
+
+  .controller('MyMessageContentCtrl', function ($scope, $stateParams) {
+    $scope.messageContent = $stateParams.messageContent;
   });
 
 myModule.directive('ngFocus', function () {

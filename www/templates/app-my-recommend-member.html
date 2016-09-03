@@ -1,0 +1,18 @@
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">我推荐的会员</p>
+</ion-header-bar>
+
+<ion-view>
+  <ion-content ng-init="initMyRecommendMemberData()">
+    <ion-list ng-if="recommendMembers.length > 0">
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="recommendMember in recommendMembers" type="item-text-wrap">
+        <img ng-src="{{recommendMember.userFollowed.imageUrl}}"/>
+        <h2 ng-bind="recommendMember.userFollowed.realname"></h2>
+        <p ng-bind="recommendMember.userFollowed.mobile"></p>
+      </ion-item>
+    </ion-list>
+
+    <div class='noComment' ng-if="recommendMembers.length == 0"><span>您还没有推荐会员哦~~</span></div>
+  </ion-content>
+</ion-view>

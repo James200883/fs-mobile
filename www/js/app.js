@@ -22,7 +22,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
     });
   })
   .run(function ($ionicPlatform, $rootScope, $ionicHistory, $state, AuthenticationService) {
-    var needLoginView = ['app.account', 'app.cart', 'myCoupon', 'myOrder', 'userInfo', 'editUserInfo', 'recharge', 'activity']; //需要登录页面的state
+    var needLoginView = ['app.account', 'app.cart', 'myCoupon', 'myOrder', 'userInfo', 'editUserInfo', 'recharge', 'activity', 'myRecommendMember', 'suggestMyMember', 'myMessage', 'myDianZan']; //需要登录页面的state
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
       if (needLoginView.indexOf(toState.name) >= 0 && !AuthenticationService.isLogin()) {
         $state.go("login");
@@ -82,7 +82,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
             templateUrl: 'templates/tab-account.html',
             controller: 'AccountCtrl'
           }
-        }
+        },
+        cache: false
       })
 
       .state('app.cart', {
@@ -224,6 +225,36 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
         url: '/rechargeRecord',
         templateUrl: 'templates/app-recharge-record.html',
         controller: 'RechargeRecordCtrl'
+      })
+
+      .state('myRecommendMember', {
+        url: '/myRecommendMember',
+        templateUrl: 'templates/app-my-recommend-member.html',
+        controller: 'MyRecommendMemberCtrl'
+      })
+
+      .state('suggestMyMember', {
+        url: '/suggestMyMember',
+        templateUrl: 'templates/app-suggest-my-member.html',
+        controller: 'SuggestMyMemberCtrl'
+      })
+    
+      .state('myMessage', {
+        url: '/myMessage',
+        templateUrl: 'templates/app-my-message.html',
+        controller: 'MyMessageCtrl'
+      })
+    
+      .state('myDianZan', {
+        url: '/myDianZan',
+        templateUrl: 'templates/app-my-dianzan.html',
+        controller: 'MyDianZanCtrl'
+      })
+    
+      .state('myMessageContent', {
+        url: '/myMessageContent/:messageContent',
+        templateUrl: 'templates/app-my-message-content.html',
+        controller: 'MyMessageContentCtrl'
       });
 
     // if none of the above states are matched, use this as the fallback

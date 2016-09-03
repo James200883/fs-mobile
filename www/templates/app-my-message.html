@@ -1,0 +1,17 @@
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">我的消息</p>
+</ion-header-bar>
+
+<ion-view>
+  <ion-content ng-init="initUserMessage()">
+    <ion-list ng-if="userMessages.length > 0">
+      <ion-item class="item-remove-animate" ng-repeat="userMessage in userMessages" type="item-text-wrap" href="#/myMessageContent/{{userMessage.messageBody}}">
+        <h2 ng-bind="userMessage.messageTitle"></h2>
+        <p ng-bind="userMessage.messageBody"></p>
+      </ion-item>
+    </ion-list>
+
+    <div class='noComment' ng-if="userMessages.length <= 0"><span>您暂时还没有消息哦~~</span></div>
+  </ion-content>
+</ion-view>
