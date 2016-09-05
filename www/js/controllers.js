@@ -523,7 +523,9 @@ var myModule = angular.module('starter.controllers', [])
           UserService.logout();
         }
       });
-    }
+    };
+
+    $scope.$on('$stateChangeSuccess', $scope.loadAccountInfo);
   })
 
   .controller('BBSCtrl', function($scope, CommonService) {
@@ -788,7 +790,9 @@ var myModule = angular.module('starter.controllers', [])
           return true;
         }
       });
-    }
+    };
+
+    $scope.$on('$stateChangeSuccess', $scope.loadUserInfo);
   })
 
   .controller('EditUserInfoCtrl', function ($scope, $stateParams, $state, UserService, CommonService) { // 修改用户信息
@@ -1050,7 +1054,7 @@ var myModule = angular.module('starter.controllers', [])
     };
   })
 
-  .controller('RechargeRecordCtrl', function ($scope, CommonService, UserService) { //充值记录
+  .controller('RechargeRecordCtrl', function ($scope, $timeout, CommonService, UserService) { //充值记录
     $scope.hasmore = false;
     $scope.orders = [];
     var param = {page: 1, pageSize: 10, userId: UserService.getUserId()}, timer = null;
@@ -1146,7 +1150,6 @@ var myModule = angular.module('starter.controllers', [])
       CommonService.showLoadding();
       CommonService.get('/userWish/findAllUserWish', {userId: UserService.getUserId()}).success(function (res) {
         $scope.dianZans = res;
-        console.log(res);
         CommonService.hideLoading();
       }).error(function () {
         CommonService.hideLoading();
@@ -1166,6 +1169,58 @@ var myModule = angular.module('starter.controllers', [])
 
   .controller('MyMessageContentCtrl', function ($scope, $stateParams) {
     $scope.messageContent = $stateParams.messageContent;
+  })
+
+  .controller('FarmReserveCtrl', function ($scope, CommonService, UserService) { //预约农产采摘
+    $scope.reserves = [];
+
+    $scope.initReserveData = function () {
+      CommonService.showLoadding();
+      CommonService.get('/appointment/findAllAppointment', {'applyUser.id': UserService.getUserId()}).success(function (res) {
+        $scope.reserves = res;
+        CommonService.hideLoading();
+      }).error(function () {
+        CommonService.hideLoading();
+        CommonService.toast('获取数据失败');
+      });
+    };
+
+    $scope.deleteReserve = function (index, id) {
+      CommonService.showLoadding();
+      CommonService.post('/appointment/del', {idStr: id}).success(function (res) {
+        if (res.success == 'true') {
+          CommonService.hideLoading();
+          $scope.reserves.splice(index, 1);
+          CommonService.toast('删除成功');
+        }
+      }).error(function () {
+        CommonService.hideLoading();
+        CommonService.toast('删除失败');
+      });
+    };
+
+    $scope.$on('$stateChangeSuccess', $scope.initReserveData);
+  })
+
+  .controller('AddReserveCtrl', function ($scope, $state, CommonService, UserService, ionicDatePicker) {//新增预约
+    $scope.reserveData = {};
+
+    $scope.addReserve = function (reserveForm, reserve) {
+      CommonService.showLoadding();
+      $scope.reserveData = reserve;
+      $scope.reserveData.userId = UserService.getUserId();
+
+      CommonService.post('/appointment/saveAppointment', $scope.reserveData).success(function (res) {
+        if (res.success == 'true') {
+          CommonService.hideLoading();
+          CommonService.toast('成功提交预约,我们会尽快处理');
+          $state.go('farmReserve');
+        }
+      }).error(function () {
+        CommonService.hideLoading();
+        CommonService.toast('操作失败');
+      });
+    }
   });
 
 myModule.directive('ngFocus', function () {

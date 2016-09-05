@@ -8,7 +8,7 @@
     <ion-list>
       <div class="wzContent" ng-if="orders.length > 0">
         <ul class="wzList bor-b">
-          <li ng-repeat="order in orders" class="item-thumbnail-left">
+          <li ng-repeat="order in orders" style="min-height: 70px;">
             <div class="wz-head border-b row">
               <span class="w-phone col sb-align-horizontal">编号:<p class="padding-left" ng-bind="order.orderNo"></p></span>
               <span class="w-status hasStatus" ng-bind="order.statusStr"></span>

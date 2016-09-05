@@ -1,0 +1,30 @@
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">我的预约</p>
+</ion-header-bar>
+
+<ion-view>
+  <ion-content>
+    <ion-list ng-if="reserves.length > 0">
+      <ion-item class="item-remove-animate" ng-repeat="reserve in reserves" type="item-text-wrap">
+        <h2><em ng-bind="reserve.summary"></em></h2>
+        <p class="padding-top">
+          <span>联系人: </span><label ng-bind="reserve.contractUserName"></label>
+          <span class="padding-left">手机: </span><label ng-bind="reserve.contractTel"></label>
+        </p>
+        <p class="padding-top">
+          <span>人数: </span><label ng-bind="reserve.initUserNum"></label>
+          <span class="padding-left">时间: </span><label ng-bind="reserve.initDateString"></label>
+        </p>
+
+        <ion-option-button class="button-assertive" ng-click="deleteReserve($index, reserve.id)">删除</ion-option-button>
+      </ion-item>
+    </ion-list>
+
+    <div class='noComment' ng-if="reserves.length <= 0"><span>暂无预约~</span></div>
+  </ion-content>
+
+  <ion-footer-bar align-title="center" style="margin-bottom: 5px;">
+    <button type="button" class="btn btn-success" ui-sref="addReserve">新增预约</button>
+  </ion-footer-bar>
+</ion-view>

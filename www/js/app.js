@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic-datepicker'])
 
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -22,7 +22,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
     });
   })
   .run(function ($ionicPlatform, $rootScope, $ionicHistory, $state, AuthenticationService) {
-    var needLoginView = ['app.account', 'app.cart', 'myCoupon', 'myOrder', 'userInfo', 'editUserInfo', 'recharge', 'activity', 'myRecommendMember', 'suggestMyMember', 'myMessage', 'myDianZan']; //需要登录页面的state
+    var needLoginView = ['app.account', 'app.cart', 'myCoupon', 'myOrder', 'userInfo', 'editUserInfo', 'recharge', 'activity', 'myRecommendMember', 'suggestMyMember', 'myMessage', 'myDianZan', 'farmReserve']; //需要登录页面的state
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
       if (needLoginView.indexOf(toState.name) >= 0 && !AuthenticationService.isLogin()) {
         $state.go("login");
@@ -82,8 +82,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
             templateUrl: 'templates/tab-account.html',
             controller: 'AccountCtrl'
           }
-        },
-        cache: false
+        }
       })
 
       .state('app.cart', {
@@ -175,8 +174,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
       .state('userInfo', {
         url: '/userInfo',
         templateUrl: 'templates/app-userinfo.html',
-        controller: 'UserInfoCtrl',
-        cache: false
+        controller: 'UserInfoCtrl'
       })
 
       .state('editUserInfo', {
@@ -238,23 +236,35 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
         templateUrl: 'templates/app-suggest-my-member.html',
         controller: 'SuggestMyMemberCtrl'
       })
-    
+
       .state('myMessage', {
         url: '/myMessage',
         templateUrl: 'templates/app-my-message.html',
         controller: 'MyMessageCtrl'
       })
-    
+
       .state('myDianZan', {
         url: '/myDianZan',
         templateUrl: 'templates/app-my-dianzan.html',
         controller: 'MyDianZanCtrl'
       })
-    
+
       .state('myMessageContent', {
         url: '/myMessageContent/:messageContent',
         templateUrl: 'templates/app-my-message-content.html',
         controller: 'MyMessageContentCtrl'
+      })
+
+      .state('farmReserve', {
+        url: '/farmReserve',
+        templateUrl: 'templates/app-farm-reserve.html',
+        controller: 'FarmReserveCtrl'
+      })
+
+      .state('addReserve', {
+        url: '/addReserve',
+        templateUrl: 'templates/app-addReserve.html',
+        controller: 'AddReserveCtrl'
       });
 
     // if none of the above states are matched, use this as the fallback

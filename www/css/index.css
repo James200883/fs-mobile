@@ -287,6 +287,8 @@ display:-webkit-box; display:box;
 .panel-list li {display:-webkit-box; padding:10px 10px 10px 0;}
 .panel-list li .pn-left {display:block; width:70px; text-align: right;  margin:4px 10px 0 0;}
 .panel-list li .pn-right {display:block; -webkit-box-flex:1; box-flex:1;}
+.item .pn-left {display:block; width:70px; text-align: right;  margin:4px 10px 0 0;}
+.item .pn-right {display:block; -webkit-box-flex:1; box-flex:1; margin:-4px 0 0px 5px;}
 .panel-list .pn-right input,.panel-list .pn-right textarea {border:0; width:100%; padding:5px; -webkit-box-sizing:border-box; box-sizing:border-box; color:#969696;}
 .panel-list .pn-right textarea {min-height: 60px;}
 .panel-list .pn-right select {background-color: #fff; border:0;  color:#595a5a;}
@@ -330,16 +332,19 @@ display:-webkit-box; display:box;
 .userHeader .setUp:before {position:absolute; content:""; width:20px; height:20px; left:50%; top:50%; margin:-10px 0 0 -10px; background-position: -79px -185px;}
 .userList {background-color: #fff; margin-bottom: 15px;}
 .userList li a {display: block; position:relative; padding:12px 20px 12px 45px; color:#595a5a;}
-.userList li a:before {position:absolute; content:""; width:23px; height:23px; left:12px; top:50%; margin-top:-11px; }
+.userList li a:before {position:absolute; content:""; width:24px; height:23px; left:12px; top:50%; margin-top:-11px; }
 .userList li a:after {position:absolute; content:""; width:8px; height:8px;  border-width:1px 1px 0 0; border-color:#a4a4a4; border-style:solid; right:15px; top:50%; margin-top:-4px; -webkit-transform:rotate(45deg); transform:rotate(45deg);}
 .userList li:before {left:40px;}
 .userList li:last-child:before {left:0;}
 .list1 li:nth-child(1) a:before {background-position: 0 -357px;}
-.list1 li:nth-child(2) a:before {background-position: -24px -357px;}
-.list2 li:nth-child(1) a:before {background-position: 0 -381px;;}
-.list2 li:nth-child(2) a:before {background-position: -24px -382px;}
-.list3 li:nth-child(1) a:before {background-position: 0 -405px;}
-.list3 li:nth-child(2) a:before {background-position: -24px -405px;}
+.list1 li:nth-child(2) a:before {background-position: 0 -357px;}
+.list1 li:nth-child(3) a:before {background-position: -24px -405px;}
+.list2 li:nth-child(1) a:before {background-position: 0 -267px;}
+.list2 li:nth-child(2) a:before {background-position: 0 -267px;}
+.list2 li:nth-child(3) a:before {background-position: 0 -239px;}
+.list3 li:nth-child(1) a:before {background-position: 0 -323px;}
+.list3 li:nth-child(2) a:before {background-position: -0 -381px;}
+.list3 li:nth-child(3) a:before {background-position: -24px -405px;}
 .userList .task {position:relative;}
 .userList .task:before {position:absolute; content:attr(data-num); right:-20px; top:-3px; line-height: 16px; padding:0 5px; border-radius: 10px; background-color: #ff7171; color:#fff; font-size: 12px;}
 .userInfomation {margin-top:15px; background-color: #fff;}
@@ -459,7 +464,7 @@ html.win_lock,html.win_lock body{ height: 100%; overflow: hidden;}
 .zxTab li span {position:relative; display: block; padding:15px 0;     margin: 0 5px; text-align: center; color: #646464;}
 .zxTab li.active span {color:#66aa39;}
 .zxTab li.active span:after {position:absolute; content:""; width:100%; height:2px; background-color: #66aa39; left:0; bottom:0px;}
-.wzList li {margin-top: 10px; background:#fff;  padding-left: 15px; color:#969696}
+.wzList li {margin-top: 0px; background:#fff;  padding-left: 15px; color:#969696}
 .wzList li a {display: block;}
 .wzList .wz-head,.wzList .w-middle {padding:10px 10px 10px 0;}
 .wzList .wz-head .w-phone {position: relative; color:#bbb;}

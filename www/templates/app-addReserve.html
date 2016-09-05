@@ -1,0 +1,74 @@
+<ion-header-bar class="item-input-inset bar-light">
+  <a class="button icon-left ion-ios-arrow-left button-clear button-dark" ng-back></a>
+  <p class="title">新增预约</p>
+</ion-header-bar>
+
+<ion-view>
+  <ion-content>
+    <div class="list">
+      <form name="reserveForm" novalidate ng-submit="addReserve(reserveForm, reserve);">
+        <div class="item item-divider">联系人信息</div>
+        <div class="item sb-align-horizontal">
+          <span class="pn-left">联系人: </span>
+          <div class="pn-right">
+            <input type="text" placeholder="请输入联系人姓名" name="contractUserName" style="width: 100%;" ng-model="reserve.contractUserName" ng-maxlength="20" ng-minlength="2" required ng-focus/>
+            <div class="has-error" ng-show="reserveForm.contractUserName.$dirty && reserveForm.contractUserName.$invalid && !reserveForm.contractUserName.$focused">
+              <small ng-show="reserveForm.contractUserName.$error.required">请输入联系人姓名</small>
+              <small ng-show="reserveForm.contractUserName.$error.maxlength">太长了,最多输入20个字符</small>
+              <small ng-show="reserveForm.contractUserName.$error.minlength">太短了,最少输入2个字符</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="item sb-align-horizontal">
+          <span class="pn-left">联系电话: </span>
+          <div class="pn-right">
+            <input type="text" placeholder="请输入联系电话" name="contractTel" style="width: 100%;" ng-model="reserve.contractTel" ng-pattern="/^(((13[0-9]{1})|(15[0-35-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/" required ng-focus/>
+            <div class="has-error" ng-show="reserveForm.contractTel.$dirty && reserveForm.contractTel.$invalid && !reserveForm.contractTel.$focused">
+              <small ng-show="reserveForm.contractTel.$error.required">手机号码填一下啊喂</small>
+              <small ng-show="reserveForm.contractTel.$error.pattern">你的手机号是火星的吗</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="item item-divider">预约信息</div>
+        <div class="item sb-align-horizontal">
+          <span class="pn-left">预定人数: </span>
+          <div class="pn-right">
+            <input type="number" placeholder="预定人数" name="initUserNum" style="width: 100%;" ng-model="reserve.initUserNum" required ng-focus/>
+            <div class="has-error" ng-show="reserveForm.initUserNum.$dirty && reserveForm.initUserNum.$invalid && !reserveForm.initUserNum.$focused">
+              <small ng-show="reserveForm.initUserNum.$error.required">请输入预定人数</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="item sb-align-horizontal">
+          <span class="pn-left">预约时间: </span>
+          <div class="pn-right">
+            <input type="datetime-local" placeholder="预约时间" name="initDate" style="width: 100%;" ng-model="reserve.initDate" required ng-focus/>
+            <div class="has-error" ng-show="reserveForm.initDate.$dirty && reserveForm.initDate.$invalid && !reserveForm.initDate.$focused">
+              <small ng-show="reserveForm.initDate.$error.required">请输入预约时间</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="item item-divider">预约说明</div>
+        <div class="item sb-align-horizontal">
+          <span class="pn-left">预约说明: </span>
+          <div class="pn-right">
+            <textarea name="summary" placeholder="预约说明" style="padding-top: 10px; padding-left: 5px; width: 100%; height: 80px;" ng-model="reserve.summary" ng-maxlength="30" ng-minlength="2" required ng-focus></textarea>
+            <div class="has-error" ng-show="reserveForm.summary.$dirty && reserveForm.summary.$invalid && !reserveForm.summary.$focused">
+              <small ng-show="reserveForm.summary.$error.required">请输入预约说明</small>
+              <small ng-show="reserveForm.summary.$error.maxlength">太长了,最多输入30个字符</small>
+              <small ng-show="reserveForm.summary.$error.minlength">太短了,最少输入2个字符</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="btnBtm">
+          <button type="submit" class="btn btn-success" ng-class="{'btn-disable': reserveForm.$invalid}" ng-disabled="reserveForm.$invalid">提交</button>
+        </div>
+      </form>
+    </div>
+  </ion-content>
+</ion-view>
