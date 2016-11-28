@@ -152,7 +152,7 @@ angular.module('starter.services', [])
   })
 
   .factory('CartService', function (UserService) {
-    var cartObj = {}, tempObj;
+    var cartObj = {}, tempObj = [];
     cartObj.cart = [];
     cartObj.totalAmount = 0.0;
     cartObj.totalItemAmount = 0.0;
@@ -233,7 +233,7 @@ angular.module('starter.services', [])
       return result;
     };
 
-    cartObj.clearCart = function () {
+    cartObj.clearCart = function () { //清空购物车
       UserService.clear(UserService.getUserId());
     };
 
@@ -292,6 +292,12 @@ angular.module('starter.services', [])
         orderType = 0; //混合订单
       }
       return orderType;
+    };
+
+    cartObj.deleteCartById = function (id) {
+      var index = cartObj.find(id);
+      tempObj.cart.splice(index, 1);
+      cartObj.getCartData().cart.splice(0, 1);
     };
 
     return cartObj;
@@ -890,4 +896,4 @@ angular.module('starter.services', [])
     }
   })
 
-  .constant('prefixUrl', 'http://192.168.1.114:8080/fs-server');
+  .constant('prefixUrl', 'http://192.168.0.108:8080/fs-server');

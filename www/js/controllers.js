@@ -250,6 +250,14 @@ var myModule = angular.module('starter.controllers', [])
       $scope.totalPrice = CartService.totalItemAmount;
     };
 
+    $scope.deleteCart = function (id) {
+      CommonService.showConfirm('确认要删除这个宝贝吗?').then(function (res) {
+        if (res) {
+          CartService.deleteCartById(id);
+        }
+      });
+    };
+
     $scope.goPay = function () { //去结算
       if ($scope.totalPrice > 0) {
         var objs = CartService.getSelectedCartData(); //获取被选中的商品
