@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="yjxs node_modules" level="project" />
+    <orderEntry type="library" name="fs-mobile node_modules" level="project" />
   </component>
 </module>

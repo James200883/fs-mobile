@@ -265,6 +265,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
         url: '/addReserve',
         templateUrl: 'templates/app-addReserve.html',
         controller: 'AddReserveCtrl'
+      })
+
+      .state('appAbout', {
+        url: '/appAbout',
+        templateUrl: 'templates/app-about.html',
+        controller: 'AppAboutCtrl'
       });
 
     // if none of the above states are matched, use this as the fallback

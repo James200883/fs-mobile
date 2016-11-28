@@ -1,4 +1,4 @@
-angular.module('starter.services', [])
+﻿angular.module('starter.services', [])
 
   .factory('CommonService', function ($http, $cordovaToast, $ionicLoading, $ionicPopup, $cordovaGeolocation, prefixUrl) {
     var options = {timeout: '10000', enableHighAccuracy: false};
@@ -890,4 +890,4 @@ angular.module('starter.services', [])
     }
   })
 
-  .constant('prefixUrl', 'http://192.168.1.114:8080/fs-server');
+  .constant('prefixUrl', 'http://www.gdyjxs.com/fs-server');
