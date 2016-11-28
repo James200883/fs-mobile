@@ -1179,6 +1179,9 @@ var myModule = angular.module('starter.controllers', [])
     $scope.messageContent = $stateParams.messageContent;
   })
 
+  .controller('AppAboutCtrl', function ($scope, $stateParams) {
+   
+  })
   .controller('FarmReserveCtrl', function ($scope, CommonService, UserService) { //预约农产采摘
     $scope.reserves = [];
 
