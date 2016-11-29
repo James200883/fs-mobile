@@ -152,7 +152,7 @@
   })
 
   .factory('CartService', function (UserService) {
-    var cartObj = {}, tempObj;
+    var cartObj = {}, tempObj = [];
     cartObj.cart = [];
     cartObj.totalAmount = 0.0;
     cartObj.totalItemAmount = 0.0;
@@ -233,7 +233,7 @@
       return result;
     };
 
-    cartObj.clearCart = function () {
+    cartObj.clearCart = function () { //清空购物车
       UserService.clear(UserService.getUserId());
     };
 
@@ -305,6 +305,12 @@
         orderType = 0; //混合订单
       }
       return orderType;
+    };
+
+    cartObj.deleteCartById = function (id) {
+      var index = cartObj.find(id);
+      tempObj.cart.splice(index, 1);
+      cartObj.getCartData().cart.splice(0, 1);
     };
 
     return cartObj;
@@ -902,5 +908,5 @@
       }
     }
   })
-
+  
   .constant('prefixUrl', 'http://www.gdyjxs.com/fs-server');
