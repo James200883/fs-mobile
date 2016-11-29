@@ -242,7 +242,7 @@
       for (var i = 0; i < tempObj.cart.length; i++) {
         tempObj.cart[i].cart_item_check = checked;
         if (checked) {
-          price += parseFloat(tempObj.cart[i].total_amount);
+          price += parseFloat(tempObj.cart[i].total_amount).toFixed(2);
         }
       }
       cartObj.totalAmount = price;
@@ -251,9 +251,9 @@
     cartObj.notificationItem = function (itemId) {
       var index = cartObj.find(itemId);
       if (tempObj.cart[index].cart_item_check) {
-        cartObj.totalItemAmount += parseFloat(tempObj.cart[index].total_amount);
+        cartObj.totalItemAmount += parseFloat(tempObj.cart[index].total_amount).toFixed(2);
       } else {
-        cartObj.totalItemAmount -= parseFloat(tempObj.cart[index].total_amount);
+        cartObj.totalItemAmount -= parseFloat(tempObj.cart[index].total_amount).toFixed(2);
       }
       cartObj.totalAmount = cartObj.totalItemAmount;
     };
