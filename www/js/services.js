@@ -242,25 +242,26 @@
       for (var i = 0; i < tempObj.cart.length; i++) {
         tempObj.cart[i].cart_item_check = checked;
         if (checked) {
-          price += parseFloat(tempObj.cart[i].total_amount).toFixed(2);
+          price += tempObj.cart[i].total_amount;
         }
       }
-      cartObj.totalAmount = price;
+      cartObj.totalAmount = parseFloat(price).toFixed(2) + 0;
     };
 
     cartObj.notificationItem = function (itemId) {
       var index = cartObj.find(itemId);
       if (tempObj.cart[index].cart_item_check) {
-        cartObj.totalItemAmount += parseFloat(tempObj.cart[index].total_amount).toFixed(2);
+        cartObj.totalItemAmount += tempObj.cart[index].total_amount;
       } else {
-        cartObj.totalItemAmount -= parseFloat(tempObj.cart[index].total_amount).toFixed(2);
+        cartObj.totalItemAmount -= tempObj.cart[index].total_amount;
       }
-      cartObj.totalAmount = cartObj.totalItemAmount;
+      cartObj.totalAmount = parseFloat(cartObj.totalItemAmount).toFixed(2) + 0;
     };
 
     cartObj.decrement = function (itemId) {
       var index = cartObj.find(itemId);
-      if (tempObj.cart[index].total_qty <= 1) {
+      if (!tempObj.cart[index] || tempObj.cart[index].total_qty <= 1) {
+        cartObj.delete(index);
         return;
       }
       tempObj.cart[index].total_qty -= 1;
@@ -268,10 +269,22 @@
       UserService.setObject(UserService.getUserId(), tempObj);
     };
 
+
+    cartObj.delete = function(delIndex){
+      var temArray=[];
+      for(var i=0;i<tempObj.cart.length;i++){
+        if(i!=delIndex){
+          temArray.push(tempObj.cart[i]);
+        }
+      }
+      tempObj.cart = temArray;
+      return temArray;
+    }
+
     cartObj.increment = function (itemId) {
       var index = cartObj.find(itemId);
       tempObj.cart[index].total_qty += 1;
-      tempObj.cart[index].total_amount += tempObj.cart[index].cart_item_price;
+      tempObj.cart[index].total_amount += parseFloat(tempObj.cart[index].cart_item_price).toFixed(2) + 0;
       UserService.setObject(UserService.getUserId(), tempObj);
     };
 

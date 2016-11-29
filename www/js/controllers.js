@@ -250,6 +250,11 @@ var myModule = angular.module('starter.controllers', [])
       $scope.totalPrice = CartService.totalItemAmount;
     };
 
+    $scope.deleteAll = function () {
+      CartService.clearCart();
+      $scope.cartProducts = [];
+    }
+
     $scope.goPay = function () { //去结算
       if ($scope.totalPrice > 0) {
         var objs = CartService.getSelectedCartData(); //获取被选中的商品
@@ -1172,7 +1177,7 @@ var myModule = angular.module('starter.controllers', [])
   })
 
   .controller('AppAboutCtrl', function ($scope, $stateParams) {
-   
+
   })
   .controller('FarmReserveCtrl', function ($scope, CommonService, UserService) { //预约农产采摘
     $scope.reserves = [];
