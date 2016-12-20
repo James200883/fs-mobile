@@ -172,7 +172,7 @@
         var index = cartObj.find(productInfo.productId);
         if (index != -1) {
           cartObj.cart[index].total_qty += parseInt(productInfo.productCount);
-          cartObj.cart[index].total_amount += parseFloat(productInfo.productPrice);
+          cartObj.cart[index].total_amount += productInfo.productPrice;
         } else {
           cartObj.cart.push({
             'cart_item_id': productInfo.productId,
@@ -242,6 +242,7 @@
     };
 
     cartObj.clearCart = function () { //清空购物车
+      cartObj.cart = [];
       UserService.clear(UserService.getUserId());
     };
 
@@ -253,7 +254,7 @@
           price += tempObj.cart[i].total_amount;
         }
       }
-      cartObj.totalAmount = parseFloat(price).toFixed(2) + 0;
+      cartObj.totalAmount = price;
     };
 
     cartObj.notificationItem = function (itemId) {
@@ -263,17 +264,18 @@
       } else {
         cartObj.totalItemAmount -= tempObj.cart[index].total_amount;
       }
-      cartObj.totalAmount = parseFloat(cartObj.totalItemAmount).toFixed(2) + 0;
+      cartObj.totalAmount = cartObj.totalItemAmount;
     };
 
     cartObj.decrement = function (itemId) {
       var index = cartObj.find(itemId);
       if (!tempObj.cart[index] || tempObj.cart[index].total_qty <= 1) {
-        cartObj.delete(index);
+        //cartObj.delete(index);
         return;
       }
       tempObj.cart[index].total_qty -= 1;
       tempObj.cart[index].total_amount -= tempObj.cart[index].cart_item_price;
+      tempObj.cart[index].total_amount = parseFloat(tempObj.cart[index].total_amount).toFixed(2) -0;
       UserService.setObject(UserService.getUserId(), tempObj);
     };
 
@@ -292,7 +294,8 @@
     cartObj.increment = function (itemId) {
       var index = cartObj.find(itemId);
       tempObj.cart[index].total_qty += 1;
-      tempObj.cart[index].total_amount += parseFloat(tempObj.cart[index].cart_item_price).toFixed(2) + 0;
+      tempObj.cart[index].total_amount += tempObj.cart[index].cart_item_price;
+      tempObj.cart[index].total_amount =  parseFloat(tempObj.cart[index].total_amount).toFixed(2) -0;
       UserService.setObject(UserService.getUserId(), tempObj);
     };
 
